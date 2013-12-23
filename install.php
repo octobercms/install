@@ -16,7 +16,7 @@
                     </div>
                     <div class="col-md-5">
 
-                        <div class="progress">
+                        <div class="progress animate little_bounce" style="display:none">
                             <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
                                 <span class="sr-only">60% Complete</span>
                             </div>
@@ -36,10 +36,10 @@
                     </div>
                     <div class="col-md-5 visible-md visible-lg">
 
-                        <div class="steps row">
-                            <div class="col-sm-4"><p class="pass">Step 1</p></div>
-                            <div class="col-sm-4"><p>Step 2</p></div>
-                            <div class="col-sm-4"><p>Step 3</p></div>
+                        <div class="steps row animate move_up">
+                            <div class="col-sm-4"><p class="pass">1</p></div>
+                            <div class="col-sm-4"><p class="pass">2</p></div>
+                            <div class="col-sm-4"><p>3</p></div>
                         </div>
                     </div>
                 </div>
@@ -113,6 +113,8 @@
 
                     </div>
                 </div>
+
+                <a href="#" class="btn btn-default btn-lg btn-block">Advanced Options</a>
 
             </div>
         </section>
