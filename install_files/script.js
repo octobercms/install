@@ -29,6 +29,7 @@ u[o]&&(delete u[o],c?delete n[l]:typeof n.removeAttribute!==i?n.removeAttribute(
  */
 
 $(document).ready(function(){
+    Installer.Pages.systemCheck.isRendered = true
     showPage(Installer.ActivePage, true)
 })
 
@@ -83,10 +84,12 @@ $.extend({
 window.onpopstate = function(event) {
     // Navigate back/foward through a known push state
     if (event.state) {
-        showPage(event.state.page, true)
+        // Only allow navigation to previously rendered pages
+        var noPop = (!Installer.Pages[event.state.page].isRendered || Installer.ActivePage == event.state.page)
+        if (!noPop) showPage(event.state.page, true)
     }
-    // Otherwise show the first page
-    else {
+    // Otherwise show the first page, if not already on it
+    else if (Installer.ActivePage != 'systemCheck') {
         showPage('systemCheck', true)
     }
 }
@@ -106,6 +109,7 @@ function showPage(pageId, noPush) {
     // New page, add it to the history
     if (history.pushState && !noPush) {
         window.history.pushState({page:pageId}, '', window.location.pathname)
+        obj.isRendered = true
     }
 
     Installer.ActivePage = pageId
