@@ -29,7 +29,7 @@ u[o]&&(delete u[o],c?delete n[l]:typeof n.removeAttribute!==i?n.removeAttribute(
  */
 
 $(document).ready(function(){
-    showPage(Installer.ActivePage)
+    showPage(Installer.ActivePage, true)
 })
 
 var Installer = {
@@ -80,13 +80,33 @@ $.extend({
     }
 })
 
-function showPage(pageId) {
+window.onpopstate = function(event) {
+    // Navigate back/foward through a known push state
+    if (event.state) {
+        showPage(event.state.page, true)
+    }
+    // Otherwise show the first page
+    else {
+        showPage('systemCheck', true)
+    }
+}
+
+function showPage(pageId, noPush) {
     $("html, body").scrollTop(0)
     var obj = Installer.Pages[pageId]
     $('#containerTitle').renderPartial('Title', obj).find('.steps > .last.pass:first').addClass('animate fade_in')
     $('#containerFooter').renderPartial('Footer', obj)
+
+    /*
+     * @todo Cache the body load instead of resetting it on a secondary load 
+     */
     $('#containerBody').renderPartial(obj.body, obj)
     obj.init && obj.init()
+
+    // New page, add it to the history
+    if (history.pushState && !noPush) {
+        window.history.pushState({page:pageId}, '', window.location.pathname)
+    }
 
     Installer.ActivePage = pageId
 }
