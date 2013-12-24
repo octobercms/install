@@ -65,9 +65,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <ul class="list-inline">
-                        <li><a target="_blank" href="http://octobercms.com/">October</a></li>
-                        <li><a target="_blank" href="http://octobercms.com/docs">Documentation</a></li>
-                        <li><a target="_blank" href="http://octobercms.com/about">About</a></li>
+                        <li><a target="_blank" tabindex="-1" href="http://octobercms.com/">October</a></li>
+                        <li><a target="_blank" tabindex="-1" href="http://octobercms.com/docs">Documentation</a></li>
+                        <li><a target="_blank" tabindex="-1" href="http://octobercms.com/about">About</a></li>
                     </ul>
                 </div>
                 <div class="col-md-6">
@@ -162,6 +162,17 @@
                     <div class="col-md-6">
 
                         <h3>Administrator</h3>
+
+                        <div class="form-group">
+                            <label for="admin_first_name">First Name</label>
+                            <input name="admin_first_name" class="form-control input-lg" value="Adam">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="admin_last_name">Last Name</label>
+                            <input name="admin_last_name" class="form-control input-lg" value="Person">
+                        </div>
+
                         <div class="form-group">
                             <label for="admin_login">Admin Login</label>
                             <input name="admin_login" class="form-control input-lg" value="admin">
@@ -175,17 +186,6 @@
                         <div class="form-group">
                             <label for="admin_email">Email</label>
                             <input name="admin_email" class="form-control input-lg" value="admin@admin.admin">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="admin_first_name">First Name</label>
-                            <input name="admin_first_name" class="form-control input-lg" value="Adam">
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="admin_last_name">Surname</label>
-                            <input name="admin_last_name" class="form-control input-lg" value="Person">
                         </div>
 
                     </div>
