@@ -127,11 +127,10 @@
 
         <script type="text/template" id="partialConfigForm">
             <div id="configForm" class="animated-content">
-
-                <h3>Database</h3>
                 <div class="row">
                     <div class="col-md-6">
 
+                        <h3>Database</h3>
                         <div class="form-group">
                             <label for="db_type">Database Type</label>
                             <select name="db_type" class="form-control input-lg">
@@ -140,8 +139,18 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="db_host">MySQL Host</label>
+                            <input name="db_host" class="form-control input-lg" value="localhost">
+                        </div>
+
+                        <div class="form-group">
                             <label for="db_name">Database Name</label>
                             <input name="db_name" class="form-control input-lg" value="" placeholder="Name of empty database">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="db_user">MySQL User</label>
+                            <input name="db_user" class="form-control input-lg" value="" placeholder="User with all privileges in the database">
                         </div>
 
                         <div class="form-group">
@@ -152,27 +161,15 @@
                     </div>
                     <div class="col-md-6">
 
-                        <div class="form-group">
-                            <label for="db_host">MySQL Host</label>
-                            <input name="db_host" class="form-control input-lg" value="localhost">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="db_user">MySQL User</label>
-                            <input name="db_user" class="form-control input-lg" value="" placeholder="User with all privileges in the database">
-                        </div>
-
-                    </div>
-
-                </div>
-                
-                <h3>Administrator</h3>
-                <div class="row">
-                    <div class="col-md-6">
-
+                        <h3>Administrator</h3>
                         <div class="form-group">
                             <label for="admin_login">Admin Login</label>
                             <input name="admin_login" class="form-control input-lg" value="admin">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="admin_password">Admin Password</label>
+                            <input name="admin_password" class="form-control input-lg" value="admin">
                         </div>
 
                         <div class="form-group">
@@ -181,21 +178,14 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="admin_last_name">Surname</label>
-                            <input name="admin_last_name" class="form-control input-lg" value="Person">
-                        </div>
-
-                    </div>
-                    <div class="col-md-6">
-
-                        <div class="form-group">
-                            <label for="admin_password">Admin Password</label>
-                            <input name="admin_password" class="form-control input-lg" value="admin">
-                        </div>
-
-                        <div class="form-group">
                             <label for="admin_first_name">First Name</label>
                             <input name="admin_first_name" class="form-control input-lg" value="Adam">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="admin_last_name">Surname</label>
+                            <input name="admin_last_name" class="form-control input-lg" value="Person">
                         </div>
 
                     </div>
