@@ -236,7 +236,54 @@
         <script>
             Installer.Pages.packageInstall.title = 'Packages'
             Installer.Pages.packageInstall.nextButton = 'Install!'
+
+            Installer.Pages.packageInstall.includedPlugins = [
+                { name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
+                { name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' }
+            ]
+            
+            Installer.Pages.packageInstall.suggestedPlugins = [
+                { name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
+                { name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' },
+                { name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
+                { name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' },
+                { name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
+                { name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' }
+            ]
         </script>
 
+        <script type="text/template" id="partialPackageInstall">
+            <div class="package-search">
+                <input class="typeahead" placeholder="search packages to install..." id="packageSearchInput">
+            </div>
+
+            <h3>Plugins to install</h3>
+            <p>These plugins below will be included with your installation.</p>
+            <ul class="plugin-list" id="pluginList"></ul>
+
+            <h3>Recommended Plugins</h3>
+            <div class="scroll-panel">
+                <div class="row suggested-plugins" id="suggestedPlugins"></div>
+            </div>
+        </script>
+
+        <script type="text/template" id="partialPackageInstallSuggestion">
+            <div class="col-md-6 plugin">
+                <div class="image"><img src="{{image}}" alt=""></div>
+                <div class="details">
+                    <h5>{{author}}.{{name}}</h5>
+                    <p>{{description}}</p>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/template" id="partialPackageInstallPlugin">
+            <li>
+                <h4>{{name}}</h4>
+                <img src="{{image}}" alt="">
+                <p>by {{author}}</p>
+                <button type="button" class="close" aria-hidden="true">&times;</button>
+            </li>
+        </script>
     </body>
 </html>

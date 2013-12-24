@@ -15,7 +15,7 @@ class Installer
 
                 if (method_exists($this, $handler) && ($result = $this->$handler()) !== null) {
                     header('Content-Type: application/json');
-                    die(json_encode(array('result'=>$result)));
+                    die(json_encode($result));
                 }
             }
             catch (Exception $ex) {
@@ -25,32 +25,38 @@ class Installer
         }
     }
 
+    protected function onSearchPackages()
+    {
+        return json_decode(file_get_contents('test.json'));
+    }
+
     protected function onCheckRequirement()
     {
         $checkCode = $this->post('code');
+        $result = false;
         switch ($checkCode) {
             case 'liveConnection':
-                return ($this->requestServerData(OCTOBER_GATEWAY) !== null);
+                $result = ($this->requestServerData(OCTOBER_GATEWAY) !== null);
                 break;
             case 'writePermission':
-                return is_writable(PATH_INSTALL);
+                $result = is_writable(PATH_INSTALL);
                 break;
             case 'phpVersion':
-                return version_compare(PHP_VERSION , "5.2", ">="); // Debug
-                // return version_compare(PHP_VERSION , "5.4", ">=");
+                $result = version_compare(PHP_VERSION , "5.2", ">="); // Debug
+                // $result = version_compare(PHP_VERSION , "5.4", ">=");
                 break;
             case 'safeMode':
-                return !ini_get('safe_mode');
+                $result = !ini_get('safe_mode');
                 break;
             case 'curlLibrary':
-                return function_exists('curl_init');
+                $result = function_exists('curl_init');
                 break;
             case 'mcryptLibrary':
-                return function_exists('mcrypt_encrypt');
+                $result = function_exists('mcrypt_encrypt');
                 break;
         }
 
-        return false;
+        return array('result' => $result);
     }
 
     //
@@ -82,8 +88,8 @@ class Installer
 
     private function post($var, $default = null)
     {
-        if (array_key_exists($var, $_POST))
-            return $_POST[$var];
+        if (array_key_exists($var, $_REQUEST))
+            return $_REQUEST[$var];
 
         return $default;
     }
