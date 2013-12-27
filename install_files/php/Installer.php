@@ -43,6 +43,9 @@ class Installer
             case 'safeMode':
                 $result = !ini_get('safe_mode');
                 break;
+            case 'pdoLibrary':
+                $result = defined('PDO::ATTR_DRIVER_NAME');
+                break;
             case 'curlLibrary':
                 $result = function_exists('curl_init');
                 break;

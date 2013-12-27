@@ -8,8 +8,7 @@ $(document).ready(function(){
 })
 
 var Installer = {
-    // ActivePage: 'systemCheck',
-    ActivePage: 'configForm',
+    ActivePage: 'systemCheck',
     Pages: {
         systemCheck: { isStep1: true, body: 'check' },
         configForm: { isStep2: true, body: 'config' },

@@ -80,6 +80,7 @@
                 { code: 'writePermission', label: 'Permission to write to the installation directory' },
                 { code: 'phpVersion', label: 'PHP version 5.4 or greater installed' },
                 { code: 'safeMode', label: 'Safe mode PHP setting is not enabled' },
+                { code: 'pdoLibrary', label: 'PDO PHP library is installed' },
                 { code: 'curlLibrary', label: 'cURL PHP library is installed' },
                 { code: 'mcryptLibrary', label: 'Mcrypt PHP library is installed' }
             ]
