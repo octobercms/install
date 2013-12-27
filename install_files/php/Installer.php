@@ -130,12 +130,40 @@ class Installer
     protected function onValidateAdminAccount()
     {
         if (!strlen($this->post('admin_first_name')))
-            throw new InstallerException('Please specify a first name', 'admin_first_name');
+            throw new InstallerException('Please specify the administrator first name', 'admin_first_name');
+
+        if (!strlen($this->post('admin_last_name')))
+            throw new InstallerException('Please specify the administrator first name', 'admin_last_name');
+
+        if (!strlen($this->post('admin_email')))
+            throw new InstallerException('Please specify administrator email address', 'admin_email');
+
+        if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/", $this->post('admin_email')))
+            throw new InstallerException('Please specify valid email address', 'admin_email');
+
+        if (!strlen($this->post('admin_password')))
+            throw new InstallerException('Please specify password', 'admin_password');
     }
 
     protected function onValidateAdvancedConfig()
     {
-        
+        if (!strlen($this->post('encryption_code')))
+            throw new InstallerException('Please specify encryption key', 'encryption_code');
+
+        if (strlen($this->post('encryption_code')) < 6)
+            throw new InstallerException('The encryption key should be at least 6 characters in length.', 'encryption_code');
+
+        if (!strlen($this->post('folder_mask')))
+            throw new InstallerException('Please specify folder permission mask', 'folder_mask');
+
+        if (!strlen($this->post('file_mask')))
+            throw new InstallerException('Please specify file permission mask', 'file_mask');
+
+        if (!preg_match("/^[0-9]{3}$/", $this->post('folder_mask')) || $this->post('folder_mask') > 777)
+            throw new InstallerException('Please specify a valid folder permission mask', 'folder_mask');
+
+        if (!preg_match("/^[0-9]{3}$/", $this->post('file_mask')) || $this->post('file_mask') > 777)
+            throw new InstallerException('Please specify a valid file permission mask', 'file_mask');
     }
 
     protected function onSearchPackages()
