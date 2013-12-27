@@ -1,0 +1,132 @@
+/*!
+ * October Layout
+ */
+body {
+    color: #818B92;
+    padding-top: 110px;
+}
+header {
+    padding: 30px 0 0;
+    position: fixed;
+    top: 0;
+    background: #FFF;
+    border-bottom: 3px solid rgba(0,0,0,.1);
+    width: 100%;
+    height: 110px;
+    z-index: 2;
+}
+header h1 {
+    margin: 0 0 30px 0;
+    display: block;
+    height: 47px;
+    width: 283px;
+    background: url('../images/october.png') 0 0 no-repeat;
+    background-size: 283px 47px;
+
+    line-height: 0;
+    text-indent: -9999px;
+    overflow: hidden;
+}
+header .progress-bar-container {
+    margin-top: 10px;
+}
+
+section.title {
+    overflow: hidden;
+}
+section.title .steps p {
+    height: 50px;
+    width: 50px;
+    margin: 0 auto;
+    display: block;
+    line-height: 50px;
+
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+    color: #FFF;
+    border: 1px solid #FFF;
+    border-radius: 99999px;
+    font-size: 24px;
+    opacity: .4;
+}
+section.title .steps .pass p {
+    opacity: 1;
+}
+section.title .steps .pass.last p {
+    opacity: .4;
+}
+section.title .steps .pass.last.animate.fade_in p {
+    -webkit-animation: fadeIn 0.65s ease forwards;
+    -moz-animation: fadeIn 0.65s ease forwards;
+    animation: fadeIn 0.65s ease forwards;
+}
+
+section.title .steps.animate.move_up .pass.last p {
+    -webkit-animation-delay: 0.65s;
+    -moz-animation-delay: 0.65s;
+    animation-delay: 0.65s;
+}
+
+section.title {
+    background: #dc6b26;
+    padding: 40px 0;
+    border-bottom: 3px solid rgba(0,0,0,.1);
+}
+section.title h2 {
+    margin: 0;
+    color: #FFF;
+    font-size: 48px;
+    letter-spacing: -1px;
+}
+
+section.body {
+    overflow: hidden;
+    background: #f4f4f4;
+    padding: 20px 0;
+}
+section.body .config-section.fail h3 {
+    color: #b94a48;
+}
+section.body .config-section.fail h3:before {
+    content: "";
+    background: transparent url('../images/sprite.png') no-repeat;
+    background-position: 0 -64px;
+    background-size: 32px auto;
+    display: block;
+    width: 32px;
+    height: 32px;
+    float: left;
+    margin-right: 5px;
+    margin-top: -3px;
+}
+
+footer {
+    background: rgba(255,255,255,.8);
+    border-top: 3px solid rgba(0,0,0,.1);
+    padding: 20px 0;
+}
+footer ul {
+    margin-top: 15px;
+}
+footer a {
+    color: #bbbbbb;
+}
+footer .form-control-panel {
+    float: right;
+}
+footer .form-control-panel.loading:before {
+    content: "";
+    background: transparent url('../images/sprite.png') no-repeat;
+    background-size: 42px auto;
+    display: block;
+    width: 42px;
+    height: 42px;
+    margin-top: 2px;
+    margin-right: 10px;
+    float: left;
+    background-position: 0 -42px;
+    -moz-animation: spin 1s infinite linear;
+    -webkit-animation: spin 1s infinite linear;
+    animation: spin 1s infinite linear;
+}

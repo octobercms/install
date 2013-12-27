@@ -1,0 +1,254 @@
+/*!
+ * October Controls
+ */
+
+.progress-bar-container {
+    opacity: 0;
+    -webkit-transition: opacity 0.4s linear;
+    -moz-transition: opacity 0.4s linear;
+    transition: opacity 0.4s linear;
+}
+.progress-bar-container.loading {
+    -webkit-transition: none;
+    -moz-transition: none;
+    transition: none;
+    opacity: 1;
+}
+.progress-bar-container.loaded {
+    opacity: 0;
+    -webkit-transition-delay: 0.3s;
+    -moz-transition-delay: 0.3s;
+    transition-delay: 0.3s;
+}
+.progress-bar {
+    -webkit-transition: none;
+    -moz-transition: none;
+    transition: none;
+    width: 0;
+}
+.progress-bar-container.loaded .progress-bar {
+    -webkit-transition: width 0.3s linear;
+    -moz-transition: width 0.3s linear;
+    transition: width 0.3s linear;
+    width: 100% !important;
+}
+
+.callout {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-left: 3px solid #eeeeee;
+    border-radius: 4px;
+}
+.callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.callout p:last-child {
+    margin-bottom: 0;
+}
+.callout-danger {
+    background-color: #fdf7f7;
+    border-color: #ebccd1;
+}
+.callout-danger h4 {
+    color: #b94a48;
+}
+.callout-warning {
+    background-color: #faf8f0;
+    border-color: #faebcc;
+}
+.callout-warning h4 {
+    color: #c09853;
+}
+.callout-info {
+    background-color: #f4f8fa;
+    border-color: #bce8f1;
+}
+.callout-info h4 {
+    color: #3a87ad;
+}
+
+.system-check li {
+    padding: 10px;
+    padding-left: 52px;
+    margin-bottom: 10px;
+    min-height: 32px;
+    background: #FFF;
+    position: relative;
+}
+.system-check li:before {
+    content: "";
+    background: transparent url('../images/sprite.png') no-repeat;
+    background-size: 32px auto;
+    display: block;
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    left: 7px;
+    top: 5px;
+}
+.system-check li.pass:before {
+    background-position: 0 0;
+}
+.system-check li.fail:before {
+    background-position: 0 -64px;
+}
+.system-check li.load:before {
+    background-position: 0 -32px;
+    -moz-animation: spin 1s infinite linear;
+    -webkit-animation: spin 1s infinite linear;
+    animation: spin 1s infinite linear;
+}
+
+.scroll-panel {
+    border: 1px solid rgba(0,0,0,.1);
+    padding: 20px;
+    overflow: auto;
+    height: 250px;
+    background: #e9e9e9;
+    font-size: 12px;
+}
+
+.app-eula .scroll-panel {
+    line-height: 2;
+}
+
+.advanced-options {
+    overflow: hidden;
+    max-height: 0;
+}
+.advanced-options.visible {
+    max-height: 2000px;
+    -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
+.plugin-list {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* clearfix */
+}
+.plugin-list li {
+    float: left;
+    padding: 0;
+    margin: 10px 10px 0 0;
+    list-style: none;
+    text-align: center;
+    width: 160px;
+    height: 160px;
+    border: 1px solid #ccc;
+    background: #fff;
+    position: relative;
+}
+.plugin-list li h4 {
+    padding: 5px 0;
+    margin: 0;
+}
+.plugin-list li p {
+    padding: 5px 0;
+    margin: 0;
+}
+.plugin-list li button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    display: none;
+}
+.plugin-list li:hover button {
+    display: block;
+}
+
+.suggested-plugins .image img {
+    width: 75px;
+    height: 75px;
+}
+.suggested-plugins .image {
+    float: left;
+    margin-right: 10px;
+}
+.suggested-plugins .details h5 {
+}
+.suggested-plugins .plugin {
+    padding-bottom: 20px;
+}
+
+/*!
+ * Typeahead
+ */
+
+.package-search {
+    position: relative;
+    width: 100%;
+    margin: 0 auto 0 auto;
+    padding: 15px;
+    text-align: left;
+    background-color: #428bca;
+    border: 1px solid #024e6a;
+    border-radius: 10px;
+}
+
+.twitter-typeahead {
+    width: 100%;
+}
+.typeahead,
+.tt-hint {
+    width: 100%;
+    height: 46px;
+    padding: 8px 12px;
+    font-size: 24px;
+    line-height: 30px;
+    border: 1px solid #024e6a;
+    border-radius: 8px;
+    outline: none;
+}
+
+.typeahead {
+  background-color: #fff;
+}
+
+.tt-hint {
+  color: #999
+}
+
+.tt-dropdown-menu {
+    width: 100%;
+    margin-top: 12px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+    padding: 8px 20px;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.tt-suggestion + .tt-suggestion {
+    font-size: 14px;
+    border-top: 1px solid #ccc;
+}
+
+.tt-suggestions .plugin-image {
+    float: right;
+}
+.tt-suggestions .plugin-image img {
+    height: 45px;
+    width: 45px;
+}
+.tt-suggestions .plugin-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+.tt-suggestions .plugin-description {
+    margin: 0;
+}
+.twitter-typeahead .tt-suggestion.tt-is-under-cursor {
+    color: #03739c;
+}
