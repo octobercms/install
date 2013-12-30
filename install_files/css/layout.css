@@ -3,16 +3,13 @@
  */
 body {
     color: #818B92;
-    padding-top: 110px;
 }
 header {
     padding: 30px 0 0;
-    position: fixed;
     top: 0;
     background: #FFF;
     border-bottom: 3px solid rgba(0,0,0,.1);
     width: 100%;
-    height: 110px;
     z-index: 2;
 }
 header h1 {

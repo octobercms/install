@@ -300,7 +300,7 @@ class Installer
 
     private function putFile($fileCode, $contents)
     {
-        $name = md5($fileCode) '.arc';
+        $name = md5($fileCode) . '.arc';
         $tmpDir = PATH_INSTALL . '/install_files/temp';
         if (!file_exists($tmpDir))
             mkdir($tmpDir);
@@ -312,7 +312,7 @@ class Installer
 
     private function getFilePath($fileCode)
     {
-        $name = md5($fileCode) '.arc';
+        $name = md5($fileCode) . '.arc';
         $tmpDir = PATH_INSTALL . '/install_files/temp';
         return $tmpDir . '/' . $name;
     }

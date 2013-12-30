@@ -12,7 +12,9 @@ var Installer = {
     Pages: {
         systemCheck: { isStep1: true, body: 'check' },
         configForm: { isStep2: true, body: 'config' },
-        packageInstall: { isStep3: true, body: 'packages' }
+        packageInstall: { isStep3: true, body: 'packages' },
+        installProgress: { isStep4: true, body: 'progress' },
+        installComplete: { isStep5: true, body: 'complete' }
     },
     Events: {}
 }
@@ -53,22 +55,22 @@ Installer.showPage = function(pageId, noPush) {
     Installer.ActivePage = pageId
 }
 
-Installer.setLoadingBar = function(state) {
+Installer.setLoadingBar = function(state, message) {
+
     var progressBarContainer = $('#progressBar'),
-        progressBar = $('#progressBar .progress-bar:first')
+        progressBar = $('#progressBar .progress-bar:first'),
+        progressBarMessage = $('#progressBarMessage')
+
+    progressBarMessage.text(message)
 
     if (state) {
-        controlPanel.addClass('loading')
         progressBarContainer.addClass('loading').removeClass('loaded');
         progressBar.addClass('animate infinite_loader')
     }
     else {
-        controlPanel.removeClass('loading')
         progressBarContainer.addClass('loaded').removeClass('loading')
         progressBar.removeClass('animate infinite_loader')
     }
-
-    nextButton.attr('disabled', state)
 }
 
 $.fn.extend({

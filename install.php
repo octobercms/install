@@ -53,6 +53,8 @@
                 'packages',
                 'packages/suggestion',
                 'packages/plugin',
+                'progress',
+                'complete',
             );
         ?>
 
@@ -68,6 +70,7 @@
         <script src="install_files/js/check.js"></script>
         <script src="install_files/js/config.js"></script>
         <script src="install_files/js/packages.js"></script>
+        <script src="install_files/js/progress.js"></script>
         <script>
             /*
              * Checker Page
@@ -104,16 +107,6 @@
             Installer.Pages.packageInstall.title = 'Packages'
             Installer.Pages.packageInstall.nextButton = 'Install!'
 
-            Installer.Pages.packageInstall.steps = [
-                { code: 'getMetaData', label: 'Download file hashes' },
-                { code: 'downloadCore', label: 'Download the core archive' },
-                { code: 'downloadPlugins', label: 'Downloading plugin: ' },
-                { code: 'extractCore', label: 'Extract core' },
-                { code: 'extractPlugins', label: 'Extracting plugin: ' },
-                { code: 'setupConfig', label: 'Set up config files' },
-                { code: 'createAdmin', label: 'Create admin account' }
-            ]
-
             Installer.Pages.packageInstall.includedPlugins = [
                 { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
                 { code: 'October.Blog', name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' }
@@ -127,6 +120,26 @@
                 { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
                 { code: 'October.Blog', name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' }
             ]
+
+            /*
+             * Progress Page
+             */
+            Installer.Pages.installProgress.title = 'Installing October...'
+            Installer.Pages.installProgress.steps = [
+                { code: 'getMetaData', label: 'Download file hashes' },
+                { code: 'downloadCore', label: 'Download the core archive' },
+                { code: 'downloadPlugins', label: 'Downloading plugin: ' },
+                { code: 'extractCore', label: 'Extract core' },
+                { code: 'extractPlugins', label: 'Extracting plugin: ' },
+                { code: 'setupConfig', label: 'Set up config files' },
+                { code: 'createAdmin', label: 'Create admin account' }
+            ]
+
+            /*
+             * Final Pages
+             */
+            Installer.Pages.installComplete.title = 'Installation Complete!'
+
         </script>
 
     </body>

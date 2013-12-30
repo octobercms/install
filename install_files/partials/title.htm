@@ -4,10 +4,29 @@
     </div>
     <div class="col-md-5 visible-md visible-lg">
 
-        <div class="steps row {{#isStep1}}animate move_up{{/isStep1}}">
-            <div class="col-sm-4 {{#isStep3}}pass{{/isStep3}}{{#isStep2}}pass{{/isStep2}}{{#isStep1}}pass last{{/isStep1}}"><p>1</p></div>
-            <div class="col-sm-4 {{#isStep3}}pass{{/isStep3}}{{#isStep2}}pass last{{/isStep2}}"><p>2</p></div>
-            <div class="col-sm-4 {{#isStep3}}pass last{{/isStep3}}"><p>3</p></div>
-        </div>
+        {{#isStep1}}
+            <div class="steps row animate move_up">
+                <div class="col-sm-4 pass last"><p>1</p></div>
+                <div class="col-sm-4"><p>2</p></div>
+                <div class="col-sm-4"><p>3</p></div>
+            </div>
+        {{/isStep1}}
+
+        {{#isStep2}}
+            <div class="steps row">
+                <div class="col-sm-4 pass"><p>1</p></div>
+                <div class="col-sm-4 pass last"><p>2</p></div>
+                <div class="col-sm-4"><p>3</p></div>
+            </div>
+        {{/isStep2}}
+
+        {{#isStep3}}
+            <div class="steps row">
+                <div class="col-sm-4 pass"><p>1</p></div>
+                <div class="col-sm-4 pass"><p>2</p></div>
+                <div class="col-sm-4 pass last"><p>3</p></div>
+            </div>
+        {{/isStep3}}
+
     </div>
 </div>

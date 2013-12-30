@@ -8,7 +8,9 @@
     </div>
     <div class="col-md-6">
         <div class="form-control-panel" id="formControlPanel">
-            <a href="javascript:Installer.Events.next()" class="btn btn-primary btn-lg pull-right" id="nextButton">{{nextButton}}</a>
+            {{#nextButton}}
+                <a href="javascript:Installer.Events.next()" class="btn btn-primary btn-lg pull-right" id="nextButton">{{nextButton}}</a>
+            {{/nextButton}}
         </div>
     </div>
 </div>
