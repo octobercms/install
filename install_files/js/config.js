@@ -45,7 +45,6 @@ Installer.Pages.configForm.next = function() {
                 var scrollTo = configFormFailed.offset().top - $(window).height() + configFormFailed.height() + 10
                 $('body,html').animate({scrollTop: scrollTo })
             })
-            return deferred
         })
     })
 

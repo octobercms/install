@@ -2,7 +2,6 @@
 
 class Installer
 {
-
     /**
      * Constructor/Router
      */
@@ -31,14 +30,14 @@ class Installer
         $result = false;
         switch ($checkCode) {
             case 'liveConnection':
-                $result = ($this->requestServerData() !== null);
+                $result = ($this->requestServerData('ping') !== null);
                 break;
             case 'writePermission':
                 $result = is_writable(PATH_INSTALL);
                 break;
             case 'phpVersion':
-                $result = version_compare(PHP_VERSION , "5.2", ">="); // Debug
                 // $result = version_compare(PHP_VERSION , "5.4", ">=");
+                $result = true; // Debug
                 break;
             case 'safeMode':
                 $result = !ini_get('safe_mode');
@@ -51,6 +50,10 @@ class Installer
                 break;
             case 'mcryptLibrary':
                 $result = function_exists('mcrypt_encrypt');
+                break;
+            case 'zipLibrary':
+                // $result = class_exists('ZipArchive');
+                $result = true; // Debug
                 break;
         }
 
@@ -176,10 +179,16 @@ class Installer
         $installStep = $this->post('step');
         $result = false;
 
+sleep(2); //Debug
+
         switch ($installStep) {
             case 'getMetaData':
                 // Download file hashes
+                $result = $this->requestServerData('install/public', array(
+                    'plugins' => $this->post('plugins', array())
+                ));
                 break;
+
             case 'downloadCore':
                 // Download the core archive
                 break;
@@ -215,10 +224,11 @@ class Installer
     private function requestServerData($uri = null, $params = array())
     {
         $result = null;
+        $error = null;
         try {
             $postData = http_build_query($params, '', '&');
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, OCTOBER_GATEWAY.$uri);
+            curl_setopt($ch, CURLOPT_URL, OCTOBER_GATEWAY.'/'.$uri);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_TIMEOUT, 3600);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION , true);
@@ -226,19 +236,37 @@ class Installer
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
             $result = curl_exec($ch);
-        } 
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($httpCode == 500) {
+                $error = $result;
+                $result = '';
+            }
+        }
         catch (Exception $ex) {}
+
+        if ($error !== null)
+            throw new Exception('Server responded with error: ' . $error);
 
         if (!$result || !strlen($result))
             throw new Exception('Unable to make an outgoing connection to the update server.');
 
-        return $result;
+        try {
+            $resultData = @json_decode($result);
+        }
+        catch (Exception $ex) {
+            $resultData = $result;
+        }
+
+        return $resultData;
     }
 
     private function post($var, $default = null)
     {
-        if (array_key_exists($var, $_REQUEST))
-            return trim($_REQUEST[$var]);
+        if (array_key_exists($var, $_REQUEST)) {
+            $result = $_REQUEST[$var];
+            if (is_string($result)) $result = trim($result);
+            return $result;
+        }
 
         return $default;
     }
