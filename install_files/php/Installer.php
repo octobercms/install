@@ -197,13 +197,18 @@ class Installer
                 break;
 
             case 'downloadCore':
-                // Download the core archive
                 $data = $this->requestServerData('get_core');
-                return $this->processFileResponse($data, 'core.zip');
+                $result = $this->processFileResponse($data, 'core');
                 break;
 
             case 'downloadPlugin':
                 // Download each plugin
+                $name = $this->post('name');
+                if (!$name)
+                    throw new Exception('Plugin download failed, missing name');
+
+                $data = $this->requestServerData('get_plugin', array('name' => $name));
+                $result = $this->processFileResponse($data, $name);
                 break;
 
             case 'extractCore':
@@ -269,7 +274,7 @@ class Installer
         return $resultData;
     }
 
-    private function processFileResponse($data, $saveFilename)
+    private function processFileResponse($data, $fileCode)
     {
         if (!isset($data['data']))
             throw new Exception('Invalid response from server');
@@ -281,7 +286,7 @@ class Installer
             throw new Exception('Invalid response from server');
         }
 
-        $filePath = $this->putFile($saveFilename, $data);
+        $filePath = $this->putFile($fileCode, $data);
         $fileHash = md5_file($filePath);
         $expectedHash = $this->post('hash');
 
@@ -293,8 +298,9 @@ class Installer
         return true;
     }
 
-    private function putFile($name, $contents)
+    private function putFile($fileCode, $contents)
     {
+        $name = md5($fileCode) '.arc';
         $tmpDir = PATH_INSTALL . '/install_files/temp';
         if (!file_exists($tmpDir))
             mkdir($tmpDir);
@@ -304,8 +310,9 @@ class Installer
         return $filePath;
     }
 
-    private function getFilePath($name)
+    private function getFilePath($fileCode)
     {
+        $name = md5($fileCode) '.arc';
         $tmpDir = PATH_INSTALL . '/install_files/temp';
         return $tmpDir . '/' . $name;
     }
