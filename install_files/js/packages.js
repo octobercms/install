@@ -24,8 +24,9 @@ Installer.Pages.packageInstall.init = function() {
         $('#pluginList').renderPartial('packages/plugin', plugin, { append:true })
     })
 
-    $.each(Installer.Pages.packageInstall.suggestedPlugins, function(index, plugin){
-        $('#suggestedPlugins').renderPartial('packages/suggestion', plugin, { append:true })
+    $.sendRequest('onGetPopularPackages').done(function(data){
+        Installer.Pages.packageInstall.suggestedPlugins = data
+        Installer.Pages.packageInstall.renderSuggested()
     })
 
 }
@@ -66,6 +67,18 @@ Installer.Pages.packageInstall.next = function() {
         alert('Failed ' + reason)
     })
 
+}
+
+Installer.Pages.packageInstall.renderSuggested = function() {
+    if (Installer.Pages.packageInstall.suggestedPlugins.length == 0) {
+        $('#suggestedPluginsContainer').hide()
+    }
+    else {
+        $('#suggestedPluginsContainer').show()
+        $.each(Installer.Pages.packageInstall.suggestedPlugins, function(index, plugin){
+            $('#suggestedPlugins').renderPartial('packages/suggestion', plugin, { append:true })
+        })
+    }
 }
 
 Installer.Pages.packageInstall.execDefaultStep = function(step, options) {

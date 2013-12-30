@@ -169,9 +169,14 @@ class Installer
             throw new InstallerException('Please specify a valid file permission mask', 'file_mask');
     }
 
+    protected function onGetPopularPackages()
+    {
+        return $this->requestServerData('packages/popular');
+    }
+
     protected function onSearchPackages()
     {
-        return json_decode(file_get_contents('test.json'));
+        return $this->requestServerData('packages/search', array('query' => $this->post('query')));
     }
 
     protected function onInstallStep()
