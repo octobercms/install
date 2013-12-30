@@ -133,12 +133,22 @@ Installer.Pages.packageInstall.execStep.getMetaData = function(step) {
     return function() {
         return Installer.Pages.packageInstall.execDefaultStep(step, {
             extraData: {
-                plugins: Installer.Pages.packageInstall.getPluginToInstall()
+                plugins: Installer.Pages.packageInstall.includedPlugins
             },
             onSuccess: function(data) {
                 // Save the result for later usage
                 Installer.Pages.packageInstall.meta = data.result
                 console.log(data.result)
+            }
+        })
+    }
+}
+
+Installer.Pages.packageInstall.execStep.downloadCore = function(step) {
+    return function() {
+        return Installer.Pages.packageInstall.execDefaultStep(step, {
+            extraData: {
+                hash: Installer.Pages.packageInstall.meta.core
             }
         })
     }
@@ -150,16 +160,4 @@ Installer.Pages.packageInstall.execStep.downloadPlugins = function(step) {
 
 Installer.Pages.packageInstall.execStep.extractPlugins = function(step) {
     return Installer.Pages.packageInstall.execIterationStep(step, 'extractPlugin', Installer.Pages.packageInstall.includedPlugins)
-}
-
-/*
- * Helpers
- */
-
-Installer.Pages.packageInstall.getPluginToInstall = function() {
-    var codes = []
-    $.each(Installer.Pages.packageInstall.includedPlugins, function(index, plugin){
-        codes.push(plugin.code)
-    })
-    return codes
 }

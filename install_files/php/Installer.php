@@ -184,18 +184,22 @@ class Installer
         $installStep = $this->post('step');
         $result = false;
 
-sleep(2); //Debug
-
         switch ($installStep) {
             case 'getMetaData':
-                // Download file hashes
+                $plugins = $this->post('plugins', array());
+                $pluginCodes = array();
+                foreach ($plugins as $plugin) {
+                    if (isset($plugin['code'])) $pluginCodes[] = $plugin['code'];
+                }
                 $result = $this->requestServerData('install/public', array(
-                    'plugins' => $this->post('plugins', array())
+                    'plugins' => $pluginCodes
                 ));
                 break;
 
             case 'downloadCore':
                 // Download the core archive
+                $data = $this->requestServerData('get_core');
+                return $this->processFileResponse($data, 'core.zip');
                 break;
 
             case 'downloadPlugin':
@@ -256,13 +260,54 @@ sleep(2); //Debug
             throw new Exception('Unable to make an outgoing connection to the update server.');
 
         try {
-            $resultData = @json_decode($result);
+            $resultData = @json_decode($result, true);
         }
         catch (Exception $ex) {
             $resultData = $result;
         }
 
         return $resultData;
+    }
+
+    private function processFileResponse($data, $saveFilename)
+    {
+        if (!isset($data['data']))
+            throw new Exception('Invalid response from server');
+
+        try {
+            $data = base64_decode($data['data']);
+        }
+        catch (Exception $ex) {
+            throw new Exception('Invalid response from server');
+        }
+
+        $filePath = $this->putFile($saveFilename, $data);
+        $fileHash = md5_file($filePath);
+        $expectedHash = $this->post('hash');
+
+        if ($expectedHash != $fileHash) {
+            unlink($filePath);
+            throw new Exception('File from server is corrupt');
+        }
+
+        return true;
+    }
+
+    private function putFile($name, $contents)
+    {
+        $tmpDir = PATH_INSTALL . '/install_files/temp';
+        if (!file_exists($tmpDir))
+            mkdir($tmpDir);
+
+        $filePath = $tmpDir . '/' . $name;
+        file_put_contents($filePath, $contents);
+        return $filePath;
+    }
+
+    private function getFilePath($name)
+    {
+        $tmpDir = PATH_INSTALL . '/install_files/temp';
+        return $tmpDir . '/' . $name;
     }
 
     private function post($var, $default = null)
