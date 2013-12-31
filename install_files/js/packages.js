@@ -4,6 +4,8 @@
 
 Installer.Pages.packageInstall.init = function() {
 
+    $('#suggestedPluginsContainer').hide()
+
     var template = Mustache.compile([
         '<p class="plugin-image"><img src="{{image}}" alt=""></p>',
         '<p class="plugin-name">{{name}}</p>',
@@ -24,7 +26,7 @@ Installer.Pages.packageInstall.init = function() {
         $('#pluginList').renderPartial('packages/plugin', plugin, { append:true })
     })
 
-    $.sendRequest('onGetPopularPackages').done(function(data){
+    $.sendRequest('onGetPopularPackages', {}, { loadingIndicator: false }).done(function(data){
         Installer.Pages.packageInstall.suggestedPlugins = data
         Installer.Pages.packageInstall.renderSuggested()
     })
@@ -40,7 +42,7 @@ Installer.Pages.packageInstall.renderSuggested = function() {
         $('#suggestedPluginsContainer').hide()
     }
     else {
-        $('#suggestedPluginsContainer').show()
+        $('#suggestedPluginsContainer').show().addClass('animate fade_in')
         $.each(Installer.Pages.packageInstall.suggestedPlugins, function(index, plugin){
             $('#suggestedPlugins').renderPartial('packages/suggestion', plugin, { append:true })
         })

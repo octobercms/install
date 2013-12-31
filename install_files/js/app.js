@@ -16,7 +16,11 @@ var Installer = {
         installProgress: { isStep4: true, body: 'progress' },
         installComplete: { isStep5: true, body: 'complete' }
     },
-    Events: {}
+    Events: {},
+    Data: {
+        meta: null,  // Meta information from the server
+        config: null // Configuration from the user
+    }
 }
 
 Installer.Events.retry = function() {
@@ -35,21 +39,30 @@ Installer.Events.next = function() {
 
 Installer.showPage = function(pageId, noPush) {
     $("html, body").scrollTop(0)
-    var obj = Installer.Pages[pageId]
-    $('#containerHeader').renderPartial('header', obj)
-    $('#containerTitle').renderPartial('title', obj).find('.steps > .last.pass:first').addClass('animate fade_in')
-    $('#containerFooter').renderPartial('footer', obj)
+    var page = Installer.Pages[pageId],
+        oldPage = (pageId != Installer.ActivePage) ? Installer.Pages[Installer.ActivePage] : null
+
+    /*
+     * Page events
+     */
+    oldPage && oldPage.beforeUnload && oldPage.beforeUnload()
+
+    page.beforeShow && page.beforeShow()
+
+    $('#containerHeader').renderPartial('header', page)
+    $('#containerTitle').renderPartial('title', page).find('.steps > .last.pass:first').addClass('animate fade_in')
+    $('#containerFooter').renderPartial('footer', page)
 
     /*
      * @todo Cache the body load instead of resetting it on a secondary load 
      */
-    $('#containerBody').renderPartial(obj.body, obj)
-    obj.init && obj.init()
+    $('#containerBody').renderPartial(page.body, page)
+    page.init && page.init()
 
     // New page, add it to the history
     if (history.pushState && !noPush) {
         window.history.pushState({page:pageId}, '', window.location.pathname)
-        obj.isRendered = true
+        page.isRendered = true
     }
 
     Installer.ActivePage = pageId
@@ -61,10 +74,18 @@ Installer.setLoadingBar = function(state, message) {
         progressBar = $('#progressBar .progress-bar:first'),
         progressBarMessage = $('#progressBarMessage')
 
-    progressBarMessage.text(message)
+    if (message)
+        progressBarMessage.text(message)
 
-    if (state) {
-        progressBarContainer.addClass('loading').removeClass('loaded');
+    progressBar.removeClass('progress-bar-danger')
+    progressBarContainer.removeClass('failed')
+
+    if (state == 'failed'){
+        progressBar.addClass('progress-bar-danger')
+        progressBarContainer.addClass('failed')
+    }
+    else if (state) {
+        progressBarContainer.addClass('loading').removeClass('loaded')
         progressBar.addClass('animate infinite_loader')
     }
     else {
@@ -90,7 +111,7 @@ $.fn.extend({
 
     sendRequest: function(handler, data, options) {
         var form = $(this),
-            postData = [form.serialize()],
+            postData = form.serializeObject(),
             controlPanel = $('#formControlPanel'),
             nextButton = $('#nextButton')
 
@@ -108,9 +129,10 @@ $.fn.extend({
         else
             data.handler = handler
 
-        postData.push($.param(data))
+        if (data)
+            $.extend(postData, data)
 
-        var postObj = $.post(window.location.pathname, postData.join('&'))
+        var postObj = $.post(window.location.pathname, postData)
         postObj.always(function(){
             if (options.loadingIndicator) {
                 nextButton.attr('disabled', false)
@@ -118,6 +140,22 @@ $.fn.extend({
             }
         })
         return postObj
+    },
+
+    serializeObject: function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
     }
 })
 

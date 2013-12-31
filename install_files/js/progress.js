@@ -5,6 +5,7 @@
 Installer.Pages.installProgress.init = function() {
 
     var eventChain = [],
+        installProgressFailed = $('#installProgressFailed').hide(),
         result
 
     /*
@@ -31,11 +32,12 @@ Installer.Pages.installProgress.init = function() {
 
     })
 
-
     $.waterfall.apply(this, eventChain).done(function(){
-        alert('Fin!')
+        Installer.showPage('installComplete')
     }).fail(function(reason){
-        alert('Failed ' + reason)
+        Installer.setLoadingBar('failed')
+        installProgressFailed.show().addClass('animate fade_in')
+        installProgressFailed.renderPartial('progress/fail', { reason: reason })
     })
 
 }
@@ -50,7 +52,7 @@ Installer.Pages.installProgress.execDefaultStep = function(step, options) {
 
     Installer.setLoadingBar(true, step.label)
 
-    $('#configFormElement').sendRequest('onInstallStep', postData)
+    $.sendRequest('onInstallStep', postData, { loadingIndicator: false })
         .fail(function(data){
             deferred.reject(data.responseText)
         })
@@ -96,8 +98,7 @@ Installer.Pages.installProgress.execStep.getMetaData = function(step) {
             },
             onSuccess: function(data) {
                 // Save the result for later usage
-                Installer.Pages.packageInstall.meta = data.result
-                console.log(data.result)
+                Installer.Data.meta = data.result
             }
         })
     }
@@ -107,7 +108,7 @@ Installer.Pages.installProgress.execStep.downloadCore = function(step) {
     return function() {
         return Installer.Pages.installProgress.execDefaultStep(step, {
             extraData: {
-                hash: Installer.Pages.packageInstall.meta.core
+                hash: Installer.Data.meta.core
             }
         })
     }

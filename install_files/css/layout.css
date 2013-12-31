@@ -98,6 +98,18 @@ section.body .config-section.fail h3:before {
     margin-top: -3px;
 }
 
+section.body p.lead.with-tick:before {
+    content: "";
+    background: transparent url('../images/sprite.png') no-repeat;
+    background-size: 32px auto;
+    display: block;
+    width: 32px;
+    height: 32px;
+    float: left;
+    margin-right: 5px;
+    margin-top: -3px;
+}
+
 footer {
     background: rgba(255,255,255,.8);
     border-top: 3px solid rgba(0,0,0,.1);

@@ -8,6 +8,10 @@
     -moz-transition: opacity 0.4s linear;
     transition: opacity 0.4s linear;
 }
+.progress-bar-container .progress {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
 .progress-bar-container.loading {
     -webkit-transition: none;
     -moz-transition: none;
@@ -31,6 +35,38 @@
     -moz-transition: width 0.3s linear;
     transition: width 0.3s linear;
     width: 100% !important;
+}
+
+.progress-bar-container.failed .progress-bar {
+    width: 100% !important;
+}
+.progress-bar-container .progress-message {
+    font-size: 17px;
+    position: relative;
+    padding-left: 42px;
+    line-height: 32px;
+}
+.progress-bar-container .progress-message:before {
+    content: "";
+    background: transparent url('../images/sprite.png') no-repeat;
+    background-size: 32px auto;
+    display: block;
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    -moz-animation: spin 1s infinite linear;
+    -webkit-animation: spin 1s infinite linear;
+    animation: spin 1s infinite linear;
+    background-position: 0 -32px;
+}
+
+.progress-bar-container.failed .progress-message:before {
+    -moz-animation: none;
+    -webkit-animation: none;
+    animation: none;
+    background-position: 0 -64px;
 }
 
 .callout {

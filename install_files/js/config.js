@@ -26,6 +26,8 @@ Installer.Pages.configForm.next = function() {
     var eventChain = [],
         configFormFailed = $('#configFormFailed').hide().removeClass('animate fade_in')
 
+    Installer.Data.config = $('#configFormElement').serializeObject()
+
     $('.config-section').removeClass('fail')
 
     /*

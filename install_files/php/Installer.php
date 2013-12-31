@@ -52,8 +52,7 @@ class Installer
                 $result = function_exists('mcrypt_encrypt');
                 break;
             case 'zipLibrary':
-                // $result = class_exists('ZipArchive');
-                $result = true; // Debug
+                $result = class_exists('ZipArchive');
                 break;
         }
 
@@ -202,21 +201,28 @@ class Installer
                 break;
 
             case 'downloadPlugin':
-                // Download each plugin
                 $name = $this->post('name');
                 if (!$name)
                     throw new Exception('Plugin download failed, missing name');
 
-                $data = $this->requestServerData('get_plugin', array('name' => $name));
+                $data = $this->requestServerData('get_plugin/public', array('name' => $name));
                 $result = $this->processFileResponse($data, $name);
                 break;
 
             case 'extractCore':
-                // Extract core
+                $result = $this->unzipFile('core', 'temp/');
+                if (!$result)
+                    throw new Exception('Unable to open core archive file');
                 break;
 
             case 'extractPlugin':
-                // Extract each plugin
+                $name = $this->post('name');
+                if (!$name)
+                    throw new Exception('Plugin download failed, missing name');
+
+                $result = $this->unzipFile($name, 'temp/plugins/');
+                if (!$result)
+                    throw new Exception('Unable to open plugin archive file');
                 break;
 
             case 'setupConfig':
@@ -232,46 +238,25 @@ class Installer
     }
 
     //
-    // Helpers
+    // File Management
     //
 
-    private function requestServerData($uri = null, $params = array())
+    private function unzipFile($fileCode, $directory)
     {
-        $result = null;
-        $error = null;
-        try {
-            $postData = http_build_query($params, '', '&');
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, OCTOBER_GATEWAY.'/'.$uri);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 3600);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION , true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-            $result = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            if ($httpCode == 500) {
-                $error = $result;
-                $result = '';
-            }
-        }
-        catch (Exception $ex) {}
+        $source = $this->getFilePath($fileCode);
+        $destination = PATH_INSTALL . '/' . $directory;
 
-        if ($error !== null)
-            throw new Exception('Server responded with error: ' . $error);
+        if (!file_exists($destination))
+            mkdir($destination, 0777, true); // @todo Use config
 
-        if (!$result || !strlen($result))
-            throw new Exception('Unable to make an outgoing connection to the update server.');
-
-        try {
-            $resultData = @json_decode($result, true);
-        }
-        catch (Exception $ex) {
-            $resultData = $result;
+        $zip = new ZipArchive;
+        if ($zip->open($source) === true) {
+            $zip->extractTo($destination);
+            $zip->close();
+            return true;
         }
 
-        return $resultData;
+        return false;
     }
 
     private function processFileResponse($data, $fileCode)
@@ -317,6 +302,49 @@ class Installer
         return $tmpDir . '/' . $name;
     }
 
+    //
+    // Helpers
+    //
+
+    private function requestServerData($uri = null, $params = array())
+    {
+        $result = null;
+        $error = null;
+        try {
+            $postData = http_build_query($params, '', '&');
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, OCTOBER_GATEWAY.'/'.$uri);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 3600);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION , true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+            $result = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($httpCode == 500) {
+                $error = $result;
+                $result = '';
+            }
+        }
+        catch (Exception $ex) {}
+
+        if ($error !== null)
+            throw new Exception('Server responded with error: ' . $error);
+
+        if (!$result || !strlen($result))
+            throw new Exception('Server responded had no response.');
+
+        try {
+            $resultData = @json_decode($result, true);
+        }
+        catch (Exception $ex) {
+            $resultData = $result;
+        }
+
+        return $resultData;
+    }
+
     private function post($var, $default = null)
     {
         if (array_key_exists($var, $_REQUEST)) {
@@ -327,6 +355,18 @@ class Installer
 
         return $default;
     }
-}
 
-$installer = new Installer;
+    public function getBaseUrl()
+    {
+        if (isset($_SERVER['HTTP_HOST'])) {
+            $baseUrl = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
+            $baseUrl .= '://'. $_SERVER['HTTP_HOST'];
+            $baseUrl .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+        }
+        else {
+            $baseUrl = 'http://localhost/';
+        }
+
+        return $baseUrl;
+    }
+}

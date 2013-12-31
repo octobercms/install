@@ -10,6 +10,12 @@
         <link href="install_files/css/layout.css" rel="stylesheet">
         <link href="install_files/css/controls.css" rel="stylesheet">
         <link href="install_files/css/animations.css" rel="stylesheet">
+
+        <script>
+        <!--
+            installerBaseUrl = '<?= $installer->getBaseUrl() ?>';
+        // -->
+        </script>
     </head>
     <body class="js">
 
@@ -54,6 +60,7 @@
                 'packages/suggestion',
                 'packages/plugin',
                 'progress',
+                'progress/fail',
                 'complete',
             );
         ?>
@@ -71,6 +78,9 @@
         <script src="install_files/js/config.js"></script>
         <script src="install_files/js/packages.js"></script>
         <script src="install_files/js/progress.js"></script>
+        <script src="install_files/js/complete.js"></script>
+
+        <!-- Bespoke Properties -->
         <script>
             /*
              * Checker Page
@@ -83,10 +93,10 @@
                 { code: 'writePermission', label: 'Permission to write to the installation directory' },
                 { code: 'phpVersion', label: 'PHP version 5.4 or greater installed' },
                 { code: 'safeMode', label: 'Safe mode PHP setting is not enabled' },
-                { code: 'pdoLibrary', label: 'PDO PHP library is installed' },
-                { code: 'curlLibrary', label: 'cURL PHP library is installed' },
-                { code: 'mcryptLibrary', label: 'Mcrypt PHP library is installed' },
-                { code: 'zipLibrary', label: 'ZipArchive PHP library is installed' }
+                { code: 'pdoLibrary', label: 'PDO PHP Extension is installed' },
+                { code: 'curlLibrary', label: 'cURL PHP Extension is installed' },
+                { code: 'mcryptLibrary', label: 'MCrypt PHP Extension is installed' },
+                { code: 'zipLibrary', label: 'ZipArchive PHP Library is installed' }
             ]
 
             /*
@@ -111,7 +121,7 @@
                 { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
                 { code: 'October.Blog', name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' }
             ]
-            
+
             Installer.Pages.packageInstall.suggestedPlugins = [
                 { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
                 { code: 'October.Blog', name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' },
@@ -129,7 +139,7 @@
                 { code: 'getMetaData', label: 'Download file hashes' },
                 { code: 'downloadCore', label: 'Download the core archive' },
                 { code: 'downloadPlugins', label: 'Downloading plugin: ' },
-                { code: 'extractCore', label: 'Extract core' },
+                { code: 'extractCore', label: 'Extracting core' },
                 { code: 'extractPlugins', label: 'Extracting plugin: ' },
                 { code: 'setupConfig', label: 'Set up config files' },
                 { code: 'createAdmin', label: 'Create admin account' }
@@ -138,7 +148,7 @@
             /*
              * Final Pages
              */
-            Installer.Pages.installComplete.title = 'Installation Complete!'
+            Installer.Pages.installComplete.title = 'Congratulations!'
 
         </script>
 
