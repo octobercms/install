@@ -217,6 +217,8 @@ class Installer
                 $result = $this->unzipFile('core', 'temp/');
                 if (!$result)
                     throw new Exception('Unable to open core archive file');
+
+                // Disable .htaccess file
                 break;
 
             case 'extractPlugin':
@@ -235,6 +237,10 @@ class Installer
 
             case 'createAdmin':
                 // Create admin account
+                break;
+
+            case 'finalizeInstall':
+                // Restore .htaccess file
                 break;
         }
 
