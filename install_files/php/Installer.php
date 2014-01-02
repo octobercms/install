@@ -2,11 +2,15 @@
 
 class Installer
 {
+    protected $rewriter;
+
     /**
      * Constructor/Router
      */
     public function __construct()
     {
+        $this->rewriter = new InstallerRewrite;
+
         if ($handler = $this->post('handler')) {
             try {
                 if (!preg_match('/^on[A-Z]{1}[\w+]*$/', $handler))
@@ -49,7 +53,7 @@ class Installer
                 $result = function_exists('curl_init');
                 break;
             case 'mcryptLibrary':
-                $result = function_exists('mcrypt_encrypt');
+                $result = extension_loaded('mcrypt');
                 break;
             case 'zipLibrary':
                 $result = class_exists('ZipArchive');
@@ -235,6 +239,32 @@ class Installer
         }
 
         return array('result' => $result);
+    }
+
+    //
+    // Config Management
+    //
+
+    public function buildConfigFile()
+    {
+        $appVars = array(
+            'base_url' => 'xxx',
+            'default_locale' => 'en',
+            'encryption_code' => 'xxx',
+        );
+
+        $cmsVars = array(
+            'active_theme' => 'demo',
+            'backend_uri' => '/backend',
+        );
+
+        $databaseVars = array(
+            'db_host' => 'xxx',
+            'db_name' => 'xxx',
+            'db_user' => 'xxx',
+            'db_pass' => 'xxx',
+            'db_prefix' => '',
+        );
     }
 
     //
