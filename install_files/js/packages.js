@@ -22,14 +22,21 @@ Installer.Pages.packageInstall.init = function() {
         $('#packageSearchInput .tt-dropdown-menu').css('width', $('#packageSearchInput').width() + 'px')
     })
 
-    $.each(Installer.Pages.packageInstall.includedPlugins, function(index, plugin){
-        $('#pluginList').renderPartial('packages/plugin', plugin, { append:true })
-    })
+    Installer.Pages.packageInstall.renderIncluded()
 
-    $.sendRequest('onGetPopularPackages', {}, { loadingIndicator: false }).done(function(data){
-        Installer.Pages.packageInstall.suggestedPlugins = data
+    /*
+     * If no suggested packages are provided, pull them from the server
+     */
+    if (!Installer.Pages.packageInstall.suggestedPlugins || Installer.Pages.packageInstall.suggestedPlugins.length == 0) {
+        $.sendRequest('onGetPopularPackages', {}, { loadingIndicator: false }).done(function(data){
+            if (!$.isArray(data)) return
+            Installer.Pages.packageInstall.suggestedPlugins = data
+            Installer.Pages.packageInstall.renderSuggested()
+        })
+    }
+    else {
         Installer.Pages.packageInstall.renderSuggested()
-    })
+    }
 
 }
 
@@ -37,13 +44,30 @@ Installer.Pages.packageInstall.next = function() {
     Installer.showPage('installProgress')
 }
 
+Installer.Pages.packageInstall.renderIncluded = function() {
+    var includedPlugins = Installer.Pages.packageInstall.includedPlugins,
+        pluginListEmpty = $('#pluginListEmpty')
+
+    if (includedPlugins.length == 0) {
+        pluginListEmpty.show()
+    }
+    else {
+        $.each(includedPlugins, function(index, plugin){
+            $('#pluginList').renderPartial('packages/plugin', plugin, { append:true })
+        })
+        pluginListEmpty.hide()
+    }
+
+}
 Installer.Pages.packageInstall.renderSuggested = function() {
-    if (Installer.Pages.packageInstall.suggestedPlugins.length == 0) {
+    var suggestedPlugins = Installer.Pages.packageInstall.suggestedPlugins
+
+    if (suggestedPlugins.length == 0) {
         $('#suggestedPluginsContainer').hide()
     }
     else {
         $('#suggestedPluginsContainer').show().addClass('animate fade_in')
-        $.each(Installer.Pages.packageInstall.suggestedPlugins, function(index, plugin){
+        $.each(suggestedPlugins, function(index, plugin){
             $('#suggestedPlugins').renderPartial('packages/suggestion', plugin, { append:true })
         })
     }

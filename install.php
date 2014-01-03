@@ -118,17 +118,17 @@
             Installer.Pages.packageInstall.nextButton = 'Install!'
 
             Installer.Pages.packageInstall.includedPlugins = [
-                { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
-                { code: 'October.Blog', name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' }
+                // { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
+                // { code: 'October.Blog', name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' }
             ]
 
             Installer.Pages.packageInstall.suggestedPlugins = [
-                { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
-                { code: 'October.Blog', name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' },
-                { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
-                { code: 'October.Blog', name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' },
-                { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
-                { code: 'October.Blog', name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' }
+                // { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
+                // { code: 'October.Blog', name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' },
+                // { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
+                // { code: 'October.Blog', name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' },
+                // { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
+                // { code: 'October.Blog', name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' }
             ]
 
             /*
@@ -142,7 +142,8 @@
                 { code: 'extractCore', label: 'Extracting core' },
                 { code: 'extractPlugins', label: 'Extracting plugin: ' },
                 { code: 'setupConfig', label: 'Set up config files' },
-                { code: 'createAdmin', label: 'Create admin account' }
+                { code: 'createAdmin', label: 'Create admin account' },
+                { code: 'finishInstall', label: 'Finalizing installation' }
             ]
 
             /*

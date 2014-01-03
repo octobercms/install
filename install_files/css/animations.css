@@ -198,9 +198,9 @@
 /* Infinite Loader */
 
 .infinite_loader.animate {
-    -webkit-animation: infiniteLoader 60s ease-in forwards;
-    -moz-animation: infiniteLoader 60s ease-in forwards;
-    animation: infiniteLoader 60s ease-in forwards;
+    -webkit-animation: infiniteLoader 90s ease-in forwards;
+    -moz-animation: infiniteLoader 90s ease-in forwards;
+    animation: infiniteLoader 90s ease-in forwards;
 }
 
 @-moz-keyframes infiniteLoader {

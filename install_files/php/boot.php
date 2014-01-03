@@ -6,8 +6,10 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-ini_set('display_errors', 0);
-error_reporting(0);
+if (!array_key_exists('debug', $_REQUEST)) {
+    ini_set('display_errors', 0);
+    error_reporting(0);
+}
 
 define('PATH_INSTALL', str_replace("\\", "/", realpath(dirname(__FILE__)."/../../")));
 define('OCTOBER_GATEWAY', 'http://localhost:8083/api');

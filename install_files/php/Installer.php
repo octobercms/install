@@ -2,7 +2,12 @@
 
 class Installer
 {
+    protected $app;
+
     protected $rewriter;
+
+    protected $dirFramework;
+    protected $dirConfig;
 
     /**
      * Constructor/Router
@@ -10,6 +15,8 @@ class Installer
     public function __construct()
     {
         $this->rewriter = new InstallerRewrite;
+        $this->dirFramework = PATH_INSTALL . '/temp';
+        $this->dirConfig = $this->dirFramework . '/app/config';
 
         if ($handler = $this->post('handler')) {
             try {
@@ -214,11 +221,14 @@ class Installer
                 break;
 
             case 'extractCore':
-                $result = $this->unzipFile('core', 'temp/');
+                $this->moveHtaccess(null, 'installer');
+
+                $result = $this->unzipFile('core');
                 if (!$result)
                     throw new Exception('Unable to open core archive file');
 
-                // Disable .htaccess file
+                $this->moveHtaccess(null, 'october');
+                $this->moveHtaccess('installer', null);
                 break;
 
             case 'extractPlugin':
@@ -226,21 +236,22 @@ class Installer
                 if (!$name)
                     throw new Exception('Plugin download failed, missing name');
 
-                $result = $this->unzipFile($name, 'temp/plugins/');
+                $result = $this->unzipFile($name, 'plugins/');
                 if (!$result)
                     throw new Exception('Unable to open plugin archive file');
                 break;
 
             case 'setupConfig':
-                // Set up config files
+                $this->buildConfigFile();
                 break;
 
             case 'createAdmin':
-                // Create admin account
+                $this->createAdminAccount();
                 break;
 
-            case 'finalizeInstall':
-                // Restore .htaccess file
+            case 'finishInstall':
+                $this->moveHtaccess(null, 'installer');
+                $this->moveHtaccess('october', null);
                 break;
         }
 
@@ -248,39 +259,72 @@ class Installer
     }
 
     //
-    // Config Management
+    // Installation Steps
     //
 
-    public function buildConfigFile()
+    private function buildConfigFile()
     {
-        $appVars = array(
-            'base_url' => 'xxx',
-            'default_locale' => 'en',
-            'encryption_code' => 'xxx',
-        );
+        $this->startFramework();
 
-        $cmsVars = array(
-            'active_theme' => 'demo',
-            'backend_uri' => '/backend',
-        );
+        $this->rewriter->toFile($this->dirConfig . '/app.php', array(
+            'url'    => 'base_url',
+            'locale' => 'en',
+            'key'    => 'encryption_code',
+        ));
 
-        $databaseVars = array(
-            'db_host' => 'xxx',
-            'db_name' => 'xxx',
-            'db_user' => 'xxx',
-            'db_pass' => 'xxx',
-            'db_prefix' => '',
-        );
+        $this->rewriter->toFile($this->dirConfig . '/cms.php', array(
+            'activeTheme' => 'demo',
+            'backendUri'  => '/backend',
+        ));
+
+        $this->rewriter->toFile($this->dirConfig . '/database.php', array(
+            'connections.mysql.host'     => 'db_host',
+            'connections.mysql.database' => 'db_name',
+            'connections.mysql.username' => 'db_user',
+            'connections.mysql.password' => 'db_pass',
+            'connections.mysql.prefix'   => 'db_prefix',
+        ));
+    }
+
+    private function createAdminAccount()
+    {
+        $this->startFramework();
+
+        $seeder = 'Modules\Backend\Database\Seeds\SeedSetupAdmin';
+        $seederObj = new $seeder;
+        $seederObj->setDefaults(array(
+            'email' => 'xxx',
+            'login' => 'xxx',
+            'password' => 'xxx',
+            'firstName' => 'xxx',
+            'lastName' => 'xxx',
+        ));
+        $seederObj->run();
     }
 
     //
     // File Management
     //
 
-    private function unzipFile($fileCode, $directory)
+    private function moveHtaccess($old = null, $new = null)
+    {
+        $oldFile = $this->dirFramework . '/.htaccess';
+        if ($old) $oldFile .= '.' . $old;
+
+        $newFile = $this->dirFramework . '/.htaccess';
+        if ($new) $newFile .= '.' . $new;
+
+        if (file_exists($oldFile))
+            rename($oldFile, $newFile);
+    }
+
+    private function unzipFile($fileCode, $directory = null)
     {
         $source = $this->getFilePath($fileCode);
-        $destination = PATH_INSTALL . '/' . $directory;
+        $destination = $this->dirFramework;
+
+        if ($directory)
+            $destination .= '/' . $directory;
 
         if (!file_exists($destination))
             mkdir($destination, 0777, true); // @todo Use config
@@ -312,7 +356,8 @@ class Installer
         $expectedHash = $this->post('hash');
 
         if ($expectedHash != $fileHash) {
-            unlink($filePath);
+            unlink($filePath); // use Cleanup instead
+            // $this->cleanUp();
             throw new Exception('File from server is corrupt');
         }
 
@@ -341,6 +386,17 @@ class Installer
     //
     // Helpers
     //
+
+    private function startFramework()
+    {
+        require $this->dirFramework . '/bootstrap/autoload.php';
+        $this->app = $app = require_once $this->dirFramework . '/bootstrap/start.php';
+    }
+
+    private function cleanUp()
+    {
+
+    }
 
     private function requestServerData($uri = null, $params = array())
     {

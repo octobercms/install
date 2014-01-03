@@ -159,6 +159,12 @@
     transition: all 1s ease-in-out;
 }
 
+.plugin-list-empty {
+    background: #fff;
+    border: 1px solid #e9e9e9;
+    text-align: center;
+    padding: 30px 10px 20px;
+}
 .plugin-list {
     margin: 0;
     padding: 0;
