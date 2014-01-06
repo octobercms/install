@@ -208,7 +208,8 @@ class Installer
 
             case 'downloadCore':
                 $data = $this->requestServerData('get_core');
-                $result = $this->processFileResponse($data, 'core');
+                $expectedHash = $this->getHashFromMeta('core');
+                $result = $this->processFileResponse($data, 'core', $expectedHash);
                 break;
 
             case 'downloadPlugin':
@@ -217,7 +218,8 @@ class Installer
                     throw new Exception('Plugin download failed, missing name');
 
                 $data = $this->requestServerData('get_plugin/public', array('name' => $name));
-                $result = $this->processFileResponse($data, $name);
+                $expectedHash = $this->getHashFromMeta($name, 'plugin');
+                $result = $this->processFileResponse($data, $name, $expectedHash);
                 break;
 
             case 'extractCore':
@@ -290,6 +292,9 @@ class Installer
     {
         $this->startFramework();
 
+        /*
+         * Prepare admin seed defaults
+         */
         $seeder = 'Modules\Backend\Database\Seeds\SeedSetupAdmin';
         $seederObj = new $seeder;
         $seederObj->setDefaults(array(
@@ -299,7 +304,12 @@ class Installer
             'firstName' => 'xxx',
             'lastName' => 'xxx',
         ));
-        $seederObj->run();
+
+        /*
+         * Install application
+         */
+        $updater = call_user_func('Modules\System\Classes\UpdateManager::instance');
+        $updater->install();
     }
 
     //
@@ -339,7 +349,7 @@ class Installer
         return false;
     }
 
-    private function processFileResponse($data, $fileCode)
+    private function processFileResponse($data, $fileCode, $expectedHash)
     {
         if (!isset($data['data']))
             throw new Exception('Invalid response from server');
@@ -353,7 +363,6 @@ class Installer
 
         $filePath = $this->putFile($fileCode, $data);
         $fileHash = md5_file($filePath);
-        $expectedHash = $this->post('hash');
 
         if ($expectedHash != $fileHash) {
             unlink($filePath); // use Cleanup instead
@@ -446,6 +455,29 @@ class Installer
         }
 
         return $default;
+    }
+
+    private function getHashFromMeta($targetCode, $packageType = 'plugin')
+    {
+        $meta = $this->post('meta');
+        $packageType .= 's';
+
+        if ($targetCode == 'core') 
+            return (isset($meta['core'])) ? $meta['core'] : null;
+
+        if (!isset($meta[$packageType]))
+            return null;
+
+        $collection = $meta[$packageType];
+        if (!is_array($collection))
+            return null;
+
+        foreach ($collection as $code => $hash) {
+            if ($code == $targetCode)
+                return $hash;
+        }
+
+        return null;
     }
 
     public function getBaseUrl()

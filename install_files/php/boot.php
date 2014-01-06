@@ -23,7 +23,8 @@ function installerShutdown() {
     if ($error['type'] == 1) {
         header('HTTP/1.1 500 Internal Server Error');
         echo htmlspecialchars_decode(strip_tags($error['message']));
-    } 
+        exit;
+    }
 }
 
 /*

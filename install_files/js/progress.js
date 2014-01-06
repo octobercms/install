@@ -45,7 +45,7 @@ Installer.Pages.installProgress.init = function() {
 Installer.Pages.installProgress.execDefaultStep = function(step, options) {
     var deferred = $.Deferred(),
         options = options || {},
-        postData = { step: step.code }
+        postData = { step: step.code, meta: Installer.Data.meta }
 
     if (options.extraData)
         $.extend(postData, options.extraData)
@@ -94,7 +94,7 @@ Installer.Pages.installProgress.execStep.getMetaData = function(step) {
     return function() {
         return Installer.Pages.installProgress.execDefaultStep(step, {
             extraData: {
-                plugins: Installer.Pages.installProgress.includedPlugins
+                plugins: Installer.Pages.packageInstall.includedPlugins
             },
             onSuccess: function(data) {
                 // Save the result for later usage
