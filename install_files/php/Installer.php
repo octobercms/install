@@ -2,6 +2,8 @@
 
 class Installer
 {
+    private $debugMode;
+
     protected $app;
 
     protected $rewriter;
@@ -12,8 +14,9 @@ class Installer
     /**
      * Constructor/Router
      */
-    public function __construct()
+    public function __construct($debugMode = false)
     {
+        $this->debugMode = $debugMode;
         $this->rewriter = new InstallerRewrite;
         $this->dirFramework = PATH_INSTALL . '/temp';
         $this->dirConfig = $this->dirFramework . '/app/config';
@@ -437,13 +440,18 @@ class Installer
             throw new Exception('Server responded had no response.');
 
         try {
-            $resultData = @json_decode($result, true);
+            $result = @json_decode($result, true);
         }
-        catch (Exception $ex) {
-            $resultData = $result;
+        catch (Exception $ex) {}
+
+        if (!is_array($result)) {
+            if ($this->debugMode)
+                throw new Exception('Invalid server response: '. $result);
+            else
+                throw new Exception('Server returned an invalid response.');
         }
 
-        return $resultData;
+        return $result;
     }
 
     private function post($var, $default = null)

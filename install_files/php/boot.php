@@ -6,7 +6,9 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-if (!array_key_exists('debug', $_REQUEST)) {
+$isDebug = array_key_exists('debug', $_REQUEST);
+
+if (!$isDebug) {
     ini_set('display_errors', 0);
     error_reporting(0);
 }
@@ -34,4 +36,4 @@ require_once 'InstallerException.php';
 require_once 'InstallerRewrite.php';
 require_once 'Installer.php';
 
-$installer = new Installer;
+$installer = new Installer($isDebug);
