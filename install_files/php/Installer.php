@@ -184,12 +184,17 @@ class Installer
 
     protected function onGetPopularPackages()
     {
-        return $this->requestServerData('packages/popular');
+        return $this->requestServerData('package/popular');
     }
 
     protected function onSearchPackages()
     {
-        return $this->requestServerData('packages/search', array('query' => $this->post('query')));
+        return $this->requestServerData('package/search', array('query' => $this->post('query')));
+    }
+
+    protected function onPluginDetails()
+    {
+        return $this->requestServerData('plugin/detail', array('code' => $this->post('code')));
     }
 
     protected function onInstallStep()
@@ -210,7 +215,7 @@ class Installer
                 break;
 
             case 'downloadCore':
-                $data = $this->requestServerData('get_core');
+                $data = $this->requestServerData('core/get');
                 $expectedHash = $this->getHashFromMeta('core');
                 $result = $this->processFileResponse($data, 'core', $expectedHash);
                 break;
@@ -220,7 +225,7 @@ class Installer
                 if (!$name)
                     throw new Exception('Plugin download failed, missing name');
 
-                $data = $this->requestServerData('get_plugin/public', array('name' => $name));
+                $data = $this->requestServerData('plugin/get/public', array('name' => $name));
                 $expectedHash = $this->getHashFromMeta($name, 'plugin');
                 $result = $this->processFileResponse($data, $name, $expectedHash);
                 break;

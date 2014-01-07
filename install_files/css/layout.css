@@ -4,6 +4,12 @@
 body {
     color: #818B92;
 }
+.text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 header {
     padding: 30px 0 0;
     top: 0;

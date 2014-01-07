@@ -13,13 +13,18 @@ Installer.Pages.packageInstall.init = function() {
     ].join(''))
 
     $('#packageSearchInput').typeahead({
-        name: 'plugins',
+        name: 'packages',
+        valueKey: 'code',
         remote: window.location.pathname + '?handler=onSearchPackages&query=%QUERY',
         template: template,
         minLength: 3,
         limit: 5
-    }).on('typeahead:opened', function(){
+    })
+    .on('typeahead:opened', function(){
         $('#packageSearchInput .tt-dropdown-menu').css('width', $('#packageSearchInput').width() + 'px')
+    })
+    .on('typeahead:selected', function(){
+        // alert('selected')
     })
 
     Installer.Pages.packageInstall.renderIncluded()
@@ -59,6 +64,7 @@ Installer.Pages.packageInstall.renderIncluded = function() {
     }
 
 }
+
 Installer.Pages.packageInstall.renderSuggested = function() {
     var suggestedPlugins = Installer.Pages.packageInstall.suggestedPlugins
 
@@ -71,4 +77,8 @@ Installer.Pages.packageInstall.renderSuggested = function() {
             $('#suggestedPlugins').renderPartial('packages/suggestion', plugin, { append:true })
         })
     }
+}
+
+Installer.Pages.packageInstall.includePackage = function(code) {
+    
 }

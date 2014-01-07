@@ -209,11 +209,38 @@
 .suggested-plugins .image {
     float: left;
     margin-right: 10px;
+    position: relative;
 }
 .suggested-plugins .details h5 {
+    font-weight: bold;
 }
 .suggested-plugins .plugin {
     padding-bottom: 20px;
+}
+.suggested-plugins a {
+    color: #999;
+    text-decoration: none;
+    display: block;
+    overflow: hidden;
+}
+.suggested-plugins a:hover {
+    color: #333;
+}
+.suggested-plugins a:hover .image:after {
+    content: "+";
+    color: #999;
+    font-size: 64px;
+    display: block;
+    width: 75px;
+    height: 75px;
+    text-align: center;
+    line-height: 75px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.suggested-plugins a:hover .image img {
+    opacity: .5;
 }
 
 /*!
@@ -278,7 +305,8 @@
 }
 
 .tt-suggestions .plugin-image {
-    float: right;
+    float: left;
+    margin-right: 15px;
 }
 .tt-suggestions .plugin-image img {
     height: 45px;
