@@ -1,16 +1,18 @@
-<div class="package-search">
-    <input class="typeahead" placeholder="search packages to install..." id="packageSearchInput">
-</div>
+<form id="packageInstallForm" onsubmit="Installer.Pages.packageInstall.searchSubmit(); return false">
+    <div class="package-search">
+        <input class="typeahead" placeholder="search packages to install..." id="packageSearchInput">
+    </div>
+</form>
 
-<h3>Plugins to install</h3>
-<div class="plugin-list-empty" id="pluginListEmpty">
+<h2>Plugins to install</h2>
+<div class="package-list-empty" id="pluginListEmpty">
     <p>Please select any plugins you want included with this installation, otherwise click <strong>Install</strong> to continue.</p>
 </div>
-<ul class="plugin-list" id="pluginList"></ul>
+<ul class="package-list" id="pluginList"></ul>
 
-<div id="suggestedPluginsContainer" class="animated-content">
+<div id="suggestedPluginsContainer" class="suggested-packages-container animated-content">
     <h3>Recommended Plugins</h3>
     <div class="scroll-panel">
-        <div class="row suggested-plugins" id="suggestedPlugins"></div>
+        <div class="row suggested-packages" id="suggestedPlugins"></div>
     </div>
 </div>

@@ -2,12 +2,65 @@
  * October Layout
  */
 body {
-    color: #818B92;
+    color: #576061;
+    font-weight: 200;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 200;
+}
+a {
+    color: #0181b9;
 }
 .text-overflow {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+label {
+    font-weight: 400;
+}
+.form-control {
+    -webkit-transition: none;
+    transition: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    font-family: sans-serif;
+}
+.form-control:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid #cccccc;
+}
+
+@font-face {
+    font-family: 'lato';
+    src: url('../fonts/lato-black-webfont.eot');
+    src: url('../fonts/lato-black-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/lato-black-webfont.svg#latoblack') format('svg'), url('../fonts/lato-black-webfont.woff') format('woff'), url('../fonts/lato-black-webfont.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'lato';
+    src: url('../fonts/lato-italic-webfont.eot');
+    src: url('../fonts/lato-italic-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/lato-italic-webfont.svg#latoitalic') format('svg'), url('../fonts/lato-italic-webfont.woff') format('woff'), url('../fonts/lato-italic-webfont.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'lato';
+    src: url('../fonts/lato-regular-webfont.eot');
+    src: url('../fonts/lato-regular-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/lato-regular-webfont.svg#latoregular') format('svg'), url('../fonts/lato-regular-webfont.woff') format('woff'), url('../fonts/lato-regular-webfont.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'lato';
+    src: url('../fonts/lato-light-webfont.eot');
+    src: url('../fonts/lato-light-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/lato-light-webfont.svg#latolight') format('svg'), url('../fonts/lato-light-webfont.woff') format('woff'), url('../fonts/lato-light-webfont.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
 }
 
 header {
@@ -21,10 +74,10 @@ header {
 header h1 {
     margin: 0 0 30px 0;
     display: block;
-    height: 47px;
-    width: 283px;
+    height: 40px;
+    width: 251px;
     background: url('../images/october.png') 0 0 no-repeat;
-    background-size: 283px 47px;
+    background-size: 251px 40px;
 
     line-height: 0;
     text-indent: -9999px;
@@ -38,20 +91,21 @@ section.title {
     overflow: hidden;
 }
 section.title .steps p {
-    height: 50px;
-    width: 50px;
+    height: 55px;
+    width: 55px;
     margin: 0 auto;
     display: block;
-    line-height: 50px;
+    line-height: 55px;
 
     text-align: center;
     text-transform: uppercase;
     position: relative;
-    color: #FFF;
-    border: 1px solid #FFF;
+    color: rgba(255,255,255,.9);
+    border: 1px solid rgba(255,255,255,.6);
     border-radius: 99999px;
-    font-size: 24px;
+    font-size: 20px;
     opacity: .4;
+    font-weight: 200;
 }
 section.title .steps .pass p {
     opacity: 1;
@@ -64,23 +118,22 @@ section.title .steps .pass.last.animate.fade_in p {
     -moz-animation: fadeIn 0.65s ease forwards;
     animation: fadeIn 0.65s ease forwards;
 }
-
 section.title .steps.animate.move_up .pass.last p {
     -webkit-animation-delay: 0.65s;
     -moz-animation-delay: 0.65s;
     animation-delay: 0.65s;
 }
-
 section.title {
     background: #dc6b26;
-    padding: 40px 0;
+    padding: 25px 0;
     border-bottom: 3px solid rgba(0,0,0,.1);
 }
 section.title h2 {
     margin: 0;
-    color: #FFF;
-    font-size: 48px;
-    letter-spacing: -1px;
+    color: rgba(255,255,255,.8);
+    font-size: 38px;
+    line-height: 55px;
+    font-weight: 200;
 }
 
 section.body {
@@ -103,7 +156,9 @@ section.body .config-section.fail h3:before {
     margin-right: 5px;
     margin-top: -3px;
 }
-
+section.body p.lead {
+    margin-top: 20px;
+}
 section.body p.lead.with-tick:before {
     content: "";
     background: transparent url('../images/sprite.png') no-repeat;
@@ -126,6 +181,9 @@ footer ul {
 }
 footer a {
     color: #bbbbbb;
+}
+footer a:hover {
+    text-decoration: none;
 }
 footer .form-control-panel {
     float: right;

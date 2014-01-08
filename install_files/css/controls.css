@@ -78,6 +78,7 @@
 .callout h4 {
     margin-top: 0;
     margin-bottom: 5px;
+    font-weight: 400;
 }
 .callout p:last-child {
     margin-bottom: 0;
@@ -140,12 +141,13 @@
     border: 1px solid rgba(0,0,0,.1);
     padding: 20px;
     overflow: auto;
-    height: 250px;
+    max-height: 250px;
     background: #e9e9e9;
     font-size: 12px;
+    border-radius: 3px;
 }
-
 .app-eula .scroll-panel {
+    height: 250px;
     line-height: 2;
 }
 
@@ -159,74 +161,135 @@
     transition: all 1s ease-in-out;
 }
 
-.plugin-list-empty {
+.package-list-empty {
     background: #fff;
-    border: 1px solid #e9e9e9;
+    border: 1px dotted rgba(0,0,0,.2);
     text-align: center;
     padding: 30px 10px 20px;
+    font-size: 16px;
+    color: #999;
 }
-.plugin-list {
+.package-list {
     margin: 0;
     padding: 0;
     overflow: hidden; /* clearfix */
 }
-.plugin-list li {
+.package-list li {
     float: left;
     padding: 0;
-    margin: 10px 10px 0 0;
+    margin: 0 10px 10px 0;
     list-style: none;
-    text-align: center;
-    width: 160px;
-    height: 160px;
     border: 1px solid #ccc;
     background: #fff;
     position: relative;
+    border-radius: 3px;
 }
-.plugin-list li h4 {
-    padding: 5px 0;
+.package-list li:hover {
+    border-color: transparent;
+}
+.package-list li {
+    -webkit-transition: border .2s linear;
+    -moz-transition: border .2s linear;
+    transition: border .2s linear;
+}
+.package-list li button,
+.package-list li .image,
+.package-list li .details {
+    -webkit-transition: opacity .2s linear;
+    -moz-transition: opacity .2s linear;
+    transition: opacity .2s linear;
+}
+.package-list li .image {
+    padding: 5px;
+}
+.package-list li .image img {
+    width: 125px;
+    height: 125px;
+}
+.package-list li:hover .image {
+    opacity: 0;
+}
+.package-list li .details {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    padding: 10px;
+    overflow: hidden;
+}
+.package-list li:hover .details {
+    opacity: 1;
+}
+.package-list li h4 {
+    padding: 15px 0 0;
     margin: 0;
 }
-.plugin-list li p {
-    padding: 5px 0;
+.package-list li p {
+    padding: 0;
     margin: 0;
+    color: #999;
+    text-transform: uppercase;
+    font-size: 12px;
 }
-.plugin-list li button {
+.package-list li button {
     position: absolute;
     top: 0;
     right: 0;
     width: 20px;
     height: 20px;
-    display: none;
+    opacity: 0;
 }
-.plugin-list li:hover button {
-    display: block;
+.package-list li:hover button {
+    opacity: .3;
+}
+.package-list li:hover button:hover {
+    opacity: .8;
 }
 
-.suggested-plugins .image img {
+.suggested-packages-container {
+}
+.suggested-packages-container .scroll-panel {
+    padding: 0 15px;
+}
+.suggested-packages {
+    padding: 0;
+}
+.suggested-packages .package {
+    padding: 0;
+}
+.suggested-packages .image img {
     width: 75px;
     height: 75px;
 }
-.suggested-plugins .image {
+.suggested-packages .image {
     float: left;
-    margin-right: 10px;
+    margin-right: 15px;
     position: relative;
 }
-.suggested-plugins .details h5 {
-    font-weight: bold;
+.suggested-packages .details h5 {
+    margin: 15px 0 0;
+    font-size: 20px;
 }
-.suggested-plugins .plugin {
-    padding-bottom: 20px;
+.suggested-packages .details p {
+    font-size: 14px;
 }
-.suggested-plugins a {
-    color: #999;
+.suggested-packages a {
+    color: #777;
+    background: #fff;
+    padding: 5px;
     text-decoration: none;
     display: block;
     overflow: hidden;
+    border: 1px solid #f9f9f9;
 }
-.suggested-plugins a:hover {
+.suggested-packages a:hover:not(.package-included) {
     color: #333;
+    background: #f9f9f9;
+    border-color: #f0f0f0;
 }
-.suggested-plugins a:hover .image:after {
+.suggested-packages a:hover .image {
+}
+.suggested-packages a:hover .image:after {
     content: "+";
     color: #999;
     font-size: 64px;
@@ -239,9 +302,26 @@
     top: 0;
     left: 0;
 }
-.suggested-plugins a:hover .image img {
+.suggested-packages a:hover:not(.package-included) .image img {
     opacity: .5;
 }
+.suggested-packages a.package-included {
+    cursor: default;
+    opacity: .5;
+}
+.suggested-packages a.package-included .image:after {
+    content: "";
+    background: transparent url('../images/sprite.png') no-repeat;
+    background-size: 75px auto;
+    display: block;
+    width: 75px;
+    height: 75px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-position: 0 0;
+}
+
 
 /*!
  * Typeahead
@@ -255,7 +335,7 @@
     text-align: left;
     background-color: #428bca;
     border: 1px solid #024e6a;
-    border-radius: 10px;
+    border-radius: 3px;
 }
 
 .twitter-typeahead {
@@ -269,16 +349,20 @@
     font-size: 24px;
     line-height: 30px;
     border: 1px solid #024e6a;
-    border-radius: 8px;
+    border-radius: 3px;
     outline: none;
 }
 
 .typeahead {
-  background-color: #fff;
+    background-color: #fff;
 }
 
+.tt-query {
+    font-weight: 200;
+}
 .tt-hint {
-  color: #999
+    color: #999;
+    font-weight: 200;
 }
 
 .tt-dropdown-menu {
@@ -287,38 +371,58 @@
     background-color: #fff;
     border: 1px solid #ccc;
     border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
+    border-radius: 3px;
     -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
     box-shadow: 0 5px 10px rgba(0,0,0,.2);
 }
-
 .tt-suggestion {
-    padding: 8px 20px;
     font-size: 14px;
     line-height: 18px;
 }
-
 .tt-suggestion + .tt-suggestion {
     font-size: 14px;
     border-top: 1px solid #ccc;
 }
-
-.tt-suggestions .plugin-image {
-    float: left;
-    margin-right: 15px;
+.tt-suggestions .package-details {
+    padding: 5px;
+    overflow: hidden;
+    position: relative;
 }
-.tt-suggestions .plugin-image img {
+.tt-suggestions .package-image {
+    float: left;
+    margin-right: 10px;
+}
+.tt-suggestions .package-image img {
     height: 45px;
     width: 45px;
 }
-.tt-suggestions .plugin-name {
+.tt-suggestions .package-name {
     font-size: 20px;
-    font-weight: bold;
+    padding-top: 5px;
 }
-.tt-suggestions .plugin-description {
-    margin: 0;
+.tt-suggestions .package-description {
+
 }
-.twitter-typeahead .tt-suggestion.tt-is-under-cursor {
-    color: #03739c;
+
+.tt-suggestion.tt-is-under-cursor .package-details {
+    color: #333;
+    background: #f9f9f9;
+    border-color: #f0f0f0;
+}
+.tt-suggestion.tt-is-under-cursor .package-details .package-image:after {
+    content: "+";
+    color: #999;
+    font-size: 38px;
+    display: block;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    line-height: 45px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+.tt-suggestion.tt-is-under-cursor .package-details .package-image img {
+    opacity: .5;
 }
