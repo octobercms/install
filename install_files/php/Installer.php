@@ -154,7 +154,7 @@ class Installer
         if (!strlen($this->post('admin_email')))
             throw new InstallerException('Please specify administrator email address', 'admin_email');
 
-        if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/", $this->post('admin_email')))
+        if (!filter_var($this->post('admin_email'), FILTER_VALIDATE_EMAIL))
             throw new InstallerException('Please specify valid email address', 'admin_email');
 
         if (!strlen($this->post('admin_password')))
