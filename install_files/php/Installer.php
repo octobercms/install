@@ -303,7 +303,7 @@ class Installer
         /*
          * Prepare admin seed defaults
          */
-        $seeder = 'Modules\Backend\Database\Seeds\SeedSetupAdmin';
+        $seeder = 'Backend\Database\Seeds\SeedSetupAdmin';
         $seederObj = new $seeder;
         $seederObj->setDefaults(array(
             'email' => 'xxx',
@@ -316,7 +316,7 @@ class Installer
         /*
          * Install application
          */
-        $updater = call_user_func('Modules\System\Classes\UpdateManager::instance');
+        $updater = call_user_func('System\Classes\UpdateManager::instance');
         $updater->install();
     }
 
