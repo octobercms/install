@@ -423,12 +423,18 @@ class Installer
             $postData = http_build_query($params, '', '&');
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, OCTOBER_GATEWAY.'/'.$uri);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_TIMEOUT, 3600);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION , true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+
+            if (defined('OCTOBER_GATEWAY_AUTH')) {
+                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                curl_setopt($ch, CURLOPT_USERPWD, OCTOBER_GATEWAY_AUTH);
+            }
+
             $result = curl_exec($ch);
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($httpCode == 500) {

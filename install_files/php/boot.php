@@ -14,7 +14,7 @@ if (!$isDebug) {
 }
 
 define('PATH_INSTALL', str_replace("\\", "/", realpath(dirname(__FILE__)."/../../")));
-define('OCTOBER_GATEWAY', 'http://localhost:8083/api');
+define('OCTOBER_GATEWAY', 'http://octobercms.com/api');
 
 /*
  * Handle fatal errors with AJAX
