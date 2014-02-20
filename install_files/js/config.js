@@ -51,7 +51,7 @@ Installer.Pages.configForm.next = function() {
     })
 
     $.waterfall.apply(this, eventChain).done(function(){
-        Installer.showPage('packageInstall')
+        Installer.showPage('installExtras')
     })
 }
 

@@ -56,9 +56,9 @@
                 'config/database',
                 'config/admin',
                 'config/advanced',
-                'packages',
-                'packages/suggestion',
-                'packages/package',
+                'extras',
+                'extras/suggestion',
+                'extras/product',
                 'progress',
                 'progress/fail',
                 'complete',
@@ -76,7 +76,7 @@
         <script src="install_files/js/app.js"></script>
         <script src="install_files/js/check.js"></script>
         <script src="install_files/js/config.js"></script>
-        <script src="install_files/js/packages.js"></script>
+        <script src="install_files/js/extras.js"></script>
         <script src="install_files/js/progress.js"></script>
         <script src="install_files/js/complete.js"></script>
 
@@ -112,17 +112,17 @@
             ]
 
             /*
-             * Packages Page
+             * Extras Page
              */
-            Installer.Pages.packageInstall.title = 'Packages'
-            Installer.Pages.packageInstall.nextButton = 'Install!'
+            Installer.Pages.installExtras.title = 'Extras'
+            Installer.Pages.installExtras.nextButton = 'Install!'
 
-            Installer.Pages.packageInstall.includedPlugins = [
+            Installer.Pages.installExtras.includedPlugins = [
                 // { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
                 // { code: 'RainLab.Blog', name: 'Blog', author: 'October', description: 'A robust blogging platform.', image: 'http://placehold.it/100x100' }
             ]
 
-            Installer.Pages.packageInstall.suggestedPlugins = [
+            Installer.Pages.installExtras.suggestedProducts = [
                 // { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
                 // { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },
                 // { code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' },

@@ -94,7 +94,7 @@ Installer.Pages.installProgress.execStep.getMetaData = function(step) {
     return function() {
         return Installer.Pages.installProgress.execDefaultStep(step, {
             extraData: {
-                plugins: Installer.Pages.packageInstall.includedPlugins
+                plugins: Installer.Pages.installExtras.includedPlugins
             },
             onSuccess: function(data) {
                 // Save the result for later usage
@@ -115,9 +115,9 @@ Installer.Pages.installProgress.execStep.downloadCore = function(step) {
 }
 
 Installer.Pages.installProgress.execStep.downloadPlugins = function(step) {
-    return Installer.Pages.installProgress.execIterationStep(step, 'downloadPlugin', Installer.Pages.packageInstall.includedPlugins)
+    return Installer.Pages.installProgress.execIterationStep(step, 'downloadPlugin', Installer.Pages.installExtras.includedPlugins)
 }
 
 Installer.Pages.installProgress.execStep.extractPlugins = function(step) {
-    return Installer.Pages.installProgress.execIterationStep(step, 'extractPlugin', Installer.Pages.packageInstall.includedPlugins)
+    return Installer.Pages.installProgress.execIterationStep(step, 'extractPlugin', Installer.Pages.installExtras.includedPlugins)
 }

@@ -1,0 +1,35 @@
+
+    <!-- Search -->
+    <form id="installExtrasForm" onsubmit="Installer.Pages.installExtras.searchSubmit(); return false">
+        <div class="product-search">
+            <input class="typeahead" placeholder="search products to install..." id="productSearchInput">
+        </div>
+    </form>
+
+<div class="row">
+
+    <div class="col-md-6">
+
+        <!-- Included extras -->
+        <h3>Included <small>(<span id="installExtrasCounter">0</span>)</small></h3>
+        <div class="product-list-empty" id="productListEmpty">
+            <p>You have not added any extras to include with this installation.</p>
+        </div>
+        <ul class="product-list" id="productList"></ul>
+
+    </div>
+    <div class="col-md-6">
+
+        <!-- Recommended extras -->
+        <div id="suggestedProductsContainer" class="suggested-products-container animated-content">
+            <h3>Recommended</h3>
+            <div class="scroll-panel">
+                <div class="row suggested-products" id="suggestedProducts"></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+

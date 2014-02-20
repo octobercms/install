@@ -12,7 +12,7 @@ var Installer = {
     Pages: {
         systemCheck: { isStep1: true, body: 'check' },
         configForm: { isStep2: true, body: 'config' },
-        packageInstall: { isStep3: true, body: 'packages' },
+        installExtras: { isStep3: true, body: 'extras' },
         installProgress: { isStep4: true, body: 'progress' },
         installComplete: { isStep5: true, body: 'complete' }
     },

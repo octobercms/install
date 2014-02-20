@@ -150,6 +150,10 @@
     height: 250px;
     line-height: 2;
 }
+.suggested-products-container .scroll-panel {
+    padding: 0 15px;
+    max-height: 350px;
+}
 
 .advanced-options {
     overflow: hidden;
@@ -161,7 +165,7 @@
     transition: all 1s ease-in-out;
 }
 
-.package-list-empty {
+.product-list-empty {
     background: #fff;
     border: 1px dotted rgba(0,0,0,.2);
     text-align: center;
@@ -169,12 +173,12 @@
     font-size: 16px;
     color: #999;
 }
-.package-list {
+.product-list {
     margin: 0;
     padding: 0;
     overflow: hidden; /* clearfix */
 }
-.package-list li {
+.product-list li {
     float: left;
     padding: 0;
     margin: 0 10px 10px 0;
@@ -184,32 +188,32 @@
     position: relative;
     border-radius: 3px;
 }
-.package-list li:hover {
+.product-list li:hover {
     border-color: transparent;
 }
-.package-list li {
+.product-list li {
     -webkit-transition: border .2s linear;
     -moz-transition: border .2s linear;
     transition: border .2s linear;
 }
-.package-list li button,
-.package-list li .image,
-.package-list li .details {
+.product-list li button,
+.product-list li .image,
+.product-list li .details {
     -webkit-transition: opacity .2s linear;
     -moz-transition: opacity .2s linear;
     transition: opacity .2s linear;
 }
-.package-list li .image {
+.product-list li .image {
     padding: 5px;
 }
-.package-list li .image img {
+.product-list li .image img {
     width: 125px;
     height: 125px;
 }
-.package-list li:hover .image {
+.product-list li:hover .image {
     opacity: 0;
 }
-.package-list li .details {
+.product-list li .details {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -217,21 +221,21 @@
     padding: 10px;
     overflow: hidden;
 }
-.package-list li:hover .details {
+.product-list li:hover .details {
     opacity: 1;
 }
-.package-list li h4 {
+.product-list li h4 {
     padding: 15px 0 0;
     margin: 0;
 }
-.package-list li p {
+.product-list li p {
     padding: 0;
     margin: 0;
     color: #999;
     text-transform: uppercase;
     font-size: 12px;
 }
-.package-list li button {
+.product-list li button {
     position: absolute;
     top: 0;
     right: 0;
@@ -239,41 +243,39 @@
     height: 20px;
     opacity: 0;
 }
-.package-list li:hover button {
+.product-list li:hover button {
     opacity: .3;
 }
-.package-list li:hover button:hover {
+.product-list li:hover button:hover {
     opacity: .8;
 }
 
-.suggested-packages-container {
+.suggested-products-container {
 }
-.suggested-packages-container .scroll-panel {
-    padding: 0 15px;
-}
-.suggested-packages {
+
+.suggested-products {
     padding: 0;
 }
-.suggested-packages .package {
+.suggested-products .product {
     padding: 0;
 }
-.suggested-packages .image img {
+.suggested-products .image img {
     width: 75px;
     height: 75px;
 }
-.suggested-packages .image {
+.suggested-products .image {
     float: left;
     margin-right: 15px;
     position: relative;
 }
-.suggested-packages .details h5 {
+.suggested-products .details h5 {
     margin: 15px 0 0;
     font-size: 20px;
 }
-.suggested-packages .details p {
+.suggested-products .details p {
     font-size: 14px;
 }
-.suggested-packages a {
+.suggested-products a {
     color: #777;
     background: #fff;
     padding: 5px;
@@ -282,14 +284,14 @@
     overflow: hidden;
     border: 1px solid #f9f9f9;
 }
-.suggested-packages a:hover:not(.package-included) {
+.suggested-products a:hover:not(.product-included) {
     color: #333;
     background: #f9f9f9;
     border-color: #f0f0f0;
 }
-.suggested-packages a:hover .image {
+.suggested-products a:hover .image {
 }
-.suggested-packages a:hover .image:after {
+.suggested-products a:hover .image:after {
     content: "+";
     color: #999;
     font-size: 64px;
@@ -302,14 +304,14 @@
     top: 0;
     left: 0;
 }
-.suggested-packages a:hover:not(.package-included) .image img {
+.suggested-products a:hover:not(.product-included) .image img {
     opacity: .5;
 }
-.suggested-packages a.package-included {
+.suggested-products a.product-included {
     cursor: default;
     opacity: .5;
 }
-.suggested-packages a.package-included .image:after {
+.suggested-products a.product-included .image:after {
     content: "";
     background: transparent url('../images/sprite.png') no-repeat;
     background-size: 75px auto;
@@ -327,7 +329,7 @@
  * Typeahead
  */
 
-.package-search {
+.product-search {
     position: relative;
     width: 100%;
     margin: 0 auto 0 auto;
@@ -357,7 +359,7 @@
     background-color: #fff;
 }
 
-.tt-query {
+.tt-input {
     font-weight: 200;
 }
 .tt-hint {
@@ -384,33 +386,35 @@
     font-size: 14px;
     border-top: 1px solid #ccc;
 }
-.tt-suggestions .package-details {
+.tt-suggestions .product-details {
     padding: 5px;
     overflow: hidden;
     position: relative;
 }
-.tt-suggestions .package-image {
+.tt-suggestions .product-image {
     float: left;
     margin-right: 10px;
 }
-.tt-suggestions .package-image img {
+.tt-suggestions .product-image img {
     height: 45px;
     width: 45px;
 }
-.tt-suggestions .package-name {
+.tt-suggestions .product-name {
     font-size: 20px;
     padding-top: 5px;
 }
-.tt-suggestions .package-description {
-
+.tt-suggestions .product-description {
 }
 
-.tt-suggestion.tt-is-under-cursor .package-details {
+.tt-suggestion.tt-cursor {
+    cursor: pointer;
+}
+.tt-suggestion.tt-cursor .product-details {
     color: #333;
     background: #f9f9f9;
     border-color: #f0f0f0;
 }
-.tt-suggestion.tt-is-under-cursor .package-details .package-image:after {
+.tt-suggestion.tt-cursor .product-details .product-image:after {
     content: "+";
     color: #999;
     font-size: 38px;
@@ -423,6 +427,6 @@
     top: 5px;
     left: 5px;
 }
-.tt-suggestion.tt-is-under-cursor .package-details .package-image img {
+.tt-suggestion.tt-cursor .product-details .product-image img {
     opacity: .5;
 }
