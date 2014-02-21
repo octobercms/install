@@ -45,7 +45,7 @@ Installer.Pages.installProgress.init = function() {
 Installer.Pages.installProgress.execDefaultStep = function(step, options) {
     var deferred = $.Deferred(),
         options = options || {},
-        postData = { step: step.code, meta: Installer.Data.meta }
+        postData = { step: step.code }
 
     if (options.extraData)
         $.extend(postData, options.extraData)
@@ -74,7 +74,7 @@ Installer.Pages.installProgress.execIterationStep = function(step, handlerCode, 
             return Installer.Pages.installProgress.execDefaultStep({
                 code: handlerCode,
                 label: step.label + item.code
-            }, { extraData: { name: item.code } })
+            }, { extraData: { name: item.code, meta: Installer.Data.meta } })
         })
     })
 
@@ -107,9 +107,7 @@ Installer.Pages.installProgress.execStep.getMetaData = function(step) {
 Installer.Pages.installProgress.execStep.downloadCore = function(step) {
     return function() {
         return Installer.Pages.installProgress.execDefaultStep(step, {
-            extraData: {
-                hash: Installer.Data.meta.core
-            }
+            extraData: { meta: Installer.Data.meta }
         })
     }
 }
@@ -120,4 +118,16 @@ Installer.Pages.installProgress.execStep.downloadPlugins = function(step) {
 
 Installer.Pages.installProgress.execStep.extractPlugins = function(step) {
     return Installer.Pages.installProgress.execIterationStep(step, 'extractPlugin', Installer.Pages.installExtras.includedPlugins)
+}
+
+Installer.Pages.installProgress.execStep.setupConfig = function(step) {
+    return function() {
+        return Installer.Pages.installProgress.execDefaultStep(step, { extraData: Installer.Data.config })
+    }
+}
+
+Installer.Pages.installProgress.execStep.createAdmin = function(step) {
+    return function() {
+        return Installer.Pages.installProgress.execDefaultStep(step, { extraData: Installer.Data.config })
+    }
 }

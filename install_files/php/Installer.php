@@ -50,8 +50,7 @@ class Installer
                 $result = is_writable(PATH_INSTALL);
                 break;
             case 'phpVersion':
-                // $result = version_compare(PHP_VERSION , "5.4", ">=");
-                $result = true; // Debug
+                $result = version_compare(PHP_VERSION , "5.4", ">=");
                 break;
             case 'safeMode':
                 $result = !ini_get('safe_mode');
@@ -274,31 +273,82 @@ class Installer
 
     private function buildConfigFile()
     {
-        $this->startFramework();
+        $this->bootFramework();
 
         $this->rewriter->toFile($this->dirConfig . '/app.php', array(
-            'url'    => 'base_url',
+            'url'    => $this->getBaseUrl(),
             'locale' => 'en',
-            'key'    => 'encryption_code',
+            'key'    => $this->post('encryption_code', 'WAKKA_WAKKA!!!'),
         ));
 
         $this->rewriter->toFile($this->dirConfig . '/cms.php', array(
             'activeTheme' => 'demo',
-            'backendUri'  => '/backend',
+            'backendUri'  => $this->post('backend_uri', '/backend'),
         ));
 
-        $this->rewriter->toFile($this->dirConfig . '/database.php', array(
-            'connections.mysql.host'     => 'db_host',
-            'connections.mysql.database' => 'db_name',
-            'connections.mysql.username' => 'db_user',
-            'connections.mysql.password' => 'db_pass',
-            'connections.mysql.prefix'   => 'db_prefix',
+        $this->rewriter->toFile($this->dirConfig . '/database.php', $this->getDatabaseConfigValues());
+    }
+
+    private function getDatabaseConfigValues()
+    {
+        $config = array_merge(array(
+            'type' => null,
+            'host' => null,
+            'name' => null,
+            'port' => null,
+            'user' => null,
+            'pass' => null,
+            'prefix' => null,
+        ), array(
+            'type' => $this->post('db_type'),
+            'host' => $this->post('db_host', ''),
+            'name' => $this->post('db_name', ''),
+            'user' => $this->post('db_user', ''),
+            'pass' => $this->post('db_pass', ''),
+            'prefix' => $this->post('db_prefix', ''),
         ));
+
+        extract($config);
+
+        switch ($type) {
+            default:
+            case 'mysql':
+                return array(
+                    'connections.mysql.host'     => $host,
+                    'connections.mysql.database' => $name,
+                    'connections.mysql.username' => $user,
+                    'connections.mysql.password' => $pass,
+                    'connections.mysql.prefix'   => $prefix,
+                );
+
+            case 'sqlite':
+                return array(
+                    'connections.sqlite.database' => $name,
+                );
+
+            case 'pgsql':
+                return array(
+                    'connections.pgsql.host'     => $host,
+                    'connections.pgsql.database' => $name,
+                    'connections.pgsql.username' => $user,
+                    'connections.pgsql.password' => $pass,
+                    'connections.pgsql.prefix'   => $prefix,
+                );
+
+            case 'sqlsrv':
+                return array(
+                    'connections.sqlsrv.host'     => $host,
+                    'connections.sqlsrv.database' => $name,
+                    'connections.sqlsrv.username' => $user,
+                    'connections.sqlsrv.password' => $pass,
+                    'connections.sqlsrv.prefix'   => $prefix,
+                );
+        }
     }
 
     private function createAdminAccount()
     {
-        $this->startFramework();
+        $this->bootFramework();
 
         /*
          * Prepare admin seed defaults
@@ -404,7 +454,7 @@ class Installer
     // Helpers
     //
 
-    private function startFramework()
+    private function bootFramework()
     {
         require $this->dirFramework . '/bootstrap/autoload.php';
         $this->app = $app = require_once $this->dirFramework . '/bootstrap/start.php';

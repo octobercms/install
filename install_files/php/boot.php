@@ -17,10 +17,36 @@ define('PATH_INSTALL', str_replace("\\", "/", realpath(dirname(__FILE__)."/../..
 define('OCTOBER_GATEWAY', 'http://octobercms.com/api');
 
 /*
+ * Address timeout and memory limits
+ */
+if (!ini_get('safe_mode'))
+    set_time_limit(3600);
+
+if (installerReturnBytes(ini_get('memory_limit')) < 276824064) // 264M in bytes
+    ini_set('memory_limit', '264M');
+
+function installerReturnBytes($val)
+{
+    $val = trim($val);
+    $last = strtolower($val[strlen($val)-1]);
+    switch($last) {
+        case 'g':
+            $val *= 1024;
+        case 'm':
+            $val *= 1024;
+        case 'k':
+            $val *= 1024;
+    }
+
+    return $val;
+}
+
+/*
  * Handle fatal errors with AJAX
  */
 register_shutdown_function('installerShutdown');
-function installerShutdown() {
+function installerShutdown()
+{
     $error = error_get_last();
     if ($error['type'] == 1) {
         header('HTTP/1.1 500 Internal Server Error');
