@@ -2,6 +2,11 @@
  * Packages & Install (Step 3)
  */
 
+// Expected:
+//   [{ code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' }, ...]
+Installer.Pages.installExtras.includedPlugins = []
+Installer.Pages.installExtras.suggestedProducts = []
+
 Installer.Pages.installExtras.init = function() {
 
     $('#suggestedProductsContainer').hide()

@@ -47,9 +47,6 @@ class Installer
         $this->tempDirectory = PATH_INSTALL . '/install_files/temp';
         $this->configDirectory = $this->baseDirectory . '/app/config';
 
-        if (!file_exists($this->tempDirectory))
-            mkdir($this->tempDirectory);
-
         if ($handler = $this->post('handler')) {
             try {
                 if (!preg_match('/^on[A-Z]{1}[\w+]*$/', $handler))
@@ -452,7 +449,7 @@ class Installer
         $fileHash = md5_file($filePath);
 
         if ($expectedHash != $fileHash) {
-            unlink($filePath); // use Cleanup instead
+            unlink($filePath); // @todo use Cleanup instead
             // $this->cleanUp();
             throw new Exception('File from server is corrupt');
         }
@@ -463,6 +460,10 @@ class Installer
     private function putFile($fileCode, $contents)
     {
         $name = md5($fileCode) . '.arc';
+
+        if (!file_exists($this->tempDirectory))
+            mkdir($this->tempDirectory, 0777, true); // @todo Use config
+
         $filePath = $this->tempDirectory . '/' . $name;
         file_put_contents($filePath, $contents);
         return $filePath;
@@ -526,18 +527,18 @@ class Installer
             throw new Exception('Server responded had no response.');
 
         try {
-            $result = @json_decode($result, true);
+            $_result = @json_decode($result, true);
         }
         catch (Exception $ex) {}
 
-        if (!is_array($result)) {
+        if (!is_array($_result)) {
             if ($this->debugMode)
                 throw new Exception('Invalid server response: '. $result);
             else
                 throw new Exception('Server returned an invalid response.');
         }
 
-        return $result;
+        return $_result;
     }
 
     private function post($var, $default = null)

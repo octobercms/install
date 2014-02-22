@@ -2,35 +2,47 @@
  * Install Progress (Step 4)
  */
 
+Installer.Pages.installProgress.activeStep = null
+
 Installer.Pages.installProgress.init = function() {
 
-    var eventChain = [],
-        installProgressFailed = $('#installProgressFailed').hide(),
-        result
+    var self = Installer.Pages.installProgress,
+        eventChain = []
 
     /*
      * Process each step
      */
-    $.each(Installer.Pages.installProgress.steps, function(index, step){
+    $.each(self.steps, function(index, step){
+        eventChain = self.spoolStep(step, eventChain)
+    })
 
-        /*
-         * Step mutator exists
-         */
-        if (Installer.Pages.installProgress.execStep[step.code]) {
-            result = Installer.Pages.installProgress.execStep[step.code](step)
-            if (!$.isArray(result)) result = [result]
-            eventChain = $.merge(eventChain, result)
-        }
-        /*
-         * Fall back on default logic
-         */
-        else {
-            eventChain.push(function(){
-                return Installer.Pages.installProgress.execDefaultStep(step)
-            })
+    self.run(eventChain)
+}
+
+Installer.Pages.installProgress.retry = function() {
+    var self = Installer.Pages.installProgress,
+        eventChain = [],
+        skipStep = true
+
+    /*
+     * Process each step
+     */
+    $.each(self.steps, function(index, step){
+
+        if (self.activeStep == step)
+            skipStep = false
+
+        if (!skipStep) {
+            eventChain = self.spoolStep(step, eventChain)
         }
 
     })
+
+    self.run(eventChain)
+}
+
+Installer.Pages.installProgress.run = function(eventChain) {
+    var installProgressFailed = $('#installProgressFailed').hide()
 
     $.waterfall.apply(this, eventChain).done(function(){
         Installer.showPage('installComplete')
@@ -39,7 +51,38 @@ Installer.Pages.installProgress.init = function() {
         installProgressFailed.show().addClass('animate fade_in')
         installProgressFailed.renderPartial('progress/fail', { reason: reason })
     })
+}
 
+Installer.Pages.installProgress.spoolStep = function(step, eventChain) {
+    var self = Installer.Pages.installProgress,
+        result
+
+    /*
+     * Set the active step
+     */
+    eventChain.push(function(){
+        self.activeStep = step
+        return $.Deferred().resolve()
+    })
+
+    /*
+     * Step mutator exists
+     */
+    if (self.execStep[step.code]) {
+        result = self.execStep[step.code](step)
+        if (!$.isArray(result)) result = [result]
+        eventChain = $.merge(eventChain, result)
+    }
+    /*
+     * Fall back on default logic
+     */
+    else {
+        eventChain.push(function(){
+            return self.execDefaultStep(step)
+        })
+    }
+
+    return eventChain
 }
 
 Installer.Pages.installProgress.execDefaultStep = function(step, options) {
