@@ -2,14 +2,35 @@
 
 class Installer
 {
+    /**
+     * @var bool Flag to put installer in debugging mode.
+     */
     private $debugMode;
 
+    /**
+     * @var Illuminate\Foundation\Application Framework application object, when booted.
+     */
     protected $app;
 
+    /**
+     * @var InstallerRewrite Configuration rewriter object.
+     */
     protected $rewriter;
 
-    protected $dirFramework;
-    protected $dirConfig;
+    /**
+     * @var string Application base path.
+     */
+    protected $baseDirectory;
+
+    /**
+     * @var string A temporary working directory.
+     */
+    protected $tempDirectory;
+
+    /**
+     * @var string Expected path where configuration files can be found.
+     */
+    protected $configDirectory;
 
     /**
      * Constructor/Router
@@ -18,8 +39,16 @@ class Installer
     {
         $this->debugMode = $debugMode;
         $this->rewriter = new InstallerRewrite;
-        $this->dirFramework = PATH_INSTALL . '/temp';
-        $this->dirConfig = $this->dirFramework . '/app/config';
+
+        /*
+         * Establish directory paths
+         */
+        $this->baseDirectory = PATH_INSTALL;
+        $this->tempDirectory = PATH_INSTALL . '/install_files/temp';
+        $this->configDirectory = $this->baseDirectory . '/app/config';
+
+        if (!file_exists($this->tempDirectory))
+            mkdir($this->tempDirectory);
 
         if ($handler = $this->post('handler')) {
             try {
@@ -275,18 +304,18 @@ class Installer
     {
         $this->bootFramework();
 
-        $this->rewriter->toFile($this->dirConfig . '/app.php', array(
+        $this->rewriter->toFile($this->configDirectory . '/app.php', array(
             'url'    => $this->getBaseUrl(),
             'locale' => 'en',
             'key'    => $this->post('encryption_code', 'WAKKA_WAKKA!!!'),
         ));
 
-        $this->rewriter->toFile($this->dirConfig . '/cms.php', array(
+        $this->rewriter->toFile($this->configDirectory . '/cms.php', array(
             'activeTheme' => 'demo',
             'backendUri'  => $this->post('backend_uri', '/backend'),
         ));
 
-        $this->rewriter->toFile($this->dirConfig . '/database.php', $this->getDatabaseConfigValues());
+        $this->rewriter->toFile($this->configDirectory . '/database.php', $this->getDatabaseConfigValues());
     }
 
     private function getDatabaseConfigValues()
@@ -376,10 +405,10 @@ class Installer
 
     private function moveHtaccess($old = null, $new = null)
     {
-        $oldFile = $this->dirFramework . '/.htaccess';
+        $oldFile = $this->baseDirectory . '/.htaccess';
         if ($old) $oldFile .= '.' . $old;
 
-        $newFile = $this->dirFramework . '/.htaccess';
+        $newFile = $this->baseDirectory . '/.htaccess';
         if ($new) $newFile .= '.' . $new;
 
         if (file_exists($oldFile))
@@ -389,7 +418,7 @@ class Installer
     private function unzipFile($fileCode, $directory = null)
     {
         $source = $this->getFilePath($fileCode);
-        $destination = $this->dirFramework;
+        $destination = $this->baseDirectory;
 
         if ($directory)
             $destination .= '/' . $directory;
@@ -434,11 +463,7 @@ class Installer
     private function putFile($fileCode, $contents)
     {
         $name = md5($fileCode) . '.arc';
-        $tmpDir = PATH_INSTALL . '/install_files/temp';
-        if (!file_exists($tmpDir))
-            mkdir($tmpDir);
-
-        $filePath = $tmpDir . '/' . $name;
+        $filePath = $this->tempDirectory . '/' . $name;
         file_put_contents($filePath, $contents);
         return $filePath;
     }
@@ -446,8 +471,7 @@ class Installer
     private function getFilePath($fileCode)
     {
         $name = md5($fileCode) . '.arc';
-        $tmpDir = PATH_INSTALL . '/install_files/temp';
-        return $tmpDir . '/' . $name;
+        return $this->tempDirectory . '/' . $name;
     }
 
     //
@@ -456,14 +480,14 @@ class Installer
 
     private function bootFramework()
     {
-        require $this->dirFramework . '/bootstrap/autoload.php';
-        $this->app = $app = require_once $this->dirFramework . '/bootstrap/start.php';
+        require $this->baseDirectory . '/bootstrap/autoload.php';
+        $this->app = $app = require_once $this->baseDirectory . '/bootstrap/start.php';
         $app->boot();
     }
 
     private function cleanUp()
     {
-
+        // @todo This should trash the files in the temporary directory
     }
 
     private function requestServerData($uri = null, $params = array())
