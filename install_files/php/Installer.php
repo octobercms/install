@@ -356,11 +356,11 @@ class Installer
         $seeder = 'Backend\Database\Seeds\SeedSetupAdmin';
         $seederObj = new $seeder;
         $seederObj->setDefaults(array(
-            'email' => 'xxx',
-            'login' => 'xxx',
-            'password' => 'xxx',
-            'firstName' => 'xxx',
-            'lastName' => 'xxx',
+            'email' => $this->post('admin_email', 'admin@email.xxx'),
+            'login' => $this->post('admin_login', 'admin'),
+            'password' => $this->post('admin_password', 'admin'),
+            'firstName' => $this->post('admin_first_name', 'Admin'),
+            'lastName' => $this->post('admin_last_name', 'Person'),
         ));
 
         /*
@@ -458,6 +458,7 @@ class Installer
     {
         require $this->dirFramework . '/bootstrap/autoload.php';
         $this->app = $app = require_once $this->dirFramework . '/bootstrap/start.php';
+        $app->boot();
     }
 
     private function cleanUp()
