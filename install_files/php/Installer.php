@@ -44,7 +44,7 @@ class Installer
          * Establish directory paths
          */
         $this->baseDirectory = PATH_INSTALL;
-        $this->tempDirectory = PATH_INSTALL . '/install_files/temp';
+        $this->tempDirectory = PATH_INSTALL . '/install_files/temp'; // @todo Use sys_get_temp_dir()
         $this->configDirectory = $this->baseDirectory . '/app/config';
 
         if ($handler = $this->post('handler')) {

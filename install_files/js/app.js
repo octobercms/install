@@ -80,7 +80,7 @@ Installer.setLoadingBar = function(state, message) {
     progressBar.removeClass('progress-bar-danger')
     progressBarContainer.removeClass('failed')
 
-    if (state == 'failed'){
+    if (state == 'failed') {
         progressBar.addClass('progress-bar-danger').removeClass('animate infinite_loader')
         progressBarContainer.addClass('failed')
     }

@@ -29,13 +29,13 @@ Installer.Pages.installProgress.retry = function() {
      */
     $.each(self.steps, function(index, step){
 
-        if (self.activeStep == step)
+        if (step == self.activeStep)
             skipStep = false
 
-        if (!skipStep) {
-            eventChain = self.spoolStep(step, eventChain)
-        }
+        if (skipStep)
+            return true // Continue
 
+        eventChain = self.spoolStep(step, eventChain)
     })
 
     self.run(eventChain)
