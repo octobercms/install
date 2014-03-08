@@ -285,6 +285,7 @@ class Installer
                 break;
 
             case 'finishInstall':
+                $this->setCoreBuild();
                 $this->moveHtaccess(null, 'installer');
                 $this->moveHtaccess('october', null);
                 break;
@@ -394,6 +395,16 @@ class Installer
          */
         $updater = call_user_func('System\Classes\UpdateManager::instance');
         $updater->install();
+    }
+
+    public function setCoreBuild()
+    {
+        $this->bootFramework();
+
+        $settings = call_user_func('System\Models\CoreSettings::instance');
+        $settings->hash = post('hash');
+        $settings->build = post('build');
+        $settings->save();
     }
 
     //
