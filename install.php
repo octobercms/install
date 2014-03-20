@@ -19,20 +19,25 @@
     </head>
     <body class="js">
 
-        <!-- Header -->
-        <header>
-            <div class="container" id="containerHeader"></div>
-        </header>
+        <div id="wrap">
 
-        <!-- Title -->
-        <section class="title">
-            <div class="container" id="containerTitle"></div>
-        </section>
+            <!-- Header -->
+            <header>
+                <div class="container" id="containerHeader"></div>
 
-        <!-- Body -->
-        <section class="body">
-            <div class="container" id="containerBody"></div>
-        </section>
+                <!-- Title -->
+                <section class="title">
+                    <div class="container" id="containerTitle"></div>
+                </section>
+
+            </header>
+
+            <!-- Body -->
+            <section class="body">
+                <div class="container" id="containerBody"></div>
+            </section>
+
+        </div>
 
         <!-- Footer -->
         <footer>

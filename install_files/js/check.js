@@ -35,7 +35,7 @@ Installer.Pages.systemCheck.init = function() {
                     }, 500)
                 }).fail(function(data){
                     item.removeClass('load').addClass('fail')
-                    if (data.responseText) alert(data.responseText)
+                    if (data.responseText) console.log('Failure reason: ' + data.responseText)
                     deferred.reject('ajaxFailure')
                 })
 
