@@ -72,39 +72,42 @@
 .callout {
     margin-bottom: 20px;
     padding: 20px;
-    border-left: 3px solid #eeeeee;
-    border-radius: 4px;
+    color: #e0e0e0;
+    border-radius: 3px;
+    font-weight: 400;
+}
+.callout a {
+    color: #fff;
+}
+.callout a.btn {
+    color: #333;
+}
+.callout a.btn:hover {
+    color: #000;
 }
 .callout h4 {
     margin-top: 0;
     margin-bottom: 5px;
     font-weight: 400;
+    color: #fff;
 }
 .callout p:last-child {
     margin-bottom: 0;
 }
 .callout-danger {
-    background-color: #fdf7f7;
-    border-color: #ebccd1;
-}
-.callout-danger h4 {
-    color: #b94a48;
+    background-color: #cc3300;
 }
 .callout-warning {
-    background-color: #faf8f0;
-    border-color: #faebcc;
-}
-.callout-warning h4 {
-    color: #c09853;
+    background-color: #f0ad4e;
 }
 .callout-info {
-    background-color: #f4f8fa;
-    border-color: #bce8f1;
-}
-.callout-info h4 {
-    color: #3a87ad;
+    background-color: #5e6ca8;
 }
 
+.system-check {
+    padding-bottom: 20px;
+    overflow: hidden;
+}
 .system-check li {
     padding: 10px;
     padding-left: 52px;
@@ -112,6 +115,7 @@
     min-height: 32px;
     background: #FFF;
     position: relative;
+    font-size: 16px;
 }
 .system-check li:before {
     content: "";
@@ -138,17 +142,26 @@
 }
 
 .scroll-panel {
-    border: 1px solid rgba(0,0,0,.1);
     padding: 20px;
     overflow: auto;
     max-height: 250px;
-    background: #e9e9e9;
+    background: #fff;
     font-size: 12px;
     border-radius: 3px;
 }
 .app-eula .scroll-panel {
-    height: 250px;
+    height: 350px;
+    max-height: 350px;
     line-height: 2;
+}
+.app-eula h3 {
+    text-align: center;
+    padding: 10px 0;
+}
+.app-eula pre {
+    margin: 10px 0;
+    font-family: 'lato';
+    font-size: 13px;
 }
 .suggested-products-container .scroll-panel {
     padding: 0 15px;

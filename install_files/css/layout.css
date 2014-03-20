@@ -1,6 +1,14 @@
 /*!
  * October Layout
  */
+
+html,
+body {
+    height: 100%;
+    /* The html and body elements cannot have any padding or margin. */
+    -webkit-font-smoothing: antialiased !important;
+}
+
 body {
     color: #576061;
     font-weight: 200;
@@ -8,6 +16,14 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-weight: 200;
 }
+h3 {
+    font-size: 36px;
+}
+
+button, input, a {
+    border-radius: 3px !important;
+}
+
 a {
     color: #0181b9;
 }
@@ -63,22 +79,40 @@ label {
     font-style: normal;
 }
 
+#wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -100px;
+    padding 0 0 100px;
+    background: #ecf0f1;
+    position: relative;
+    overflow: hidden;
+}
+
+#wrap:before {
+    content: ' ';
+    background: #ecf0f1 url('../images/skyline.png') repeat-x left bottom;
+    position: absolute;
+    bottom: -225px;
+    width: 100%;
+    height: 399px;
+    display: block;
+}
+
 header {
-    padding: 30px 0 0;
+    padding: 40px 0 0;
     top: 0;
-    background: #FFF;
-    border-bottom: 3px solid rgba(0,0,0,.1);
+    background: #162430 url('../images/stars.png');
     width: 100%;
     z-index: 2;
 }
+
 header h1 {
     margin: 0 0 30px 0;
     display: block;
-    height: 40px;
-    width: 251px;
-    background: url('../images/october.png') 0 0 no-repeat;
-    background-size: 251px 40px;
-
+    height: 47px;
+    width: 283px;
+    background: transparent url('../images/logo.png') no-repeat left -90px;
     line-height: 0;
     text-indent: -9999px;
     overflow: hidden;
@@ -86,16 +120,41 @@ header h1 {
 header .progress-bar-container {
     margin-top: 10px;
 }
+header h5 {
+    text-transform: uppercase;
+    color: #95a5a6;
+    padding: 24px 0 15px 20px;
+    margin: 17px 0 0 0;
+    font-weight: 400;
+}
 
 section.title {
-    overflow: hidden;
+    /*overflow: hidden;*/
+    position: relative;
 }
+
+section.title:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 63px;
+    left: 0;
+    bottom: 0;
+    background: url(../images/clouds.png) repeat-x left top;
+}
+
+section.title .steps {
+    position: relative;
+    top: -50px;
+}
+
 section.title .steps p {
-    height: 55px;
-    width: 55px;
+    height: 50px;
+    width: 50px;
     margin: 0 auto;
     display: block;
-    line-height: 55px;
+    line-height: 50px;
 
     text-align: center;
     text-transform: uppercase;
@@ -103,12 +162,14 @@ section.title .steps p {
     color: rgba(255,255,255,.9);
     border: 1px solid rgba(255,255,255,.6);
     border-radius: 99999px;
-    font-size: 20px;
+    font-size: 22px;
     opacity: .4;
     font-weight: 200;
 }
 section.title .steps .pass p {
     opacity: 1;
+    background: #d35400;
+    border-color: #d35400;
 }
 section.title .steps .pass.last p {
     opacity: .4;
@@ -124,23 +185,26 @@ section.title .steps.animate.move_up .pass.last p {
     animation-delay: 0.65s;
 }
 section.title {
-    background: #dc6b26;
-    padding: 25px 0;
-    border-bottom: 3px solid rgba(0,0,0,.1);
+    padding: 10px 0 30px 0;
 }
 section.title h2 {
     margin: 0;
-    color: rgba(255,255,255,.8);
-    font-size: 38px;
+    color: #ECF0F1;
+    font-size: 32px;
     line-height: 55px;
-    font-weight: 200;
+    font-weight: 400;
 }
 
 section.body {
+    background: #ecf0f1;
     overflow: hidden;
-    background: #f4f4f4;
-    padding: 20px 0;
 }
+
+section.body .container {
+    padding-top: 40px;
+    padding-bottom: 200px;
+}
+
 section.body .config-section.fail h3 {
     color: #b94a48;
 }
@@ -172,15 +236,40 @@ section.body p.lead.with-tick:before {
 }
 
 footer {
-    background: rgba(255,255,255,.8);
-    border-top: 3px solid rgba(0,0,0,.1);
-    padding: 20px 0;
+    background: transparent url('../images/grass.png') repeat-x left bottom;
+    height: 100px;
+    z-index: 10;
+    position: relative;
 }
-footer ul {
-    margin-top: 15px;
+
+footer .container {
+    position: relative;
+    height: 100px;
+}
+footer .container:after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 207px;
+    height: 127px;
+    background: transparent url('../images/tree.png') repeat-x left bottom;
+    z-index: 7;
+}
+
+footer ul.menu {
+    margin-top: 50px;
+    margin-left: 250px;
+    padding-left: 0;
+}
+
+footer ul.menu li {
+    margin-right: 15px;
 }
 footer a {
-    color: #bbbbbb;
+    color: #7e8c8d;
+    font-weight: 200;
 }
 footer a:hover {
     text-decoration: none;
