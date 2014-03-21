@@ -111,9 +111,9 @@
             Installer.Pages.configForm.nextButton = 'Continue'
 
             Installer.Pages.configForm.sections = [
-                { code: 'database', label: 'Database', handler: 'onValidateDatabase', partial: 'config/database' },
-                { code: 'admin', label: 'Administrator', handler: 'onValidateAdminAccount', partial: 'config/admin' },
-                { code: 'advanced', label: 'Advanced', handler: 'onValidateAdvancedConfig', partial: 'config/advanced', isAdvanced: true }
+                { code: 'database', label: 'Database', category: 'General', handler: 'onValidateDatabase', partial: 'config/database' },
+                { code: 'admin', label: 'Administrator', category: 'General', handler: 'onValidateAdminAccount', partial: 'config/admin' },
+                { code: 'advanced', label: 'Advanced', category: 'Advanced', handler: 'onValidateAdvancedConfig', partial: 'config/advanced' }
             ]
 
             /*

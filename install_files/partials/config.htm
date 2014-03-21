@@ -2,16 +2,26 @@
 <div id="configForm" class="animated-content">
     <form id="configFormElement">
 
-        <!-- Regular options -->
-        <div class="regular-options" id="regularOptions"></div>
 
-        <!-- Show advanced options -->
-        <div class="form-group">
-            <a href="javascript:Installer.Pages.configForm.showAdvanced()" class="btn btn-default btn-lg btn-block" id="configFormShowAdvanced">Show Advanced Options</a>
+        <div class="row">
+
+            <div class="col-md-3 hidden-sm">
+                <!-- Side Navigation -->
+                <div class="side-nav" id="configSideNav"></div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="cloud-content">
+                    <!-- Configuration Form -->
+                    <div class="config-form-options form-horizontal" id="configFormOptions"></div>
+                </div>
+
+                <!-- Page Navigation -->
+                <div class="btn-group page-nav" id="configPageNav"></div>
+            </div>
+
         </div>
 
-        <!-- Cloaked (Advanced) options -->
-        <div class="advanced-options" id="advancedOptions"></div>
 
     </form>
 </div>

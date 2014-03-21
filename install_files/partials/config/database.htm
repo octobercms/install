@@ -1,11 +1,17 @@
 <div class="form-group">
-    <label for="dbType">Database Type</label>
-    <select name="db_type" class="form-control input-lg" id="dbType" onchange="Installer.Pages.configForm.toggleDatabase(this)">
-        <option value="mysql">MySQL</option>
-        <option value="pgsql">Postgres</option>
-        <option value="sqlite">SQLite</option>
-        <option value="sqlsrv">SQL Server</option>
-    </select>
+    <label for="dbType" class="control-label col-sm-4">Database Type</label>
+    <div class="col-sm-8">
+        <select
+            name="db_type"
+            class="form-control"
+            id="dbType"
+            onchange="Installer.Pages.configForm.toggleDatabase(this)">
+            <option value="mysql">MySQL</option>
+            <option value="pgsql">Postgres</option>
+            <option value="sqlite">SQLite</option>
+            <option value="sqlsrv">SQL Server</option>
+        </select>
+    </div>
 </div>
 
-<div class="row" id="configFormDatabase"></div>
+<div id="configFormDatabase"></div>

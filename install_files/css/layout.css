@@ -20,10 +20,6 @@ h3 {
     font-size: 36px;
 }
 
-button, input, a {
-    border-radius: 3px !important;
-}
-
 a {
     color: #0181b9;
 }
@@ -129,7 +125,6 @@ header h5 {
 }
 
 section.title {
-    /*overflow: hidden;*/
     position: relative;
 }
 
@@ -141,7 +136,7 @@ section.title:before {
     height: 63px;
     left: 0;
     bottom: 0;
-    background: url(../images/clouds.png) repeat-x left top;
+    background: url('../images/clouds.png') repeat-x left top;
 }
 
 section.title .steps {
@@ -205,6 +200,9 @@ section.body .container {
     padding-bottom: 200px;
 }
 
+section.body .config-section h3 {
+    font-size: 38px;
+}
 section.body .config-section.fail h3 {
     color: #b94a48;
 }
@@ -218,7 +216,7 @@ section.body .config-section.fail h3:before {
     height: 32px;
     float: left;
     margin-right: 5px;
-    margin-top: -3px;
+    margin-top: 3px;
 }
 section.body p.lead {
     margin-top: 20px;
@@ -233,6 +231,87 @@ section.body p.lead.with-tick:before {
     float: left;
     margin-right: 5px;
     margin-top: -3px;
+}
+
+.cloud-content {
+    background: #FFF;
+    position: relative;
+    border-radius: 3px;
+    padding: 40px 30px 20px;
+    margin-top: -10px;
+
+}
+.cloud-content:before {
+    position: absolute;
+    content: ' ';
+    width: 100%;
+    height: 39px;
+    display: block;
+    left: 0;
+    top: 0;
+    background: transparent url('../images/clouds-content.gif') repeat-x left bottom;
+}
+
+.side-nav {
+    position: relative;
+    z-index: 20;
+}
+.side-nav h3 {
+    text-transform: uppercase;
+    color: #5b6060;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+.side-nav ul li a {
+    margin-left: -12px;
+    padding: 4px 12px;
+    border-radius: 3px;
+    font-size: 16px;
+}
+.side-nav ul li.active a {
+    background: #0181b9;
+    color: #ffffff;
+}
+
+.page-nav {
+    margin-bottom: 0;
+    margin-top: 20px;
+}
+.page-nav a.btn {
+    padding: 10px 15px;
+    border: none;
+    background-color: #D2D9DD;
+    color: #576061;
+    position: relative;
+}
+.page-nav a.btn:hover {
+    background-color: #0799dc;
+    color: #ffffff;
+}
+.page-nav a.btn:before {
+    position: absolute;
+    top: 13px;
+    font-weight: bold;
+    font-style: normal;
+    font-family: Verdana;
+    text-decoration: inherit;
+    content: "<";
+    font-size: 10px;
+    opacity: .5;
+}
+.page-nav a.btn.prev {
+    padding-left: 30px;
+}
+.page-nav a.btn.prev:before {
+    left: 15px;
+}
+.page-nav a.btn.next {
+    padding-right: 30px;
+}
+.page-nav a.btn.next:before {
+    right: 15px;
+    content: ">";
 }
 
 footer {
