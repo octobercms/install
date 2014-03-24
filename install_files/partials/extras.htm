@@ -1,34 +1,29 @@
-<!-- Search -->
-<form id="installExtrasForm" onsubmit="Installer.Pages.installExtras.searchSubmit(); return false">
-    <div class="product-search">
-        <input class="typeahead" placeholder="search products to install..." id="productSearchInput">
-    </div>
-</form>
+<!-- Configuration form -->
+<div id="installExtras" class="animated-content">
 
-<div class="row">
+    <div class="row">
+        <div class="col-md-3 hidden-sm">
 
-    <div class="col-md-6">
+            <!-- Side Navigation -->
+            <div class="side-nav section-side-nav"></div>
 
-        <!-- Included extras -->
-        <h3>Included <small>(<span id="installExtrasCounter">0</span>)</small></h3>
-        <div class="product-list-empty" id="productListEmpty">
-            <p>You have not added any extras to include with this installation.</p>
-        </div>
-        <ul class="product-list" id="productList"></ul>
-
-    </div>
-    <div class="col-md-6">
-
-        <!-- Recommended extras -->
-        <div id="suggestedProductsContainer" class="suggested-products-container animated-content">
-            <h3>Recommended</h3>
-            <div class="scroll-panel">
-                <div class="row suggested-products" id="suggestedProducts"></div>
+            <div class="side-nav">
+                <h3>Hint</h3>
+                <p>You can always manage these settings later.</p>
             </div>
-        </div>
 
+        </div>
+        <div class="col-md-9">
+
+            <div class="cloud-content">
+                <!-- Configuration Form -->
+                <div class="section-content"></div>
+            </div>
+
+            <!-- Page Navigation -->
+            <div class="btn-group page-nav section-page-nav"></div>
+
+        </div>
     </div>
 
 </div>
-
-

@@ -179,10 +179,7 @@
 }
 
 .product-list-empty {
-    background: #fff;
-    border: 1px dotted rgba(0,0,0,.2);
-    text-align: center;
-    padding: 30px 10px 20px;
+    padding: 5px 0;
     font-size: 16px;
     color: #999;
 }
@@ -273,20 +270,20 @@
     padding: 0;
 }
 .suggested-products .image img {
-    width: 75px;
-    height: 75px;
+    width: 40px;
+    height: 40px;
 }
 .suggested-products .image {
     float: left;
-    margin-right: 15px;
+    margin-right: 10px;
     position: relative;
 }
 .suggested-products .details h5 {
-    margin: 15px 0 0;
-    font-size: 20px;
+    margin: 0 0 3px;
+    font-size: 16px;
 }
 .suggested-products .details p {
-    font-size: 14px;
+    font-size: 12px;
 }
 .suggested-products a {
     color: #777;
@@ -307,12 +304,12 @@
 .suggested-products a:hover .image:after {
     content: "+";
     color: #999;
-    font-size: 64px;
+    font-size: 32px;
     display: block;
-    width: 75px;
-    height: 75px;
+    width: 40px;
+    height: 40px;
     text-align: center;
-    line-height: 75px;
+    line-height: 40px;
     position: absolute;
     top: 0;
     left: 0;
@@ -327,10 +324,10 @@
 .suggested-products a.product-included .image:after {
     content: "";
     background: transparent url('../images/sprite.png') no-repeat;
-    background-size: 75px auto;
+    background-size: 40px auto;
     display: block;
-    width: 75px;
-    height: 75px;
+    width: 40px;
+    height: 40px;
     position: absolute;
     left: 0;
     top: 0;
@@ -346,11 +343,7 @@
     position: relative;
     width: 100%;
     margin: 0 auto 0 auto;
-    padding: 15px;
     text-align: left;
-    background-color: #428bca;
-    border: 1px solid #024e6a;
-    border-radius: 3px;
 }
 
 .twitter-typeahead {
@@ -370,6 +363,7 @@
 
 .typeahead {
     background-color: #fff;
+    border-color: #e0e0e0;
 }
 
 .tt-input {
@@ -382,7 +376,7 @@
 
 .tt-dropdown-menu {
     width: 100%;
-    margin-top: 12px;
+    margin-top: 0;
     background-color: #fff;
     border: 1px solid #ccc;
     border: 1px solid rgba(0, 0, 0, 0.2);

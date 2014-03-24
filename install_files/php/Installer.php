@@ -207,17 +207,32 @@ class Installer
             throw new InstallerException('Please specify a valid file permission mask', 'file_mask');
     }
 
-    protected function onGetPopularPackages()
+    protected function onGetPopularPlugins()
     {
         return $this->requestServerData('package/popular');
     }
 
-    protected function onSearchPackages()
+    protected function onGetPopularThemes()
+    {
+        return $this->requestServerData('package/popular');
+    }
+
+    protected function onSearchPlugins()
+    {
+        return $this->requestServerData('package/search', array('query' => $this->post('query')));
+    }
+
+    protected function onSearchThemes()
     {
         return $this->requestServerData('package/search', array('query' => $this->post('query')));
     }
 
     protected function onPluginDetails()
+    {
+        return $this->requestServerData('plugin/detail', array('code' => $this->post('code')));
+    }
+
+    protected function onThemeDetails()
     {
         return $this->requestServerData('plugin/detail', array('code' => $this->post('code')));
     }

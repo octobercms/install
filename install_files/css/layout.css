@@ -197,16 +197,16 @@ section.body {
 
 section.body .container {
     padding-top: 40px;
-    padding-bottom: 200px;
+    padding-bottom: 125px;
 }
 
-section.body .config-section h3 {
+section.body .section-area h3 {
     font-size: 38px;
 }
-section.body .config-section.fail h3 {
+section.body .section-area.fail h3 {
     color: #b94a48;
 }
-section.body .config-section.fail h3:before {
+section.body .section-area.fail h3:before {
     content: "";
     background: transparent url('../images/sprite.png') no-repeat;
     background-position: 0 -64px;

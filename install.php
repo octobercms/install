@@ -62,8 +62,12 @@
                 'config/admin',
                 'config/advanced',
                 'extras',
+                'extras/project',
+                'extras/plugins',
+                'extras/plugin',
+                'extras/themes',
+                'extras/theme',
                 'extras/suggestion',
-                'extras/product',
                 'progress',
                 'progress/fail',
                 'complete',
@@ -121,6 +125,12 @@
              */
             Installer.Pages.installExtras.title = 'Extras'
             Installer.Pages.installExtras.nextButton = 'Install!'
+
+            Installer.Pages.installExtras.sections = [
+                { code: 'project', label: 'Project', category: 'Extras', partial: 'extras/project' },
+                { code: 'plugins', label: 'Plugins', category: 'Extras', partial: 'extras/plugins' },
+                { code: 'themes', label: 'Theme', category: 'Extras', partial: 'extras/themes' }
+            ]
 
             /*
              * Progress Page
