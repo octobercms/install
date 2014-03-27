@@ -4,33 +4,33 @@
 
 // Expected:
 //   [{ code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' }, ...]
-Installer.Pages.installExtras.includedPlugins = []
-Installer.Pages.installExtras.includedThemes = []
-Installer.Pages.installExtras.suggestedPlugins = []
-Installer.Pages.installExtras.suggestedThemes = []
+Installer.Pages.projectForm.includedPlugins = []
+Installer.Pages.projectForm.includedThemes = []
+Installer.Pages.projectForm.suggestedPlugins = []
+Installer.Pages.projectForm.suggestedThemes = []
 
-Installer.Pages.installExtras.init = function() {
+Installer.Pages.projectForm.init = function() {
 
-    var installExtras = $('#installExtras').addClass('animate fade_in')
-    Installer.renderSections(Installer.Pages.installExtras.sections)
+    var projectForm = $('#projectForm').addClass('animate fade_in')
+    Installer.renderSections(Installer.Pages.projectForm.sections)
 
     $('#suggestedProductsContainer').hide()
 
-    Installer.Pages.installExtras.bindSearch('#pluginSearchInput')
-    Installer.Pages.installExtras.bindSearch('#themeSearchInput')
+    Installer.Pages.projectForm.bindSearch('#pluginSearchInput')
+    Installer.Pages.projectForm.bindSearch('#themeSearchInput')
 
-    Installer.Pages.installExtras.bindSuggested('#suggestedPlugins')
-    Installer.Pages.installExtras.bindSuggested('#suggestedThemes')
+    Installer.Pages.projectForm.bindSuggested('#suggestedPlugins')
+    Installer.Pages.projectForm.bindSuggested('#suggestedThemes')
 
-    Installer.Pages.installExtras.bindIncludeManager('#pluginList')
-    Installer.Pages.installExtras.bindIncludeManager('#themeList')
+    Installer.Pages.projectForm.bindIncludeManager('#pluginList')
+    Installer.Pages.projectForm.bindIncludeManager('#themeList')
 }
 
-Installer.Pages.installExtras.next = function() {
+Installer.Pages.projectForm.next = function() {
     Installer.showPage('installProgress')
 }
 
-Installer.Pages.installExtras.bindSearch = function(el) {
+Installer.Pages.projectForm.bindSearch = function(el) {
     var $el = $(el),
         $form = $el.closest('form'),
         handler = $el.data('handler')
@@ -46,7 +46,7 @@ Installer.Pages.installExtras.bindSearch = function(el) {
 
     // Source for product search
     var engine = new Bloodhound({
-        name: 'extras',
+        name: 'products',
         remote: window.location.pathname + '?handler=' + handler + '&query=%QUERY',
         datumTokenizer: function(d) {
             return Bloodhound.tokenizers.whitespace(d.val)
@@ -82,20 +82,20 @@ Installer.Pages.installExtras.bindSearch = function(el) {
 
 }
 
-Installer.Pages.installExtras.searchSubmit = function(el) {
+Installer.Pages.projectForm.searchSubmit = function(el) {
     var
         $el = $(el),
         $input = $el.find('.product-search-input.tt-input:first')
 
-    Installer.Pages.installExtras.includePackage(el, $input.val())
+    Installer.Pages.projectForm.includePackage(el, $input.val())
     $input.typeahead('val', '')
 }
 
-Installer.Pages.installExtras.bindSuggested = function(el) {
+Installer.Pages.projectForm.bindSuggested = function(el) {
 
     var
         dataSetId = $(el).data('set'),
-        productSet = Installer.Pages.installExtras[dataSetId]
+        productSet = Installer.Pages.projectForm[dataSetId]
 
     /*
      * If no suggested extras are provided, pull them from the server
@@ -105,15 +105,15 @@ Installer.Pages.installExtras.bindSuggested = function(el) {
         $.sendRequest(handler, {}, { loadingIndicator: false }).done(function(result){
             if (!$.isArray(result)) return
             productSet = result
-            Installer.Pages.installExtras.renderSuggested(el, productSet)
+            Installer.Pages.projectForm.renderSuggested(el, productSet)
         })
     }
     else {
-        Installer.Pages.installExtras.renderSuggested(el, productSet)
+        Installer.Pages.projectForm.renderSuggested(el, productSet)
     }
 }
 
-Installer.Pages.installExtras.renderSuggested = function(el, suggestedProducts) {
+Installer.Pages.projectForm.renderSuggested = function(el, suggestedProducts) {
     var $el = $(el),
         $container = $el.closest('.suggested-products-container')
 
@@ -123,12 +123,12 @@ Installer.Pages.installExtras.renderSuggested = function(el, suggestedProducts) 
     else {
         $container.show().addClass('animate fade_in')
         $.each(suggestedProducts, function(index, product){
-            $el.renderPartial('extras/suggestion', product, { append:true })
+            $el.renderPartial('project/suggestion', product, { append:true })
         })
     }
 }
 
-Installer.Pages.installExtras.bindIncludeManager = function(el) {
+Installer.Pages.projectForm.bindIncludeManager = function(el) {
     var
         $el = $(el),
         $list = $el.find('.product-list:first'),
@@ -136,7 +136,7 @@ Installer.Pages.installExtras.bindIncludeManager = function(el) {
         $counter = $el.find('.product-counter:first'),
         partial = $el.data('view'),
         dataSetId = $el.data('set'),
-        includedProducts = Installer.Pages.installExtras[dataSetId]
+        includedProducts = Installer.Pages.projectForm[dataSetId]
 
     if (includedProducts.length == 0) {
         $empty.show()
@@ -151,7 +151,7 @@ Installer.Pages.installExtras.bindIncludeManager = function(el) {
     $counter.text(includedProducts.length)
 }
 
-Installer.Pages.installExtras.findIncludeManagerFromEl = function(el) {
+Installer.Pages.projectForm.findIncludeManagerFromEl = function(el) {
     var $el = $(el)
 
     if ($el.hasClass('product-list-manager'))
@@ -160,16 +160,16 @@ Installer.Pages.installExtras.findIncludeManagerFromEl = function(el) {
     return $(el).closest('[data-manager]').data('manager')
 }
 
-Installer.Pages.installExtras.includePackage = function(el, code) {
+Installer.Pages.projectForm.includePackage = function(el, code) {
     var
-        $el = $(Installer.Pages.installExtras.findIncludeManagerFromEl(el)),
+        $el = $(Installer.Pages.projectForm.findIncludeManagerFromEl(el)),
         $list = $el.find('.product-list:first'),
         $empty = $el.find('.product-list-empty:first'),
         $counter = $el.find('.product-counter:first'),
         handler = $el.data('handler'),
         partial = $el.data('view'),
         dataSetId = $el.data('set'),
-        includedProducts = Installer.Pages.installExtras[dataSetId],
+        includedProducts = Installer.Pages.projectForm[dataSetId],
         productExists = false
 
     $.each(includedProducts, function(index, product){
@@ -186,24 +186,24 @@ Installer.Pages.installExtras.includePackage = function(el, code) {
             $empty.hide()
             $list.renderPartial(partial, product, { append:true })
             $counter.text(includedProducts.length)
-            Installer.Pages.installExtras.hilightIncludedPackages($el)
+            Installer.Pages.projectForm.hilightIncludedPackages($el)
         })
         .fail(function(data){
             alert(data.responseText)
         })
 }
 
-Installer.Pages.installExtras.removePackage = function(el, code) {
+Installer.Pages.projectForm.removePackage = function(el, code) {
     var
-        $el = $(Installer.Pages.installExtras.findIncludeManagerFromEl(el)),
+        $el = $(Installer.Pages.projectForm.findIncludeManagerFromEl(el)),
         $counter = $el.find('.product-counter:first'),
         $empty = $el.find('.product-list-empty:first'),
         dataSetId = $el.data('set'),
-        includedProducts = Installer.Pages.installExtras[dataSetId]
+        includedProducts = Installer.Pages.projectForm[dataSetId]
 
     $el.find('[data-code="'+code+'"]').fadeOut(500, function(){
 
-        Installer.Pages.installExtras[dataSetId] = includedProducts = $.grep(includedProducts, function(product) {
+        Installer.Pages.projectForm[dataSetId] = includedProducts = $.grep(includedProducts, function(product) {
             return product.code != code;
         })
 
@@ -215,13 +215,18 @@ Installer.Pages.installExtras.removePackage = function(el, code) {
     })
 }
 
-Installer.Pages.installExtras.hilightIncludedPackages = function(el) {
+Installer.Pages.projectForm.hilightIncludedPackages = function(el) {
     var
         $el = $(el),
         dataSetId = $el.data('set'),
-        includedProducts = Installer.Pages.installExtras[dataSetId]
+        includedProducts = Installer.Pages.projectForm[dataSetId]
 
     $.each(includedProducts, function(index, product){
         $('[data-code="'+product.code+'"]').addClass('product-included')
     })
+}
+
+
+Installer.Pages.projectForm.showHelp = function(el) {
+    $('#projectFormHelp').slideToggle()
 }

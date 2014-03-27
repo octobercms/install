@@ -10,7 +10,7 @@ body {
 }
 
 body {
-    color: #576061;
+    color: #33495E;
     font-weight: 200;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -18,6 +18,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 h3 {
     font-size: 36px;
+}
+.section-header {
+    text-transform: uppercase;
+    font-weight: 400;
 }
 
 a {
@@ -43,7 +47,30 @@ label {
 .form-control:focus {
     -webkit-box-shadow: none;
     box-shadow: none;
-    border: 1px solid #cccccc;
+    border: 1px solid #E6E9E9;
+}
+input.project-id-input {
+    font-family: monospace;
+}
+input.search-input,
+input.search-input-lg,
+input.user-input,
+input.lock-input {
+    background-repeat: no-repeat;
+    padding-right: 30px !important;
+    background-image: url('../images/bitmap-icons.png');
+}
+input.search-input {
+    background-position: right -84px;
+}
+input.search-input-lg {
+    background-position: right -78px;
+}
+input.user-input {
+    background-position: right -41px;
+}
+input.lock-input {
+    background-position: right 0;
 }
 
 @font-face {
@@ -258,7 +285,7 @@ section.body p.lead.with-tick:before {
 }
 .side-nav h3 {
     text-transform: uppercase;
-    color: #5b6060;
+    color: #C03F31;
     font-size: 14px;
     font-weight: 400;
     margin-bottom: 10px;

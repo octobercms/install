@@ -61,13 +61,13 @@
                 'config/database',
                 'config/admin',
                 'config/advanced',
-                'extras',
-                'extras/project',
-                'extras/plugins',
-                'extras/plugin',
-                'extras/themes',
-                'extras/theme',
-                'extras/suggestion',
+                'project',
+                'project/project',
+                'project/plugins',
+                'project/plugin',
+                'project/themes',
+                'project/theme',
+                'project/suggestion',
                 'progress',
                 'progress/fail',
                 'complete',
@@ -85,7 +85,7 @@
         <script src="install_files/js/app.js"></script>
         <script src="install_files/js/check.js"></script>
         <script src="install_files/js/config.js"></script>
-        <script src="install_files/js/extras.js"></script>
+        <script src="install_files/js/project.js"></script>
         <script src="install_files/js/progress.js"></script>
         <script src="install_files/js/complete.js"></script>
 
@@ -123,13 +123,13 @@
             /*
              * Extras Page
              */
-            Installer.Pages.installExtras.title = 'Extras'
-            Installer.Pages.installExtras.nextButton = 'Install!'
+            Installer.Pages.projectForm.title = 'Packages'
+            Installer.Pages.projectForm.nextButton = 'Install!'
 
-            Installer.Pages.installExtras.sections = [
-                { code: 'project', label: 'Project', category: 'Extras', partial: 'extras/project' },
-                { code: 'plugins', label: 'Plugins', category: 'Extras', partial: 'extras/plugins' },
-                { code: 'themes', label: 'Theme', category: 'Extras', partial: 'extras/themes' }
+            Installer.Pages.projectForm.sections = [
+                { code: 'project', label: 'Project', partial: 'project/project' },
+                { code: 'plugins', label: 'Plugins', partial: 'project/plugins' },
+                { code: 'themes', label: 'Themes', partial: 'project/themes' }
             ]
 
             /*

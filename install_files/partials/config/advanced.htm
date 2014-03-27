@@ -1,13 +1,21 @@
+<p class="lead">
+    Provide a custom URL for the Administration Area.
+</p>
+
 <div class="form-group">
-    <label for="backend_uri" class="control-label col-sm-4">Administration URL</label>
+    <label for="backend_uri" class="control-label col-sm-4">Backend URL</label>
     <div class="col-sm-8">
         <input
             name="backend_uri"
             class="form-control"
             value="/backend" />
+        <span class="help-block">Please specify a value which you will use to access the Backend.</span>
     </div>
 </div>
 
+<p class="lead">
+    Specify a unique code for protecting sensitive data, such as user passwords.
+</p>
 <div class="form-group">
     <label for="encryption_code" class="control-label col-sm-4">Encryption Code</label>
     <div class="col-sm-8">
@@ -15,8 +23,13 @@
             name="encryption_code"
             class="form-control"
             value="RANDOM_STRING" />
+        <span class="help-block">The encryption code should be at least 6 characters in length.</span>
     </div>
 </div>
+
+<p class="lead">
+    Specify a permission mask for folders and files used for installation and software updates.
+</p>
 
 <div class="form-group">
     <label for="folder_mask" class="control-label col-sm-4">File Permission Mask</label>

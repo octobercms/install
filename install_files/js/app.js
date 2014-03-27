@@ -12,7 +12,7 @@ var Installer = {
     Pages: {
         systemCheck:     { isStep1: true, body: 'check' },
         configForm:      { isStep2: true, body: 'config' },
-        installExtras:   { isStep3: true, body: 'extras' },
+        projectForm:     { isStep3: true, body: 'project' },
         installProgress: { isStep4: true, body: 'progress' },
         installComplete: { isStep5: true, body: 'complete' }
     },
@@ -106,6 +106,8 @@ Installer.renderSections = function(sections) {
     $.each(sections, function(index, section){
         var sectionElement = $('<div />').addClass('section-area').attr('data-section-code', section.code)
 
+        if (!section.category) section.category = "NULL"
+
         sectionElement
             .renderPartial(section.partial)
             .prepend($('<h3 />').text(section.label))
@@ -123,6 +125,7 @@ Installer.renderSections = function(sections) {
         if (sideNavCategory.length == 0) {
             sideNavCategory = $('<ul />').addClass('nav').attr('data-section-category', section.category)
             sideNavCategoryTitle = $('<h3 />').text(section.category)
+            if (section.category == "NULL") sideNavCategoryTitle.text('')
             sideNav.append(sideNavCategoryTitle).append(sideNavCategory)
         }
 

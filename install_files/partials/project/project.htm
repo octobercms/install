@@ -1,0 +1,67 @@
+<p class="lead">If you have a Project for this installation, specify it below.</p>
+<!-- <p class="lead text-success with-tick">
+    Project has been assigned to this installation.</p>
+</p> -->
+
+<div class="form-group">
+    <label for="extraProjectId" class="control-label">Project ID</label>
+
+    <div class="input-group">
+        <input
+            name="project_id"
+            class="form-control input-lg project-id-input"
+            value=""
+            id="extraProjectId" />
+        <span class="input-group-btn">
+            <button class="btn btn-lg btn-success" type="button">Check</button>
+        </span>
+    </div>
+
+<!--     <div class="input-group">
+        <input
+            name="project_id"
+            class="form-control input-lg project-id-input"
+            disabled="disabled"
+            value="0ZF0kYJWxZTD4ZGAwBTHmLzEvLGL1MzR5ZGt3AwOyMzSzMGHl"
+            id="extraProjectId" />
+        <span class="input-group-btn">
+            <button class="btn btn-lg btn-danger" type="button">Remove</button>
+        </span>
+    </div> -->
+
+</div>
+
+<ul class="list-inline">
+    <li><a href="javascript:Installer.Pages.projectForm.showHelp()">How to find your Project ID</a></li>
+    <li><a href="javascript:Installer.showSection('plugins')">Skip this step</a></li>
+</ul>
+
+<div id="projectFormHelp" style="display:none">
+    <h4>What is a Project?</h4>
+    <p>Using Project lets you build collections of Plugins and Themes, they are created on <a href="http://octobercms.com" target="_blank">OctoberCMS.com</a>.</p>
+
+    <h4>Where can I find my Project ID?</h4>
+    <p>You can find your project by signing in to <a href="http://octobercms.com" target="_blank">OctoberCMS.com</a> and clicking Projects in the My Account area.</p>
+</div>
+
+
+
+<!-- <table class="table table-bordered">
+    <tr>
+        <th class="col-md-2">Name</th>
+        <td>Viva Las Vegas</td>
+    </tr>
+    <tr>
+        <th class="col-md-2">Owner</th>
+        <td>Spark McChowder</td>
+    </tr>
+    <tr>
+        <th class="col-md-2">Description</th>
+        <td>The quick brown fox jumped over the lazy log</td>
+    </tr>
+</table>
+
+<ul class="list-inline">
+    <li><a href="javascript:Installer.showSection('plugins')">View Plugins</a></li>
+    <li><a href="javascript:Installer.showSection('themes')">View Themes</a></li>
+</ul>
