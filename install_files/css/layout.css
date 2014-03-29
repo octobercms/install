@@ -266,7 +266,6 @@ section.body p.lead.with-tick:before {
     border-radius: 3px;
     padding: 40px 30px 20px;
     margin-top: -10px;
-
 }
 .cloud-content:before {
     position: absolute;
@@ -277,6 +276,11 @@ section.body p.lead.with-tick:before {
     left: 0;
     top: 0;
     background: transparent url('../images/clouds-content.gif') repeat-x left bottom;
+}
+.cloud-content .cp-button {
+    position: absolute;
+    top: 60px;
+    right: 30px
 }
 
 .side-nav {

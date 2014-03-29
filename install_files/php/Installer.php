@@ -209,32 +209,32 @@ class Installer
 
     protected function onGetPopularPlugins()
     {
-        return $this->requestServerData('package/popular');
+        return $this->requestServerData('plugin/popular');
     }
 
     protected function onGetPopularThemes()
     {
-        return $this->requestServerData('package/popular');
+        return $this->requestServerData('theme/popular');
     }
 
     protected function onSearchPlugins()
     {
-        return $this->requestServerData('package/search', array('query' => $this->post('query')));
+        return $this->requestServerData('plugin/search', array('query' => $this->post('query')));
     }
 
     protected function onSearchThemes()
     {
-        return $this->requestServerData('package/search', array('query' => $this->post('query')));
+        return $this->requestServerData('theme/search', array('query' => $this->post('query')));
     }
 
     protected function onPluginDetails()
     {
-        return $this->requestServerData('plugin/detail', array('code' => $this->post('code')));
+        return $this->requestServerData('plugin/detail', array('name' => $this->post('code')));
     }
 
     protected function onThemeDetails()
     {
-        return $this->requestServerData('plugin/detail', array('code' => $this->post('code')));
+        return $this->requestServerData('plugin/detail', array('name' => $this->post('code')));
     }
 
     protected function onInstallStep()
@@ -249,7 +249,7 @@ class Installer
                 foreach ($plugins as $plugin) {
                     if (isset($plugin['code'])) $pluginCodes[] = $plugin['code'];
                 }
-                $result = $this->requestServerData('install/public', array(
+                $result = $this->requestServerData('install', array(
                     'plugins' => $pluginCodes
                 ));
                 break;
@@ -265,7 +265,7 @@ class Installer
                 if (!$name)
                     throw new Exception('Plugin download failed, missing name');
 
-                $data = $this->requestServerData('plugin/get/public', array('name' => $name));
+                $data = $this->requestServerData('plugin/get', array('name' => $name));
                 $expectedHash = $this->getHashFromMeta($name, 'plugin');
                 $result = $this->processFileResponse($data, $name, $expectedHash);
                 break;

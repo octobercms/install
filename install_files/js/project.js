@@ -24,6 +24,12 @@ Installer.Pages.projectForm.init = function() {
 
     Installer.Pages.projectForm.bindIncludeManager('#pluginList')
     Installer.Pages.projectForm.bindIncludeManager('#themeList')
+
+    /*
+     * Hide the project section initially
+     */
+    Installer.toggleSection('project')
+    Installer.showSection('plugins')
 }
 
 Installer.Pages.projectForm.next = function() {
@@ -138,6 +144,9 @@ Installer.Pages.projectForm.bindIncludeManager = function(el) {
         dataSetId = $el.data('set'),
         includedProducts = Installer.Pages.projectForm[dataSetId]
 
+    if (!$el.length)
+        return
+
     if (includedProducts.length == 0) {
         $empty.show()
     }
@@ -226,6 +235,13 @@ Installer.Pages.projectForm.hilightIncludedPackages = function(el) {
     })
 }
 
+
+Installer.Pages.projectForm.showProject = function() {
+
+    $('.btn-show-project').hide()
+    Installer.toggleSection('project', true)
+    Installer.showSection('project')
+}
 
 Installer.Pages.projectForm.showHelp = function(el) {
     $('#projectFormHelp').slideToggle()

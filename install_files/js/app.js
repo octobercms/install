@@ -147,7 +147,7 @@ Installer.renderSectionNav = function() {
             var nextStep = sections[index+1] ? sections[index+1] : null,
                 lastStep = sections[index-1] ? sections[index-1] : null
 
-            if (lastStep) {
+            if (lastStep && Installer.isSectionVisible(lastStep.code)) {
                 $('<a />')
                     .text(lastStep.label)
                     .addClass('btn btn-default prev')
@@ -155,7 +155,7 @@ Installer.renderSectionNav = function() {
                     .appendTo(pageNav)
             }
 
-            if (nextStep) {
+            if (nextStep && Installer.isSectionVisible(nextStep.code)) {
                 $('<a />')
                     .text(nextStep.label)
                     .addClass('btn btn-default next')
@@ -182,6 +182,28 @@ Installer.showSection = function(code) {
 
     Installer.ActiveSection = code
     Installer.renderSectionNav()
+}
+
+Installer.toggleSection = function(code, state) {
+    var
+        stepContainer = $('#' + Installer.ActivePage),
+        sideNav = stepContainer.find('.section-side-nav:first'),
+        menuItem = sideNav.find('[data-section-code="'+code+'"]:first'),
+        container = stepContainer.find('.section-content:first'),
+        sectionElement = container.find('[data-section-code="'+code+'"]:first')
+
+    if (state) {
+        menuItem.show()
+        sectionElement.show()
+    }
+    else {
+        menuItem.hide()
+        sectionElement.hide()
+    }
+}
+
+Installer.isSectionVisible = function(code) {
+    return $('#' + Installer.ActivePage + ' [data-section-code="'+code+'"]:first').is(':visible')
 }
 
 $.fn.extend({
