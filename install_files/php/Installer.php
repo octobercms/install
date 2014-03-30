@@ -277,7 +277,12 @@ class Installer
 
                 $result = $this->unzipFile('core');
                 if (!$result)
-                    throw new Exception('Unable to open core archive file');
+                    throw new Exception('Unable to open application archive file');
+
+                if (!file_exists(PATH_INSTALL . '/index.php')
+                        || !is_dir(PATH_INSTALL . '/modules')
+                        || !is_dir(PATH_INSTALL . '/vendor'))
+                    throw new Exception('Could not extract application files');
 
                 $this->moveHtaccess(null, 'october');
                 $this->moveHtaccess('installer', null);

@@ -137,14 +137,14 @@
              */
             Installer.Pages.installProgress.title = 'Installing October...'
             Installer.Pages.installProgress.steps = [
-                { code: 'getMetaData', label: 'Download file hashes' },
-                { code: 'downloadCore', label: 'Download the core archive' },
+                { code: 'getMetaData', label: 'Requesting package information' },
+                { code: 'downloadCore', label: 'Downloading application files' },
                 { code: 'downloadPlugins', label: 'Downloading plugin: ' },
-                { code: 'extractCore', label: 'Extracting core' },
-                { code: 'extractPlugins', label: 'Extracting plugin: ' },
-                { code: 'setupConfig', label: 'Set up config files' },
+                { code: 'extractCore', label: 'Opening application files' },
+                { code: 'extractPlugins', label: 'Opening plugin: ' },
+                { code: 'setupConfig', label: 'Building configuration files' },
                 { code: 'createAdmin', label: 'Create admin account' },
-                { code: 'finishInstall', label: 'Finalizing installation' }
+                { code: 'finishInstall', label: 'Finishing installation' }
             ]
 
             /*
