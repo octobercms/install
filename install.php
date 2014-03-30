@@ -135,7 +135,7 @@
             /*
              * Progress Page
              */
-            Installer.Pages.installProgress.title = 'Installing October...'
+            Installer.Pages.installProgress.title = 'Installation progress...'
             Installer.Pages.installProgress.steps = [
                 { code: 'getMetaData', label: 'Requesting package information' },
                 { code: 'downloadCore', label: 'Downloading application files' },
