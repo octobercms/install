@@ -249,13 +249,15 @@ class Installer
                 foreach ($plugins as $plugin) {
                     if (isset($plugin['code'])) $pluginCodes[] = $plugin['code'];
                 }
-                $result = $this->requestServerData('install', array(
+                $result = $this->requestServerData('core/install', array(
                     'plugins' => $pluginCodes
                 ));
                 break;
 
             case 'downloadCore':
-                $data = $this->requestServerData('core/get');
+                $data = $this->requestServerData('core/get', array(
+                    'type' => 'install'
+                ));
                 $expectedHash = $this->getHashFromMeta('core');
                 $result = $this->processFileResponse($data, 'core', $expectedHash);
                 break;
