@@ -255,11 +255,8 @@ class Installer
                 break;
 
             case 'downloadCore':
-                $data = $this->requestServerData('core/get', array(
-                    'type' => 'install'
-                ));
-                $expectedHash = $this->getHashFromMeta('core');
-                $result = $this->processFileResponse($data, 'core', $expectedHash);
+                $hash = $this->getHashFromMeta('core');
+                $this->requestServerFile('core', $hash, 'core/get', array('type' => 'install'));
                 break;
 
             case 'downloadPlugin':
@@ -267,9 +264,8 @@ class Installer
                 if (!$name)
                     throw new Exception('Plugin download failed, missing name');
 
-                $data = $this->requestServerData('plugin/get', array('name' => $name));
-                $expectedHash = $this->getHashFromMeta($name, 'plugin');
-                $result = $this->processFileResponse($data, $name, $expectedHash);
+                $hash = $this->getHashFromMeta($name, 'plugin');
+                $this->requestServerFile($name, $hash, 'plugin/get', array('name' => $name));
                 break;
 
             case 'extractCore':
@@ -466,42 +462,6 @@ class Installer
         return false;
     }
 
-    private function processFileResponse($data, $fileCode, $expectedHash)
-    {
-        if (!isset($data['data']))
-            throw new Exception('Invalid response from server');
-
-        try {
-            $data = base64_decode($data['data']);
-        }
-        catch (Exception $ex) {
-            throw new Exception('Invalid response from server');
-        }
-
-        $filePath = $this->putFile($fileCode, $data);
-        $fileHash = md5_file($filePath);
-
-        if ($expectedHash != $fileHash) {
-            unlink($filePath); // @todo use Cleanup instead
-            // $this->cleanUp();
-            throw new Exception('File from server is corrupt');
-        }
-
-        return true;
-    }
-
-    private function putFile($fileCode, $contents)
-    {
-        $name = md5($fileCode) . '.arc';
-
-        if (!file_exists($this->tempDirectory))
-            mkdir($this->tempDirectory, 0777, true); // @todo Use config
-
-        $filePath = $this->tempDirectory . '/' . $name;
-        file_put_contents($filePath, $contents);
-        return $filePath;
-    }
-
     private function getFilePath($fileCode)
     {
         $name = md5($fileCode) . '.arc';
@@ -519,37 +479,22 @@ class Installer
         $app->boot();
     }
 
-    private function cleanUp()
-    {
-        // @todo This should trash the files in the temporary directory
-    }
-
     private function requestServerData($uri = null, $params = array())
     {
         $result = null;
         $error = null;
         try {
-            $postData = http_build_query($params, '', '&');
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, OCTOBER_GATEWAY.'/'.$uri);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 3600);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION , true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 
-            if (defined('OCTOBER_GATEWAY_AUTH')) {
-                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-                curl_setopt($ch, CURLOPT_USERPWD, OCTOBER_GATEWAY_AUTH);
-            }
+            $curl = $this->prepareServerRequest($uri, $params);
+            $result = curl_exec($curl);
 
-            $result = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             if ($httpCode == 500) {
                 $error = $result;
                 $result = '';
             }
+
+            curl_close($curl);
         }
         catch (Exception $ex) {}
 
@@ -572,6 +517,65 @@ class Installer
         }
 
         return $_result;
+    }
+
+    private function requestServerFile($fileCode, $expectedHash, $uri = null, $params = array())
+    {
+        $result = null;
+        $error = null;
+        try {
+
+            if (!file_exists($this->tempDirectory))
+                mkdir($this->tempDirectory, 0777, true); // @todo Use config
+
+            $filePath = $this->getFilePath($fileCode);
+            $stream = fopen($filePath, 'w');
+            stream_filter_append($stream, 'convert.base64-decode', STREAM_FILTER_WRITE);
+
+            $curl = $this->prepareServerRequest($uri, $params);
+            curl_setopt($curl, CURLOPT_FILE, $stream);
+            curl_exec($curl);
+
+            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            if ($httpCode == 500)
+                $error = true;
+
+            curl_close($curl);
+            fclose($stream);
+        }
+        catch (Exception $ex) {
+            $error = true;
+        }
+
+        if ($error !== null)
+            throw new Exception('Server failed to deliver the package');
+
+        $fileHash = md5_file($filePath);
+        if ($expectedHash != $fileHash) {
+            unlink($filePath);
+            throw new Exception('Package files from server are corrupt');
+        }
+
+        return true;
+    }
+
+    private function prepareServerRequest($uri, $params = array())
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, OCTOBER_GATEWAY.'/'.$uri);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 3600);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION , true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params, '', '&'));
+
+        if (defined('OCTOBER_GATEWAY_AUTH')) {
+            curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+            curl_setopt($curl, CURLOPT_USERPWD, OCTOBER_GATEWAY_AUTH);
+        }
+
+        return $curl;
     }
 
     private function post($var, $default = null)

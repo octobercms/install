@@ -22,25 +22,6 @@ define('OCTOBER_GATEWAY', 'http://octobercms.com/api');
 if (!ini_get('safe_mode'))
     set_time_limit(3600);
 
-if (installerReturnBytes(ini_get('memory_limit')) < 276824064) // 264M in bytes
-    ini_set('memory_limit', '264M');
-
-function installerReturnBytes($val)
-{
-    $val = trim($val);
-    $last = strtolower($val[strlen($val)-1]);
-    switch($last) {
-        case 'g':
-            $val *= 1024;
-        case 'm':
-            $val *= 1024;
-        case 'k':
-            $val *= 1024;
-    }
-
-    return $val;
-}
-
 /*
  * Handle fatal errors with AJAX
  */
