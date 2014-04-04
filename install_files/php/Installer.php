@@ -234,7 +234,7 @@ class Installer
 
     protected function onThemeDetails()
     {
-        return $this->requestServerData('plugin/detail', array('name' => $this->post('code')));
+        return $this->requestServerData('theme/detail', array('name' => $this->post('code')));
     }
 
     protected function onInstallStep()
@@ -419,10 +419,10 @@ class Installer
     {
         $this->bootFramework();
 
-        $settings = call_user_func('System\Models\CoreSettings::instance');
-        $settings->hash = post('hash');
-        $settings->build = post('build');
-        $settings->save();
+        call_user_func('System\Models\Parameters::set', [
+            'system::core.hash'  => post('hash'),
+            'system::core.build' => post('build'),
+        ]);
     }
 
     //
