@@ -218,8 +218,9 @@ section.title h2 {
 }
 
 section.body {
-    background: #ecf0f1;
+    z-index: 3;
     overflow: hidden;
+    position: relative;
 }
 
 section.body .container {

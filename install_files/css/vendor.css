@@ -48,6 +48,7 @@
     position: absolute;
     background-color: transparent;
     background-image: url('../images/leaves.png');
+    z-index: 4;
     -webkit-transform: translateZ(0);
     -moz-transform: translateZ(0);
     transform: translateZ(0);
