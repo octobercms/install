@@ -42,7 +42,9 @@ class Installer
         $this->configDirectory = $this->baseDirectory . '/app/config';
         $this->logFile = PATH_INSTALL . '/install_files/install.log';
 
-        if ($handler = $this->post('handler')) {
+        if (!is_null($handler = $this->post('handler'))) {
+            if (!strlen($handler)) exit;
+
             try {
                 $this->log('Execute AJAX handler: %s', $handler);
 
@@ -60,6 +62,8 @@ class Installer
                 $this->log(array('Trace log:', '%s'), $ex->getTraceAsString());
                 die($ex->getMessage());
             }
+
+            exit;
         }
     }
 
@@ -242,6 +246,7 @@ class Installer
     protected function onInstallStep()
     {
         $installStep = $this->post('step');
+        $this->log('Install step: %s', $installStep);
         $result = false;
 
         switch ($installStep) {
@@ -310,6 +315,8 @@ class Installer
                 $this->moveHtaccess('october', null);
                 break;
         }
+
+        $this->log('Step %s %s', $installStep, ($result ? '+OK' : '=FAIL'));
 
         return array('result' => $result);
     }
