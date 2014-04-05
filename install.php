@@ -128,8 +128,8 @@
 
             Installer.Pages.projectForm.sections = [
                 { code: 'project', label: 'Project', partial: 'project/project' },
-                { code: 'plugins', label: 'Plugins', partial: 'project/plugins' },
-                { code: 'themes', label: 'Themes', partial: 'project/themes' }
+                { code: 'plugins', label: 'Plugins', partial: 'project/plugins' }
+                // { code: 'themes', label: 'Themes', partial: 'project/themes' }
             ]
 
             /*
