@@ -316,7 +316,7 @@ class Installer
                 break;
         }
 
-        $this->log('Step %s %s', $installStep, ($result ? '+OK' : '=FAIL'));
+        $this->log('Step %s +OK', $installStep);
 
         return array('result' => $result);
     }
@@ -510,7 +510,7 @@ class Installer
 
         $filename = $this->logFile;
         $stream = fopen($filename, 'a');
-        $string = "[" . date("Y/m/d h:i:s", mktime()) . "] " . vsprintf($message, $args);
+        $string = "[" . date("Y/m/d h:i:s", time()) . "] " . vsprintf($message, $args);
         fwrite($stream, $string . PHP_EOL);
         fclose($stream);
     }
