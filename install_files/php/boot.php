@@ -28,10 +28,14 @@ if (!ini_get('safe_mode'))
 register_shutdown_function('installerShutdown');
 function installerShutdown()
 {
+    global $installer;
     $error = error_get_last();
     if ($error['type'] == 1) {
         header('HTTP/1.1 500 Internal Server Error');
-        echo htmlspecialchars_decode(strip_tags($error['message']));
+        $errorMsg = htmlspecialchars_decode(strip_tags($error['message']));
+        echo $errorMsg;
+        if (isset($installer))
+            $installer->log('Fatal error: %s on line %s in file %s', $errorMsg, $error['line'], $error['file']);
         exit;
     }
 }
@@ -43,4 +47,9 @@ require_once 'InstallerException.php';
 require_once 'InstallerRewrite.php';
 require_once 'Installer.php';
 
-$installer = new Installer($isDebug);
+$installer = new Installer();
+$installer->cleanLog();
+$installer->log('Host: %s', php_uname());
+$installer->log('Operating system: %s', PHP_OS);
+$installer->log('Memory limit: %s', ini_get('memory_limit'));
+$installer->log('Max execution time: %s', ini_get('max_execution_time'));

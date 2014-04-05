@@ -3,11 +3,6 @@
 class Installer
 {
     /**
-     * @var bool Flag to put installer in debugging mode.
-     */
-    private $debugMode;
-
-    /**
      * @var Illuminate\Foundation\Application Framework application object, when booted.
      */
     protected $app;
@@ -35,9 +30,8 @@ class Installer
     /**
      * Constructor/Router
      */
-    public function __construct($debugMode = false)
+    public function __construct()
     {
-        $this->debugMode = $debugMode;
         $this->rewriter = new InstallerRewrite;
 
         /*
@@ -46,9 +40,12 @@ class Installer
         $this->baseDirectory = PATH_INSTALL;
         $this->tempDirectory = PATH_INSTALL . '/install_files/temp'; // @todo Use sys_get_temp_dir()
         $this->configDirectory = $this->baseDirectory . '/app/config';
+        $this->logFile = PATH_INSTALL . '/install_files/install.log';
 
         if ($handler = $this->post('handler')) {
             try {
+                $this->log('Execute AJAX handler: %s', $handler);
+
                 if (!preg_match('/^on[A-Z]{1}[\w+]*$/', $handler))
                     throw new Exception(sprintf('Invalid handler: %s', $handler));
 
@@ -59,6 +56,8 @@ class Installer
             }
             catch (Exception $ex) {
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+                $this->log('Handler error (%s): %s', $handler, $ex->getMessage());
+                $this->log(array('Trace log:', '%s'), $ex->getTraceAsString());
                 die($ex->getMessage());
             }
         }
@@ -67,6 +66,8 @@ class Installer
     protected function onCheckRequirement()
     {
         $checkCode = $this->post('code');
+        $this->log('System check: %s', $checkCode);
+
         $result = false;
         switch ($checkCode) {
             case 'liveConnection':
@@ -95,6 +96,7 @@ class Installer
                 break;
         }
 
+        $this->log('Requirement %s %s', $checkCode, ($result ? '+OK' : '=FAIL'));
         return array('result' => $result);
     }
 
@@ -469,6 +471,44 @@ class Installer
     }
 
     //
+    // Logging
+    //
+
+    public function cleanLog()
+    {
+        $message = array(
+            ".====================================================================.",
+            "                                                                      ",
+            " .d8888b.   .o8888b.   db  .d8888b.  d8888b. d88888b d8888b.  .d888b. ",
+            ".8P    Y8. d8P    Y8   88 .8P    Y8. 88  `8D 88'     88  `8D .8P , Y8.",
+            "88      88 8P      oooo88 88      88 88oooY' 88oooo  88oobY' 88  |  88",
+            "88      88 8b      ~~~~88 88      88 88~~~b. 88~~~~  88`8b   88  |/ 88",
+            "`8b    d8' Y8b    d8   88 `8b    d8' 88   8D 88.     88 `88. `8b | d8'",
+            " `Y8888P'   `Y8888P'   YP  `Y8888P'  Y8888P' Y88888P 88   YD  `Y888P' ",
+            "                                                                      ",
+            "`========================== INSTALLATION LOG ========================'",
+            "",
+        );
+
+        file_put_contents($this->logFile, implode(PHP_EOL, $message) . PHP_EOL);
+    }
+
+    public function log()
+    {
+        $args = func_get_args();
+        $message = array_shift($args);
+
+        if (is_array($message))
+            $message = implode(PHP_EOL, $message);
+
+        $filename = $this->logFile;
+        $stream = fopen($filename, 'a');
+        $string = "[" . date("Y/m/d h:i:s", mktime()) . "] " . vsprintf($message, $args);
+        fwrite($stream, $string . PHP_EOL);
+        fclose($stream);
+    }
+
+    //
     // Helpers
     //
 
@@ -484,15 +524,18 @@ class Installer
         $result = null;
         $error = null;
         try {
-
             $curl = $this->prepareServerRequest($uri, $params);
             $result = curl_exec($curl);
+
+            $this->log('Server request: %s', $uri);
 
             $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             if ($httpCode == 500) {
                 $error = $result;
                 $result = '';
             }
+
+            $this->log('Request information: %s', print_r(curl_getinfo($curl), true));
 
             curl_close($curl);
         }
@@ -510,10 +553,8 @@ class Installer
         catch (Exception $ex) {}
 
         if (!is_array($_result)) {
-            if ($this->debugMode)
-                throw new Exception('Invalid server response: '. $result);
-            else
-                throw new Exception('Server returned an invalid response.');
+            $this->log('Server response: '. $result);
+            throw new Exception('Server returned an invalid response.');
         }
 
         return $_result;
