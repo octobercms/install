@@ -530,7 +530,6 @@ class Installer
 
             $filePath = $this->getFilePath($fileCode);
             $stream = fopen($filePath, 'w');
-            stream_filter_append($stream, 'convert.base64-decode', STREAM_FILTER_WRITE);
 
             $curl = $this->prepareServerRequest($uri, $params);
             curl_setopt($curl, CURLOPT_FILE, $stream);
