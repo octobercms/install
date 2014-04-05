@@ -592,6 +592,8 @@ class Installer
 
         $fileHash = md5_file($filePath);
         if ($expectedHash != $fileHash) {
+            $this->log('File hash mismatch: %s (expected) vs %s (actual)', $expectedHash, $fileHash);
+            $this->log('Local file size: %s', filesize($filePath));
             unlink($filePath);
             throw new Exception('Package files from server are corrupt');
         }
