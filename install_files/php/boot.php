@@ -17,7 +17,7 @@ define('PATH_INSTALL', str_replace("\\", "/", realpath(dirname(__FILE__)."/../..
 define('OCTOBER_GATEWAY', 'http://octobercms.com/api');
 
 /*
- * Address timeout and memory limits
+ * Address timeout limits
  */
 if (!ini_get('safe_mode'))
     set_time_limit(3600);
