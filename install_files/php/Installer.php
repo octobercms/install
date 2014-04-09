@@ -89,11 +89,14 @@ class Installer
             case 'pdoLibrary':
                 $result = defined('PDO::ATTR_DRIVER_NAME');
                 break;
-            case 'curlLibrary':
-                $result = function_exists('curl_init');
-                break;
             case 'mcryptLibrary':
                 $result = extension_loaded('mcrypt');
+                break;
+            case 'gdLibrary':
+                $result = extension_loaded('gd');
+                break;
+            case 'curlLibrary':
+                $result = function_exists('curl_init');
                 break;
             case 'zipLibrary':
                 $result = class_exists('ZipArchive');

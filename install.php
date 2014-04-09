@@ -105,7 +105,8 @@
                 { code: 'writePermission', label: 'Permission to write to the installation directory' },
                 { code: 'pdoLibrary', label: 'PDO PHP Extension is installed' },
                 { code: 'mcryptLibrary', label: 'MCrypt PHP Extension is installed' },
-                { code: 'zipLibrary', label: 'ZipArchive PHP Library is installed' }
+                { code: 'zipLibrary', label: 'ZipArchive PHP Library is installed' },
+                { code: 'gdLibrary', label: 'GD PHP Library is installed' }
             ]
 
             /*
