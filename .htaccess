@@ -1,1 +1,15 @@
 DirectoryIndex index.php index.html install.php
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_URI} !^$
+	RewriteRule ^(.+)$ http://%{HTTP_HOST}/ [L,R=301]
+
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^(.*)$ install.php [L]
+</IfModule>
