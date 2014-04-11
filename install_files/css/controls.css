@@ -10,7 +10,11 @@
 }
 .progress-bar-container .progress {
     margin-top: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
+    background: white;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 .progress-bar-container.loading {
     -webkit-transition: none;
@@ -76,18 +80,26 @@
     border-radius: 3px;
     font-weight: 400;
 }
+.callout p {
+    font-size: 14px;
+}
 .callout a {
     color: #fff;
 }
 .callout a.btn {
     color: #333;
+    border-width: 0!important;
 }
 .callout a.btn:hover {
     color: #000;
 }
+.callout small {
+    font-size: 12px;
+}
 .callout h4 {
     margin-top: 0;
-    margin-bottom: 5px;
+    font-size: 20px;
+    margin-bottom: 18px;
     font-weight: 400;
     color: #fff;
 }
@@ -118,7 +130,7 @@
     min-height: 32px;
     background: #FFF;
     position: relative;
-    font-size: 16px;
+    font-size: 14px;
 }
 .system-check li:before {
     content: "";
@@ -149,8 +161,11 @@
     overflow: auto;
     max-height: 250px;
     background: #fff;
-    font-size: 12px;
+    font-size: 14px;
     border-radius: 3px;
+}
+.scroll-panel p:last-child {
+    margin-bottom: 0;
 }
 .app-eula .scroll-panel {
     height: 350px;
@@ -206,6 +221,7 @@
     width: 20px;
     height: 20px;
     opacity: 0;
+    outline: none;
 }
 .product-list li:hover button {
     opacity: .3;
@@ -218,11 +234,15 @@
 
 }
 .plugin-list li {
+    list-style: none;
     position: relative;
     border-bottom: 1px solid #E6E9E9;
     margin-bottom: 10px;
     padding-bottom: 10px;
     overflow: hidden;
+}
+.plugin-list li:last-child {
+    border-bottom: none;
 }
 .plugin-list li .image {
     float: left;
@@ -235,7 +255,7 @@
 }
 .plugin-list li .details p {
     padding: 0;
-    margin: 0;
+    margin: 3px 0 0 0;
     color: #808C8D;
 }
 .plugin-list li h4 {
@@ -347,7 +367,7 @@
     text-align: center;
     line-height: 40px;
     position: absolute;
-    top: 0;
+    top: -3px;
     left: 0;
 }
 .suggested-products a:hover:not(.product-included) .image img {
