@@ -431,10 +431,10 @@ class Installer
     {
         $this->bootFramework();
 
-        call_user_func('System\Models\Parameters::set', [
+        call_user_func('System\Models\Parameters::set', array(
             'system::core.hash'  => post('hash'),
             'system::core.build' => post('build'),
-        ]);
+        ));
     }
 
     //
