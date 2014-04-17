@@ -13,6 +13,9 @@ Installer.Pages.configForm.init = function() {
         configFormDatabase = $('#configFormDatabase')
 
     configFormDatabase.renderPartial('config/mysql')
+
+    // Set the encryption code with a random string
+    $('#advEncryptionCode').val(Math.random().toString(36).slice(2))
 }
 
 Installer.Pages.configForm.next = function() {
@@ -41,7 +44,7 @@ Installer.Pages.configForm.next = function() {
 
                 // Scroll browser to the bottom of the error
                 var scrollTo = configFormFailed.offset().top - $(window).height() + configFormFailed.height() + 10
-                $('body,html').animate({ scrollTop: scrollTo })
+                $('body, html').animate({ scrollTop: scrollTo })
             })
         })
     })

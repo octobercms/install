@@ -3,9 +3,10 @@
 </p>
 
 <div class="form-group">
-    <label for="backend_uri" class="control-label col-sm-4">Backend URL</label>
+    <label for="advBackendUri" class="control-label col-sm-4">Backend URL</label>
     <div class="col-sm-8">
         <input
+            id="advBackendUri"
             name="backend_uri"
             class="form-control"
             value="/backend" />
@@ -17,9 +18,10 @@
     Specify a unique code for protecting sensitive data, such as user passwords.
 </p>
 <div class="form-group">
-    <label for="encryption_code" class="control-label col-sm-4">Encryption Code</label>
+    <label for="advEncryptionCode" class="control-label col-sm-4">Encryption Code</label>
     <div class="col-sm-8">
         <input
+            id="advEncryptionCode"
             name="encryption_code"
             class="form-control"
             value="RANDOM_STRING" />
@@ -32,9 +34,10 @@
 </p>
 
 <div class="form-group">
-    <label for="folder_mask" class="control-label col-sm-4">File Permission Mask</label>
+    <label for="advFolderMask" class="control-label col-sm-4">File Permission Mask</label>
     <div class="col-sm-8">
         <input
+            id="advFolderMask"
             name="folder_mask"
             class="form-control"
             value="777" />
@@ -42,9 +45,10 @@
 </div>
 
 <div class="form-group">
-    <label for="file_mask" class="control-label col-sm-4">Folder Permission Mask</label>
+    <label for="advFileMask" class="control-label col-sm-4">Folder Permission Mask</label>
     <div class="col-sm-8">
         <input
+            id="advFileMask"
             name="file_mask"
             class="form-control"
             value="777" />

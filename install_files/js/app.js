@@ -58,10 +58,17 @@ Installer.showPage = function(pageId, noPush) {
     $('#containerFooter').renderPartial('footer', page)
 
     /*
-     * @todo Cache the body load instead of resetting it on a secondary load 
+     * Check if the content container exists already, if not, create it
      */
-    $('#containerBody').renderPartial(page.body, page)
-    page.init && page.init()
+    var pageContainer = $('#containerBody').find('.pageContainer-' + pageId);
+    if (!pageContainer.length) {
+        pageContainer = $('<div />').addClass('pageContainer-' + pageId);
+        pageContainer.renderPartial(page.body, page)
+        $('#containerBody').append(pageContainer);
+        page.init && page.init()
+    }
+
+    pageContainer.show().siblings().hide();
 
     // New page, add it to the history
     if (history.pushState && !noPush) {
@@ -278,8 +285,12 @@ $.extend({
 })
 
 window.onpopstate = function(event) {
+    // If progress page has rendered, disable navigation
+    if (Installer.Pages.installProgress.isRendered) {
+        // Do nothing
+    }
     // Navigate back/foward through a known push state
-    if (event.state) {
+    else if (event.state) {
         // Only allow navigation to previously rendered pages
         var noPop = (!Installer.Pages[event.state.page].isRendered || Installer.ActivePage == event.state.page)
         if (!noPop)

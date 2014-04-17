@@ -4,9 +4,9 @@
     <label for="dbType" class="control-label col-sm-4">Database Type</label>
     <div class="col-sm-8">
         <select
+            id="dbType"
             name="db_type"
             class="form-control"
-            id="dbType"
             onchange="Installer.Pages.configForm.toggleDatabase(this)">
             <option value="mysql">MySQL</option>
             <option value="pgsql">Postgres</option>

@@ -316,6 +316,7 @@ class Installer
                 $this->setCoreBuild();
                 $this->moveHtaccess(null, 'installer');
                 $this->moveHtaccess('october', null);
+                $this->cleanUp();
                 break;
         }
 
@@ -335,7 +336,7 @@ class Installer
         $this->rewriter->toFile($this->configDirectory . '/app.php', array(
             'url'    => $this->getBaseUrl(),
             'locale' => 'en',
-            'key'    => $this->post('encryption_code', 'WAKKA_WAKKA!!!'),
+            'key'    => $this->post('encryption_code', 'ChangeMe!123'),
         ));
 
         $this->rewriter->toFile($this->configDirectory . '/cms.php', array(
@@ -457,6 +458,8 @@ class Installer
     {
         $source = $this->getFilePath($fileCode);
         $destination = $this->baseDirectory;
+
+        $this->log('Extracting file (%s): %s', $fileCode, basename($source));
 
         if ($directory)
             $destination .= '/' . $directory;
@@ -604,9 +607,11 @@ class Installer
         if ($expectedHash != $fileHash) {
             $this->log('File hash mismatch: %s (expected) vs %s (actual)', $expectedHash, $fileHash);
             $this->log('Local file size: %s', filesize($filePath));
-            unlink($filePath);
+            @unlink($filePath);
             throw new Exception('Package files from server are corrupt');
         }
+
+        $this->log('Saving to file (%s): %s', $fileCode, $filePath);
 
         return true;
     }
@@ -676,5 +681,25 @@ class Installer
         }
 
         return $baseUrl;
+    }
+
+    public function cleanUp()
+    {
+        $path = $this->tempDirectory;
+        if (!file_exists($path))
+            return;
+
+        $d = dir($path);
+        while (($entry = $d->read()) !== false) {
+            $filePath = $path.'/'.$entry;
+
+            if ($entry == '.' || $entry == '..' || $entry == '.htaccess' || is_dir($filePath))
+                continue;
+
+            $this->log('Cleaning up file: %s', $entry);
+            @unlink($filePath);
+        }
+
+        $d->close();
     }
 }
