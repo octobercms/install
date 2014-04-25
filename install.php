@@ -98,15 +98,15 @@
             Installer.Pages.systemCheck.nextButton = 'Agree & Continue'
 
             Installer.Pages.systemCheck.requirements = [
-                { code: 'phpVersion', label: 'PHP version 5.4 or greater installed' },
+                { code: 'phpVersion', label: 'PHP version 5.4 or greater required' },
                 { code: 'safeMode', label: 'Safe mode PHP setting is not enabled' },
-                { code: 'curlLibrary', label: 'cURL PHP Extension is installed' },
+                { code: 'curlLibrary', label: 'cURL PHP Extension is required' },
                 { code: 'liveConnection', label: 'Test connection to the installation server' },
                 { code: 'writePermission', label: 'Permission to write to the installation directory' },
-                { code: 'pdoLibrary', label: 'PDO PHP Extension is installed' },
-                { code: 'mcryptLibrary', label: 'MCrypt PHP Extension is installed' },
-                { code: 'zipLibrary', label: 'ZipArchive PHP Library is installed' },
-                { code: 'gdLibrary', label: 'GD PHP Library is installed' }
+                { code: 'pdoLibrary', label: 'PDO PHP Extension is required' },
+                { code: 'mcryptLibrary', label: 'MCrypt PHP Extension is required' },
+                { code: 'zipLibrary', label: 'ZipArchive PHP Library is required' },
+                { code: 'gdLibrary', label: 'GD PHP Library is required' }
             ]
 
             /*
