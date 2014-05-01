@@ -1,24 +1,32 @@
-<a
-    href="javascript:Installer.Pages.projectForm.showProject()"
-    class="btn btn-default btn-lg cp-button btn-show-project">
-    Use a Project
-</a>
+{{^projectId}}
+
+    <a
+        href="javascript:Installer.Pages.projectForm.showProject()"
+        class="btn btn-default btn-lg cp-button btn-show-project">
+        Use a Project
+    </a>
+
+{{/projectId}}
 
 <div data-manager="#themeList">
 
-    <p class="lead">Choose some starter themes to include (optional).</p>
+    {{^projectId}}
 
-    <!-- Search -->
-    <form id="installThemesForm" onsubmit="Installer.Pages.projectForm.searchSubmit(this); return false">
-        <div class="product-search">
-            <input
-                class="product-search-input search-input-lg typeahead"
-                placeholder="search themes..."
-                id="themeSearchInput"
-                data-handler="onSearchThemes"
-                />
-        </div>
-    </form>
+        <p class="lead">Choose some starter themes to include (optional).</p>
+
+        <!-- Search -->
+        <form id="installThemesForm" onsubmit="Installer.Pages.projectForm.searchSubmit(this); return false">
+            <div class="product-search">
+                <input
+                    class="product-search-input search-input-lg typeahead"
+                    placeholder="search themes..."
+                    id="themeSearchInput"
+                    data-handler="onSearchThemes"
+                    />
+            </div>
+        </form>
+
+    {{/projectId}}
 
     <div class="row">
 
@@ -35,17 +43,25 @@
 
         </div>
         <div class="col-md-5">
-    <!-- 
-            <h4>Project</h4>
-            <p>These themes are included with the project <strong>My Awesome Project</strong>.</p>
-     -->
-            <!-- Recommended extras -->
-            <div class="suggested-products-container animated-content">
-                <h4 class="section-header">Recommended</h4>
-                <div class="scroll-panel">
-                    <div class="row suggested-products" id="suggestedThemes" data-handler="onGetPopularThemes" data-set="suggestedThemes"></div>
+
+            {{^projectId}}
+
+                <!-- Recommended extras -->
+                <div class="suggested-products-container animated-content">
+                    <h4 class="section-header">Recommended</h4>
+                    <div class="scroll-panel">
+                        <div class="row suggested-products" id="suggestedThemes" data-handler="onGetPopularThemes" data-set="suggestedThemes"></div>
+                    </div>
                 </div>
-            </div>
+
+            {{/projectId}}
+
+                <div class="callout callout-success">
+                    <h4>{{ projectName }}</h4>
+                    <p>These themes are included with the project <strong>{{ projectName }}</strong>.</p>
+                </div>
+
+            {{#projectId}}
 
         </div>
 

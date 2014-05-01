@@ -12,18 +12,12 @@ Installer.Pages.projectForm.suggestedThemes = []
 Installer.Pages.projectForm.init = function() {
 
     var projectForm = $('#projectForm').addClass('animate fade_in')
+
     Installer.renderSections(Installer.Pages.projectForm.sections)
 
     $('#suggestedProductsContainer').hide()
 
-    Installer.Pages.projectForm.bindSearch('#pluginSearchInput')
-    Installer.Pages.projectForm.bindSearch('#themeSearchInput')
-
-    Installer.Pages.projectForm.bindSuggested('#suggestedPlugins')
-    Installer.Pages.projectForm.bindSuggested('#suggestedThemes')
-
-    Installer.Pages.projectForm.bindIncludeManager('#pluginList')
-    Installer.Pages.projectForm.bindIncludeManager('#themeList')
+    Installer.Pages.projectForm.bindAll()
 
     /*
      * Hide the project section initially
@@ -36,10 +30,23 @@ Installer.Pages.projectForm.next = function() {
     Installer.showPage('installProgress')
 }
 
+Installer.Pages.projectForm.bindAll = function() {
+    Installer.Pages.projectForm.bindSearch('#pluginSearchInput')
+    Installer.Pages.projectForm.bindSearch('#themeSearchInput')
+
+    Installer.Pages.projectForm.bindSuggested('#suggestedPlugins')
+    Installer.Pages.projectForm.bindSuggested('#suggestedThemes')
+
+    Installer.Pages.projectForm.bindIncludeManager('#pluginList')
+    Installer.Pages.projectForm.bindIncludeManager('#themeList')
+}
+
 Installer.Pages.projectForm.bindSearch = function(el) {
     var $el = $(el),
         $form = $el.closest('form'),
         handler = $el.data('handler')
+
+    if ($el.length == 0) return
 
     // Template for search results
     var template = Mustache.compile([
@@ -97,6 +104,33 @@ Installer.Pages.projectForm.searchSubmit = function(el) {
     $input.typeahead('val', '')
 }
 
+Installer.Pages.projectForm.attachProject = function(el) {
+    var
+        $el = $(el),
+        $input = $el.find('.project-id-input:first'),
+        code = $input.val(),
+        projectFormFailed = $('#projectFormFailed').hide().removeClass('animate fade_in')
+
+    $.sendRequest('onProjectDetails', { code: code })
+        .done(function(result){
+            Installer.Data.project = result
+            Installer.Data.project.code = code
+            Installer.Pages.projectForm.includedPlugins = result.plugins ? result.plugins : []
+            Installer.Pages.projectForm.includedThemes = result.themes ? result.themes : []
+            Installer.refreshSections({
+                projectId: code,
+                projectName: result.name,
+                projectOwner: result.owner,
+                projectDescription: result.description
+            })
+            Installer.Pages.projectForm.bindAll()
+        })
+        .fail(function(data){
+            projectFormFailed.show().addClass('animate fade_in')
+            projectFormFailed.renderPartial('project/fail', { reason: data.responseText })
+        })
+}
+
 Installer.Pages.projectForm.bindSuggested = function(el) {
 
     var
@@ -152,7 +186,11 @@ Installer.Pages.projectForm.bindIncludeManager = function(el) {
     }
     else {
         $.each(includedProducts, function(index, product){
-            $list.renderPartial(partial, product, { append:true })
+            $list.renderPartial(
+                partial,
+                $.extend(true, {}, product, { projectId: Installer.Data.project.code }),
+                { append: true }
+            )
         })
         $empty.hide()
     }

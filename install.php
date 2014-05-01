@@ -68,6 +68,7 @@
                 'project/themes',
                 'project/theme',
                 'project/suggestion',
+                'project/fail',
                 'progress',
                 'progress/fail',
                 'complete',

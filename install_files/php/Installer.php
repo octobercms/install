@@ -246,6 +246,11 @@ class Installer
         return $this->requestServerData('theme/detail', array('name' => $this->post('code')));
     }
 
+    protected function onProjectDetails()
+    {
+        return $this->requestServerData('project/detail', array('id' => $this->post('code')));
+    }
+
     protected function onInstallStep()
     {
         $installStep = $this->post('step');

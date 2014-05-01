@@ -21,7 +21,8 @@ var Installer = {
     Events: {},
     Data: {
         meta:   null, // Meta information from the server
-        config: null  // Configuration from the user
+        config: null, // Configuration from the user
+        project: null // Project ID for the installation
     }
 }
 
@@ -103,43 +104,58 @@ Installer.setLoadingBar = function(state, message) {
     }
 }
 
-Installer.renderSections = function(sections) {
+Installer.renderSections = function(sections, vars) {
     Installer.Sections = sections
 
-    var
-        stepContainer = $('#' + Installer.ActivePage),
-        container = stepContainer.find('.section-content:first')
-
     $.each(sections, function(index, section){
-        var sectionElement = $('<div />').addClass('section-area').attr('data-section-code', section.code)
-
-        if (!section.category) section.category = "NULL"
-
-        sectionElement
-            .renderPartial(section.partial)
-            .prepend($('<h3 />').text(section.label))
-            .hide()
-            .appendTo(container)
-
-        /*
-         * Side navigation
-         */
-        var sideNav = stepContainer.find('.section-side-nav:first'),
-            menuItem = $('<li />').attr('data-section-code', section.code),
-            menuItemLink = $('<a />').attr({ href: "javascript:Installer.showSection('"+section.code+"')"}).text(section.label),
-            sideNavCategory = sideNav.find('[data-section-category="'+section.category+'"]:first')
-
-        if (sideNavCategory.length == 0) {
-            sideNavCategory = $('<ul />').addClass('nav').attr('data-section-category', section.category)
-            sideNavCategoryTitle = $('<h3 />').text(section.category)
-            if (section.category == "NULL") sideNavCategoryTitle.text('')
-            sideNav.append(sideNavCategoryTitle).append(sideNavCategory)
-        }
-
-        sideNavCategory.append(menuItem.append(menuItemLink))
+        Installer.renderSection(section, vars)
     })
 
     Installer.showSection(sections[0].code)
+}
+
+Installer.refreshSections = function(vars) {
+    var stepContainer = $('#' + Installer.ActivePage)
+
+    stepContainer.find('.section-area').remove()
+    stepContainer.find('.section-side-nav:first').empty()
+
+    $.each(Installer.Sections, function(index, section){
+        Installer.renderSection(section, vars)
+    })
+
+    Installer.showSection(Installer.Sections[0].code)
+}
+
+Installer.renderSection = function(section, vars) {
+    var sectionElement = $('<div />').addClass('section-area').attr('data-section-code', section.code),
+        stepContainer = $('#' + Installer.ActivePage),
+        container = stepContainer.find('.section-content:first')
+
+    if (!section.category) section.category = "NULL"
+
+    sectionElement
+        .renderPartial(section.partial, vars)
+        .prepend($('<h3 />').text(section.label))
+        .hide()
+        .appendTo(container)
+
+    /*
+     * Side navigation
+     */
+    var sideNav = stepContainer.find('.section-side-nav:first'),
+        menuItem = $('<li />').attr('data-section-code', section.code),
+        menuItemLink = $('<a />').attr({ href: "javascript:Installer.showSection('"+section.code+"')"}).text(section.label),
+        sideNavCategory = sideNav.find('[data-section-category="'+section.category+'"]:first')
+
+    if (sideNavCategory.length == 0) {
+        sideNavCategory = $('<ul />').addClass('nav').attr('data-section-category', section.category)
+        sideNavCategoryTitle = $('<h3 />').text(section.category)
+        if (section.category == "NULL") sideNavCategoryTitle.text('')
+        sideNav.append(sideNavCategoryTitle).append(sideNavCategory)
+    }
+
+    sideNavCategory.append(menuItem.append(menuItemLink))
 }
 
 Installer.renderSectionNav = function() {
