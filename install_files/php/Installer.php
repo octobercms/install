@@ -542,6 +542,7 @@ class Installer
         $result = null;
         $error = null;
         try {
+            $params['url'] = base64_encode($this->getBaseUrl());
             $curl = $this->prepareServerRequest($uri, $params);
             $result = curl_exec($curl);
 

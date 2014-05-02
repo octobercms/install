@@ -35,7 +35,12 @@
                     value="{{ projectId }}"
                     id="attachProjectId" />
                 <span class="input-group-btn">
-                    <button class="btn btn-lg btn-danger" type="button">Remove</button>
+                    <button
+                        class="btn btn-lg btn-danger"
+                        type="submit"
+                        onclick="Installer.Pages.projectForm.detachProject(this); return false">
+                        Remove
+                    </button>
                 </span>
             </div>
 

@@ -104,6 +104,15 @@ Installer.Pages.projectForm.searchSubmit = function(el) {
     $input.typeahead('val', '')
 }
 
+Installer.Pages.projectForm.detachProject = function(el) {
+    if (!confirm('Are you sure?')) return
+
+    Installer.Data.project = null
+    Installer.Pages.projectForm.includedPlugins = []
+    Installer.Pages.projectForm.includedThemes = []
+    Installer.refreshSections()
+    Installer.Pages.projectForm.bindAll()
+}
 Installer.Pages.projectForm.attachProject = function(el) {
     var
         $el = $(el),

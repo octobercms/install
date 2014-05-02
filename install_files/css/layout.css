@@ -23,6 +23,9 @@ h3 {
     text-transform: uppercase;
     font-weight: 400;
 }
+.text-success {
+    color: #8da85e;
+}
 
 a {
     color: #0181b9;
@@ -203,7 +206,7 @@ section.body .section-area h3 {
     font-size: 38px;
 }
 section.body .section-area.fail h3 {
-    color: #b94a48;
+    color: #cc3300;
 }
 section.body .section-area.fail h3:before {
     content: "";
@@ -229,7 +232,7 @@ section.body p.lead.with-tick:before {
     height: 32px;
     float: left;
     margin-right: 5px;
-    margin-top: -3px;
+    margin-top: -1px;
 }
 
 .cloud-content {
