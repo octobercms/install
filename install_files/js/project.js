@@ -113,6 +113,7 @@ Installer.Pages.projectForm.detachProject = function(el) {
     Installer.refreshSections()
     Installer.Pages.projectForm.bindAll()
 }
+
 Installer.Pages.projectForm.attachProject = function(el) {
     var
         $el = $(el),
@@ -226,7 +227,11 @@ Installer.Pages.projectForm.includePackage = function(el, code) {
         partial = $el.data('view'),
         dataSetId = $el.data('set'),
         includedProducts = Installer.Pages.projectForm[dataSetId],
-        productExists = false
+        productExists = false,
+        extraData = { name: code }
+
+    if (Installer.Data.project && Installer.Data.project.code)
+        extraData.project = Installer.Data.project.code
 
     $.each(includedProducts, function(index, product){
         if (product.code == code)
@@ -236,7 +241,7 @@ Installer.Pages.projectForm.includePackage = function(el, code) {
     if (productExists)
         return
 
-    $.sendRequest(handler, { code: code })
+    $.sendRequest(handler, extraData)
         .done(function(product){
             includedProducts.push(product)
             $empty.hide()
@@ -282,9 +287,7 @@ Installer.Pages.projectForm.hilightIncludedPackages = function(el) {
     })
 }
 
-
 Installer.Pages.projectForm.showProject = function() {
-
     $('.btn-show-project').hide()
     Installer.toggleSection('project', true)
     Installer.showSection('project')

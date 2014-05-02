@@ -238,12 +238,12 @@ class Installer
 
     protected function onPluginDetails()
     {
-        return $this->requestServerData('plugin/detail', array('name' => $this->post('code')));
+        return $this->requestServerData('plugin/detail', array('name' => $this->post('name')));
     }
 
     protected function onThemeDetails()
     {
-        return $this->requestServerData('theme/detail', array('name' => $this->post('code')));
+        return $this->requestServerData('theme/detail', array('name' => $this->post('name')));
     }
 
     protected function onProjectDetails()

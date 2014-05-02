@@ -22,7 +22,7 @@ var Installer = {
     Data: {
         meta:   null, // Meta information from the server
         config: null, // Configuration from the user
-        project: null // Project ID for the installation
+        project: null // Project for the installation
     }
 }
 
