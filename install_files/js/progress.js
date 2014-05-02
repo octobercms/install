@@ -113,11 +113,16 @@ Installer.Pages.installProgress.execIterationStep = function(step, handlerCode, 
 
     // Item must contain a code property
     $.each(collection, function(index, item){
+
+        var data = { name: item.code, meta: Installer.Data.meta }
+        if (Installer.Data.project && Installer.Data.project.code)
+            data.project = Installer.Data.project.code
+
         eventChain.push(function(){
             return Installer.Pages.installProgress.execDefaultStep({
                 code: handlerCode,
                 label: step.label + item.code
-            }, { extraData: { name: item.code, meta: Installer.Data.meta } })
+            }, { extraData: data })
         })
     })
 
@@ -135,10 +140,13 @@ Installer.Pages.installProgress.execStep = {}
 
 Installer.Pages.installProgress.execStep.getMetaData = function(step) {
     return function() {
+
+        var data = { plugins: Installer.Pages.projectForm.includedPlugins }
+        if (Installer.Data.project && Installer.Data.project.code)
+            data.project = Installer.Data.project.code
+
         return Installer.Pages.installProgress.execDefaultStep(step, {
-            extraData: {
-                plugins: Installer.Pages.projectForm.includedPlugins
-            },
+            extraData: data,
             onSuccess: function(data) {
                 // Save the result for later usage
                 Installer.Data.meta = data.result

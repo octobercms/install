@@ -268,9 +268,12 @@ class Installer
                 foreach ($plugins as $plugin) {
                     if (isset($plugin['code'])) $pluginCodes[] = $plugin['code'];
                 }
-                $result = $this->requestServerData('core/install', array(
-                    'plugins' => $pluginCodes
-                ));
+
+                $params = array('plugins' => $pluginCodes);
+                if ($project = $this->post('project', false))
+                    $params['project'] = $project;
+
+                $result = $this->requestServerData('core/install', $params);
                 break;
 
             case 'downloadCore':
@@ -283,8 +286,12 @@ class Installer
                 if (!$name)
                     throw new Exception('Plugin download failed, missing name');
 
+                $params = array('name' => $name);
+                if ($project = $this->post('project', false))
+                    $params['project'] = $project;
+
                 $hash = $this->getHashFromMeta($name, 'plugin');
-                $this->requestServerFile($name, $hash, 'plugin/get', array('name' => $name));
+                $this->requestServerFile($name, $hash, 'plugin/get', $params);
                 break;
 
             case 'extractCore':
