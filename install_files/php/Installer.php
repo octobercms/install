@@ -569,7 +569,9 @@ class Installer
 
             curl_close($curl);
         }
-        catch (Exception $ex) {}
+        catch (Exception $ex) {
+            $this->log('Failed to get server data (ignored): ' . $ex->getMessage());
+        }
 
         if ($error !== null)
             throw new Exception('Server responded with error: ' . $error);
@@ -607,18 +609,20 @@ class Installer
             curl_exec($curl);
 
             $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            if ($httpCode == 500)
-                $error = true;
+            if ($httpCode == 500) {
+                $error = file_get_contents($filePath);
+            }
 
             curl_close($curl);
             fclose($stream);
         }
         catch (Exception $ex) {
-            $error = true;
+            $this->log('Failed to get server delivery: ' . $ex->getMessage());
+            throw new Exception('Server failed to deliver the package');
         }
 
         if ($error !== null)
-            throw new Exception('Server failed to deliver the package');
+            throw new Exception('Server responded with error: ' . $error);
 
         $fileHash = md5_file($filePath);
         if ($expectedHash != $fileHash) {
