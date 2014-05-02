@@ -169,7 +169,11 @@ class Installer
         /*
          * Check the database is empty
          */
-        $fetch = $db->query('show tables', PDO::FETCH_NUM);
+        if ($type == 'sqlite')
+            $fetch = $db->query("select name from sqlite_master where type='table'", PDO::FETCH_NUM);
+        else
+            $fetch = $db->query('show tables', PDO::FETCH_NUM);
+
         $tables = 0;
         while ($result = $fetch->fetch()) $tables++;
 
