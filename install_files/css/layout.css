@@ -283,6 +283,7 @@ section.body p.lead.with-tick:before {
 .page-nav {
     margin-bottom: 0;
     margin-top: 20px;
+    float: right;
 }
 .page-nav a.btn {
     padding: 10px 15px;
