@@ -88,7 +88,7 @@ Installer.Pages.installProgress.spoolStep = function(step, eventChain) {
 Installer.Pages.installProgress.execDefaultStep = function(step, options) {
     var deferred = $.Deferred(),
         options = options || {},
-        postData = { step: step.code }
+        postData = { step: step.code, meta: Installer.Data.meta }
 
     if (options.extraData)
         $.extend(postData, options.extraData)
@@ -114,7 +114,7 @@ Installer.Pages.installProgress.execIterationStep = function(step, handlerCode, 
     // Item must contain a code property
     $.each(collection, function(index, item){
 
-        var data = { name: item.code, meta: Installer.Data.meta }
+        var data = { name: item.code }
         if (Installer.Data.project && Installer.Data.project.code)
             data.project = Installer.Data.project.code
 
@@ -151,14 +151,6 @@ Installer.Pages.installProgress.execStep.getMetaData = function(step) {
                 // Save the result for later usage
                 Installer.Data.meta = data.result
             }
-        })
-    }
-}
-
-Installer.Pages.installProgress.execStep.downloadCore = function(step) {
-    return function() {
-        return Installer.Pages.installProgress.execDefaultStep(step, {
-            extraData: { meta: Installer.Data.meta }
         })
     }
 }
