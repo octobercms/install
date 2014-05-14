@@ -91,7 +91,7 @@ Installer.Pages.installProgress.execDefaultStep = function(step, options) {
         postData = { step: step.code, meta: Installer.Data.meta }
 
     if (options.extraData)
-        $.extend(postData, options.extraData)
+        $.extend(true, postData, options.extraData)
 
     Installer.setLoadingBar(true, step.label)
 
