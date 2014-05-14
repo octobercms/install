@@ -8,7 +8,11 @@ header("Pragma: no-cache");
 
 $isDebug = array_key_exists('debug', $_REQUEST);
 
-if (!$isDebug) {
+if ($isDebug) {
+    ini_set('display_errors', 1);
+    error_reporting(1);
+}
+else {
     ini_set('display_errors', 0);
     error_reporting(0);
 }
