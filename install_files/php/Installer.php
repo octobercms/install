@@ -171,6 +171,8 @@ class Installer
          */
         if ($type == 'sqlite')
             $fetch = $db->query("select name from sqlite_master where type='table'", PDO::FETCH_NUM);
+        elseif ($type == 'pgsql')
+            $fetch = $db->query("select * from pg_catalog.pg_tables", PDO::FETCH_NUM);
         else
             $fetch = $db->query('show tables', PDO::FETCH_NUM);
 
