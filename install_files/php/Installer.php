@@ -443,7 +443,7 @@ class Installer
          * Install application
          */
         $updater = call_user_func('System\Classes\UpdateManager::instance');
-        $updater->install();
+        $updater->update();
     }
 
     public function setCoreBuild()
