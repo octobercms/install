@@ -7,7 +7,9 @@ Installer.Pages.systemCheck.init = function() {
         appEula = $('#appEula').hide(),
         systemCheckFailed = $('#systemCheckFailed').hide(),
         nextButton = $('#nextButton').addClass('disabled'),
-        eventChain = []
+        eventChain = [],
+        success = true,
+        reasonCodes = []
 
     /*
      * Loops each requirement, posts it back and processes the result
@@ -29,8 +31,13 @@ Installer.Pages.systemCheck.init = function() {
                             deferred.resolve()
                         }
                         else {
+                            /*
+                             * Fail the item but continue the waterfall.
+                             */
                             item.removeClass('load').addClass('fail')
-                            deferred.reject(requirement.code, requirement.reason)
+                            success = false
+                            reasonCodes.push({ code: requirement.code, reason: requirement.reason })
+                            deferred.resolve()
                         }
                     }, 500)
                 }).fail(function(data){
@@ -46,14 +53,34 @@ Installer.Pages.systemCheck.init = function() {
     /*
      * Handle the waterfall result
      */
-    $.waterfall.apply(this, eventChain).fail(function(code, reason){
-        // Failed
-        systemCheckFailed.show().addClass('animate fade_in')
-        systemCheckFailed.renderPartial('check/fail', { code: code, reason: reason })
-    }).done(function(){
-        // Success
-        appEula.show().addClass('animate fade_in')
-        nextButton.removeClass('disabled')
+    $.waterfall.apply(this, eventChain).done(function(){
+        if(!success) {
+            // Failure            
+            // Assemble all reason codes into a string.
+            var codeString = "";
+            var reasonString = "";
+            reasonCodes.forEach(function(element, index, array) {
+                if(element.code) {
+                    if(codeString !== "") {
+                        codeString += ", "
+                    }
+                
+                    codeString += element.code;
+                }
+                
+                if(element.reason) {
+                    reasonString += element.reason + " "
+                }
+            })
+        
+            // Specific reasons are not currently being used.
+            systemCheckFailed.show().addClass('animate fade_in')
+            systemCheckFailed.renderPartial('check/fail', { code: codeString, reason: reasonString })
+        } else {
+            // Success
+            appEula.show().addClass('animate fade_in')
+            nextButton.removeClass('disabled')
+        }
     })
 }
 
