@@ -51,9 +51,14 @@ require_once 'InstallerException.php';
 require_once 'InstallerRewrite.php';
 require_once 'Installer.php';
 
-$installer = new Installer();
-$installer->cleanLog();
-$installer->log('Host: %s', php_uname());
-$installer->log('Operating system: %s', PHP_OS);
-$installer->log('Memory limit: %s', ini_get('memory_limit'));
-$installer->log('Max execution time: %s', ini_get('max_execution_time'));
+try {
+    $installer = new Installer();
+    $installer->cleanLog();
+    $installer->log('Host: %s', php_uname());
+    $installer->log('Operating system: %s', PHP_OS);
+    $installer->log('Memory limit: %s', ini_get('memory_limit'));
+    $installer->log('Max execution time: %s', ini_get('max_execution_time'));
+}
+catch (Exception $ex) {
+    $fatalError = $ex->getMessage();
+}

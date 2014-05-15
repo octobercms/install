@@ -78,7 +78,7 @@ class Installer
                 $result = ($this->requestServerData('ping') !== null);
                 break;
             case 'writePermission':
-                $result = is_writable(PATH_INSTALL);
+                $result = is_writable(PATH_INSTALL) && is_writable($this->logFile) && is_writable($this->tempDirectory);
                 break;
             case 'phpVersion':
                 $result = version_compare(PHP_VERSION , "5.4", ">=");
@@ -523,7 +523,6 @@ class Installer
             "",
         );
 
-        // TODO how to handle file_put_contents error
         file_put_contents($this->logFile, implode(PHP_EOL, $message) . PHP_EOL);
     }
 
@@ -601,12 +600,11 @@ class Installer
         $result = null;
         $error = null;
         try {
-
             if (!file_exists($this->tempDirectory)) {
                 $tempDirectory = mkdir($this->tempDirectory, 0777, true); // @todo Use config
                 if ($tempDirectory === false) {
-                    $this->log('Failed to get create temporary directory: ' . $ex->getMessage());
-                    throw new Exception('Failed to get create temporary directory in ' . $this->tempDirectory . '. Please create it by hand and try again');
+                    $this->log('Failed to get create temporary directory: %s', $this->tempDirectory);
+                    throw new Exception('Failed to get create temporary directory in ' . $this->tempDirectory . '. Please ensure this directory is writable.');
                 }
             }
 
