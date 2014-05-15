@@ -78,7 +78,7 @@ class Installer
                 $result = ($this->requestServerData('ping') !== null);
                 break;
             case 'writePermission':
-                $result = is_writable(PATH_INSTALL) && is_writable($this->logFile) && is_writable($this->tempDirectory);
+                $result = is_writable(PATH_INSTALL) && is_writable($this->logFile);
                 break;
             case 'phpVersion':
                 $result = version_compare(PHP_VERSION , "5.4", ">=");
@@ -600,7 +600,7 @@ class Installer
         $result = null;
         $error = null;
         try {
-            if (!file_exists($this->tempDirectory)) {
+            if (!is_dir($this->tempDirectory)) {
                 $tempDirectory = mkdir($this->tempDirectory, 0777, true); // @todo Use config
                 if ($tempDirectory === false) {
                     $this->log('Failed to get create temporary directory: %s', $this->tempDirectory);

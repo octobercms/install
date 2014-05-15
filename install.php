@@ -113,7 +113,7 @@
                     { code: 'safeMode', label: 'Safe mode PHP setting is not enabled' },
                     { code: 'curlLibrary', label: 'cURL PHP Extension is required' },
                     { code: 'liveConnection', label: 'Test connection to the installation server' },
-                    { code: 'writePermission', label: 'Permission to write to the installation directory and files' },
+                    { code: 'writePermission', label: 'Permission to write to directories and files', reason: 'The installer was unable to write to the installation directories and files.' },
                     { code: 'pdoLibrary', label: 'PDO PHP Extension is required' },
                     { code: 'mcryptLibrary', label: 'MCrypt PHP Extension is required' },
                     { code: 'zipLibrary', label: 'ZipArchive PHP Library is required' },

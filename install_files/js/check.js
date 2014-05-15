@@ -30,7 +30,7 @@ Installer.Pages.systemCheck.init = function() {
                         }
                         else {
                             item.removeClass('load').addClass('fail')
-                            deferred.reject(requirement.code)
+                            deferred.reject(requirement.code, requirement.reason)
                         }
                     }, 500)
                 }).fail(function(data){
@@ -46,10 +46,10 @@ Installer.Pages.systemCheck.init = function() {
     /*
      * Handle the waterfall result
      */
-    $.waterfall.apply(this, eventChain).fail(function(reason){
+    $.waterfall.apply(this, eventChain).fail(function(code, reason){
         // Failed
         systemCheckFailed.show().addClass('animate fade_in')
-        systemCheckFailed.renderPartial('check/fail', { reason: reason })
+        systemCheckFailed.renderPartial('check/fail', { code: code, reason: reason })
     }).done(function(){
         // Success
         appEula.show().addClass('animate fade_in')
