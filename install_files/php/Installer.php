@@ -397,37 +397,46 @@ class Installer
         switch ($type) {
             default:
             case 'mysql':
-                return array(
+                $result = array(
                     'connections.mysql.host'     => $host,
                     'connections.mysql.database' => $name,
                     'connections.mysql.username' => $user,
                     'connections.mysql.password' => $pass,
                     'connections.mysql.prefix'   => $prefix,
                 );
+                break;
 
             case 'sqlite':
-                return array(
+                $result = array(
                     'connections.sqlite.database' => $name,
                 );
+                break;
 
             case 'pgsql':
-                return array(
+                $result = array(
                     'connections.pgsql.host'     => $host,
                     'connections.pgsql.database' => $name,
                     'connections.pgsql.username' => $user,
                     'connections.pgsql.password' => $pass,
                     'connections.pgsql.prefix'   => $prefix,
                 );
+                break;
 
             case 'sqlsrv':
-                return array(
+                $result = array(
                     'connections.sqlsrv.host'     => $host,
                     'connections.sqlsrv.database' => $name,
                     'connections.sqlsrv.username' => $user,
                     'connections.sqlsrv.password' => $pass,
                     'connections.sqlsrv.prefix'   => $prefix,
                 );
+                break;
         }
+
+        if (in_array($type, array('mysql', 'sqlite', 'pgsql', 'sqlsrv')))
+            $result['default'] = $type;
+
+        return $result;
     }
 
     private function createAdminAccount()
