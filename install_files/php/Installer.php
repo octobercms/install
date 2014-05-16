@@ -199,6 +199,12 @@ class Installer
 
         if (!strlen($this->post('admin_password')))
             throw new InstallerException('Please specify password', 'admin_password');
+            
+        if (!strlen($this->post('confirm_password')))
+            throw new InstallerException('Please confirm password', 'confirm_password');
+                     
+        if (strcmp($this->post('admin_password'), $this->post('confirm_password')))
+            throw new InstallerException('Admin password does not match the confirmed password', 'admin_password');
     }
 
     protected function onValidateAdvancedConfig()
