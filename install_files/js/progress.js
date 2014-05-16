@@ -116,7 +116,7 @@ Installer.Pages.installProgress.execIterationStep = function(step, handlerCode, 
 
         var data = { name: item.code }
         if (Installer.Data.project && Installer.Data.project.code)
-            data.project = Installer.Data.project.code
+            data.project_id = Installer.Data.project.code
 
         eventChain.push(function(){
             return Installer.Pages.installProgress.execDefaultStep({
@@ -143,7 +143,7 @@ Installer.Pages.installProgress.execStep.getMetaData = function(step) {
 
         var data = { plugins: Installer.Pages.projectForm.includedPlugins }
         if (Installer.Data.project && Installer.Data.project.code)
-            data.project = Installer.Data.project.code
+            data.project_id = Installer.Data.project.code
 
         return Installer.Pages.installProgress.execDefaultStep(step, {
             extraData: data,

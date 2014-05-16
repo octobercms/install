@@ -121,7 +121,7 @@ Installer.Pages.projectForm.attachProject = function(el) {
         code = $input.val(),
         projectFormFailed = $('#projectFormFailed').hide().removeClass('animate fade_in')
 
-    $.sendRequest('onProjectDetails', { code: code })
+    $.sendRequest('onProjectDetails', { project_id: code })
         .done(function(result){
             Installer.Data.project = result
             Installer.Data.project.code = code

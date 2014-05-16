@@ -201,10 +201,10 @@ class Installer
             throw new InstallerException('Please specify password', 'admin_password');
 
         if (!strlen($this->post('admin_confirm_password')))
-            throw new InstallerException('Please confirm password', 'admin_confirm_password');
+            throw new InstallerException('Please confirm chosen password', 'admin_confirm_password');
 
         if (strcmp($this->post('admin_password'), $this->post('admin_confirm_password')))
-            throw new InstallerException('Admin password does not match the confirmed password', 'admin_password');
+            throw new InstallerException('Specified password does not match the confirmed password', 'admin_password');
     }
 
     protected function onValidateAdvancedConfig()
@@ -260,7 +260,7 @@ class Installer
 
     protected function onProjectDetails()
     {
-        return $this->requestServerData('project/detail', array('id' => $this->post('code')));
+        return $this->requestServerData('project/detail', array('id' => $this->post('project_id')));
     }
 
     protected function onInstallStep()
@@ -278,7 +278,7 @@ class Installer
                 }
 
                 $params = array('plugins' => $pluginCodes);
-                if ($project = $this->post('project', false))
+                if ($project = $this->post('project_id', false))
                     $params['project'] = $project;
 
                 $result = $this->requestServerData('core/install', $params);
@@ -295,7 +295,7 @@ class Installer
                     throw new Exception('Plugin download failed, missing name');
 
                 $params = array('name' => $name);
-                if ($project = $this->post('project', false))
+                if ($project = $this->post('project_id', false))
                     $params['project'] = $project;
 
                 $hash = $this->getHashFromMeta($name, 'plugin');
