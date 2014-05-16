@@ -8,8 +8,9 @@ Installer.Pages.systemCheck.init = function() {
         systemCheckFailed = $('#systemCheckFailed').hide(),
         nextButton = $('#nextButton').addClass('disabled'),
         eventChain = [],
-        success = true,
-        reasonCodes = []
+        failCodes = [],
+        failReasons = [],
+        success = true
 
     /*
      * Loops each requirement, posts it back and processes the result
@@ -34,9 +35,10 @@ Installer.Pages.systemCheck.init = function() {
                             /*
                              * Fail the item but continue the waterfall.
                              */
-                            item.removeClass('load').addClass('fail')
                             success = false
-                            reasonCodes.push({ code: requirement.code, reason: requirement.reason })
+                            failCodes.push(requirement.code)
+                            if (requirement.reason) failReasons.push(requirement.reason)
+                            item.removeClass('load').addClass('fail')
                             deferred.resolve()
                         }
                     }, 500)
@@ -54,28 +56,10 @@ Installer.Pages.systemCheck.init = function() {
      * Handle the waterfall result
      */
     $.waterfall.apply(this, eventChain).done(function(){
-        if(!success) {
-            // Failure            
-            // Assemble all reason codes into a string.
-            var codeString = "";
-            var reasonString = "";
-            reasonCodes.forEach(function(element, index, array) {
-                if(element.code) {
-                    if(codeString !== "") {
-                        codeString += ", "
-                    }
-                
-                    codeString += element.code;
-                }
-                
-                if(element.reason) {
-                    reasonString += element.reason + " "
-                }
-            })
-        
+        if (!success) {
             // Specific reasons are not currently being used.
             systemCheckFailed.show().addClass('animate fade_in')
-            systemCheckFailed.renderPartial('check/fail', { code: codeString, reason: reasonString })
+            systemCheckFailed.renderPartial('check/fail', { code: failCodes.join(', '), reason: failReasons.join(', ') })
         } else {
             // Success
             appEula.show().addClass('animate fade_in')
