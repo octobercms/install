@@ -41,17 +41,17 @@ class Installer
         $this->tempDirectory = PATH_INSTALL . '/install_files/temp'; // @todo Use sys_get_temp_dir()
         $this->configDirectory = $this->baseDirectory . '/app/config';
         $this->logFile = PATH_INSTALL . '/install_files/install.log';
+        $this->logPost();
 
         if (!is_null($handler = $this->post('handler'))) {
             if (!strlen($handler)) exit;
 
             try {
-                $this->log('Execute AJAX handler: %s', $handler);
-
                 if (!preg_match('/^on[A-Z]{1}[\w+]*$/', $handler))
                     throw new Exception(sprintf('Invalid handler: %s', $handler));
 
                 if (method_exists($this, $handler) && ($result = $this->$handler()) !== null) {
+                    $this->log('Execute handler (%s): %s', $handler, print_r($result, true));
                     header('Content-Type: application/json');
                     die(json_encode($result));
                 }
@@ -199,11 +199,11 @@ class Installer
 
         if (!strlen($this->post('admin_password')))
             throw new InstallerException('Please specify password', 'admin_password');
-            
-        if (!strlen($this->post('confirm_password')))
-            throw new InstallerException('Please confirm password', 'confirm_password');
-                     
-        if (strcmp($this->post('admin_password'), $this->post('confirm_password')))
+
+        if (!strlen($this->post('admin_confirm_password')))
+            throw new InstallerException('Please confirm password', 'admin_confirm_password');
+
+        if (strcmp($this->post('admin_password'), $this->post('admin_confirm_password')))
             throw new InstallerException('Admin password does not match the confirmed password', 'admin_password');
     }
 
@@ -541,6 +541,30 @@ class Installer
         file_put_contents($this->logFile, implode(PHP_EOL, $message) . PHP_EOL);
     }
 
+    public function logPost()
+    {
+        if (!isset($_POST) || !count($_POST)) return;
+        $postData = $_POST;
+
+        /*
+         * Sensitive data fields
+         */
+        if (isset($postData['admin_email'])) $postData['admin_email'] = '*******@*****.com';
+        $fieldsToErase = array(
+            'encryption_code',
+            'admin_password',
+            'admin_confirm_password',
+            'db_pass',
+            'project_id',
+        );
+        foreach ($fieldsToErase as $field) {
+            if (isset($postData[$field])) $postData[$field] = '*******';
+        }
+
+        file_put_contents($this->logFile, '.============================ POST REQUEST ==========================.' . PHP_EOL, FILE_APPEND);
+        $this->log('Postback payload: %s', print_r($postData, true));
+    }
+
     public function log()
     {
         $args = func_get_args();
@@ -549,11 +573,8 @@ class Installer
         if (is_array($message))
             $message = implode(PHP_EOL, $message);
 
-        $filename = $this->logFile;
-        $stream = fopen($filename, 'a');
-        $string = "[" . date("Y/m/d h:i:s", time()) . "] " . vsprintf($message, $args);
-        fwrite($stream, $string . PHP_EOL);
-        fclose($stream);
+        $message = "[" . date("Y/m/d h:i:s", time()) . "] " . vsprintf($message, $args) . PHP_EOL;
+        file_put_contents($this->logFile, $message, FILE_APPEND);
     }
 
     //

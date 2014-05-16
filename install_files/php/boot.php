@@ -55,6 +55,8 @@ try {
     $installer = new Installer();
     $installer->cleanLog();
     $installer->log('Host: %s', php_uname());
+    $installer->log('PHP version: %s', PHP_VERSION);
+    $installer->log('Server software: %s', isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : 'Unknown');
     $installer->log('Operating system: %s', PHP_OS);
     $installer->log('Memory limit: %s', ini_get('memory_limit'));
     $installer->log('Max execution time: %s', ini_get('max_execution_time'));
