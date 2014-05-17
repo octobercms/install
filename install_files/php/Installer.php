@@ -189,7 +189,7 @@ class Installer
             throw new InstallerException('Please specify the administrator first name', 'admin_first_name');
 
         if (!strlen($this->post('admin_last_name')))
-            throw new InstallerException('Please specify the administrator first name', 'admin_last_name');
+            throw new InstallerException('Please specify the administrator last name', 'admin_last_name');
 
         if (!strlen($this->post('admin_email')))
             throw new InstallerException('Please specify administrator email address', 'admin_email');
