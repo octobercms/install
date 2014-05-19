@@ -96,7 +96,7 @@ class Installer
                 $result = extension_loaded('gd');
                 break;
             case 'curlLibrary':
-                $result = function_exists('curl_init');
+                $result = function_exists('curl_init') && defined('CURLOPT_FOLLOWLOCATION');
                 break;
             case 'zipLibrary':
                 $result = class_exists('ZipArchive');
