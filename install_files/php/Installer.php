@@ -693,7 +693,7 @@ class Installer
 
     private function prepareServerRequest($uri, $params = array())
     {
-        $params['url'] = base64_encode($this->etBaseUrl());
+        $params['url'] = base64_encode($this->getBaseUrl());
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, OCTOBER_GATEWAY.'/'.$uri);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
