@@ -41,7 +41,11 @@ class Installer
         $this->tempDirectory = PATH_INSTALL . '/install_files/temp'; // @todo Use sys_get_temp_dir()
         $this->configDirectory = $this->baseDirectory . '/app/config';
         $this->logFile = PATH_INSTALL . '/install_files/install.log';
-        $this->logPost();
+		$this->logPost();
+		$this->config = array();
+        if ( file_exists( PATH_INSTALL.'/install.ini' ) ) {
+            parse_ini_file( PATH_INSTALL.'/install.ini'  );
+        }
 
         if (!is_null($handler = $this->post('handler'))) {
             if (!strlen($handler)) exit;
@@ -594,7 +598,11 @@ class Installer
         $error = null;
         try {
             $curl = $this->prepareServerRequest($uri, $params);
-            $result = curl_exec($curl);
+
+			if ( $this->config['proxy'] ) {
+				curl_setopt( $curl, CURLOPT_PROXY, $this->config['proxy'] );
+			}
+			$result = curl_exec($curl);
 
             $this->log('Server request: %s', $uri);
 
@@ -649,7 +657,10 @@ class Installer
 
             $curl = $this->prepareServerRequest($uri, $params);
             curl_setopt($curl, CURLOPT_FILE, $stream);
-            curl_exec($curl);
+			if ( $this->config['proxy'] ) {
+		    	curl_setopt( $curl, CURLOPT_PROXY, $this->config['proxy'] );
+			}
+			curl_exec($curl);
 
             $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             if ($httpCode == 500) {
@@ -682,7 +693,7 @@ class Installer
 
     private function prepareServerRequest($uri, $params = array())
     {
-        $params['url'] = base64_encode($this->getBaseUrl());
+        $params['url'] = base64_encode($this->etBaseUrl());
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, OCTOBER_GATEWAY.'/'.$uri);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
