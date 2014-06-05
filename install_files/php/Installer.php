@@ -687,7 +687,7 @@ class Installer
         curl_setopt($curl, CURLOPT_URL, OCTOBER_GATEWAY.'/'.$uri);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_TIMEOUT, 3600);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION , true);
+        // curl_setopt($curl, CURLOPT_FOLLOWLOCATION , true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params, '', '&'));
