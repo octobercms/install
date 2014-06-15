@@ -15,7 +15,12 @@ Installer.Pages.configForm.init = function() {
     configFormDatabase.renderPartial('config/mysql')
 
     // Set the encryption code with a random string
-    $('#advEncryptionCode').val(Math.random().toString(36).slice(2))
+    var encryptionCode = new String()
+
+    while(encryptionCode.length != 16)
+        encryptionCode = Math.random().toString(36).slice(2)
+
+    $('#advEncryptionCode').val(encryptionCode)
 }
 
 Installer.Pages.configForm.next = function() {
