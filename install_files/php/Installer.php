@@ -738,7 +738,7 @@ class Installer
     public function getBaseUrl()
     {
         if (isset($_SERVER['HTTP_HOST'])) {
-            $baseUrl = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
+            $baseUrl = !empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
             $baseUrl .= '://'. $_SERVER['HTTP_HOST'];
             $baseUrl .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
         }
