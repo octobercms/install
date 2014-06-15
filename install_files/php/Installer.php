@@ -212,14 +212,9 @@ class Installer
         if (!strlen($this->post('encryption_code')))
             throw new InstallerException('Please specify encryption key', 'encryption_code');
 
-        $_valid_key_sizes = [
-            16,
-            24,
-            32
-        ];
-
-        if(!in_array(strlen($this->post('encryption_code')), $_valid_key_sizes))
-            throw new InstallerException('The encryption key should be of a valid size ('.join(', ', $_valid_key_sizes).').', 'encryption_code');
+        $validKeyLengths = [16, 24, 32];
+        if (!in_array(strlen($this->post('encryption_code')), $validKeyLengths))
+            throw new InstallerException('The encryption key should be of a valid length ('.implode(', ', $validKeyLengths).').', 'encryption_code');
 
         if (!strlen($this->post('folder_mask')))
             throw new InstallerException('Please specify folder permission mask', 'folder_mask');
