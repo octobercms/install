@@ -174,6 +174,14 @@ Installer.Pages.installProgress.execStep.createAdmin = function(step) {
         return Installer.Pages.installProgress.execDefaultStep(step, { extraData: Installer.Data.config })
     }
 }
+
+Installer.Pages.installProgress.execStep.setupProject = function(step) {
+   return function() {
+        var data = $.extend(true, {}, Installer.Data.project, { disableLog: true })
+        return Installer.Pages.installProgress.execDefaultStep(step, { extraData: data })
+    }
+}
+
 Installer.Pages.installProgress.execStep.finishInstall = function(step) {
     return function() {
         return Installer.Pages.installProgress.execDefaultStep(step, { extraData: Installer.Data.meta.core })

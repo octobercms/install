@@ -337,6 +337,10 @@ class Installer
                 $this->createAdminAccount();
                 break;
 
+            case 'setupProject':
+                $this->setProjectDetails();
+                break;
+
             case 'finishInstall':
                 $this->setCoreBuild();
                 $this->moveHtaccess(null, 'installer');
@@ -464,13 +468,27 @@ class Installer
         $updater->update();
     }
 
+    public function setProjectDetails()
+    {
+        if (!$projectId = $this->post('code'))
+            return;
+
+        $this->bootFramework();
+
+        call_user_func('System\Models\Parameters::set', array(
+            'system::project.id'    => $projectId,
+            'system::project.name'  => $this->post('name'),
+            'system::project.owner' => $this->post('owner'),
+        ));
+    }
+
     public function setCoreBuild()
     {
         $this->bootFramework();
 
         call_user_func('System\Models\Parameters::set', array(
-            'system::core.hash'  => post('hash'),
-            'system::core.build' => post('build'),
+            'system::core.hash'  => $this->post('hash'),
+            'system::core.build' => $this->post('build'),
         ));
     }
 
@@ -546,6 +564,9 @@ class Installer
     {
         if (!isset($_POST) || !count($_POST)) return;
         $postData = $_POST;
+
+        if (array_key_exists('disableLog', $postData))
+            $postData = array('disableLog' => true);
 
         /*
          * Sensitive data fields

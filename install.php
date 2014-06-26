@@ -156,6 +156,7 @@
                     { code: 'extractPlugins', label: 'Unpacking plugin: ' },
                     { code: 'setupConfig', label: 'Building configuration files' },
                     { code: 'createAdmin', label: 'Create admin account' },
+                    { code: 'setupProject', label: 'Setting website project' },
                     { code: 'finishInstall', label: 'Finishing installation' }
                 ]
 
