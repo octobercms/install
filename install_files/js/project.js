@@ -292,7 +292,3 @@ Installer.Pages.projectForm.showProject = function() {
     Installer.toggleSection('project', true)
     Installer.showSection('project')
 }
-
-Installer.Pages.projectForm.showHelp = function(el) {
-    $('#projectFormHelp').slideToggle()
-}
