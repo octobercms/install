@@ -146,6 +146,7 @@ class Installer
 
             case 'sqlite':
                 $dsn = 'sqlite:'.$name;
+                $this->validateSqliteFile($name);
                 break;
 
             case 'sqlsrv':
@@ -788,5 +789,17 @@ class Installer
         }
 
         $d->close();
+    }
+
+    private function validateSqliteFile($filename)
+    {
+        if (file_exists($filename))
+            return;
+
+        $directory = dirname($filename);
+        if (!is_dir($directory))
+            mkdir($directory, 0666, true);
+
+        new SQLite3($filename);
     }
 }
