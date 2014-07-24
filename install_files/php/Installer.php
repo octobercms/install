@@ -128,6 +128,7 @@ class Installer
             'name' => $this->post('db_name'),
             'user' => $this->post('db_user'),
             'pass' => $this->post('db_pass'),
+            'port' => $this->post('db_port'),
         ));
 
         extract($config);
