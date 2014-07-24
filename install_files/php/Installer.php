@@ -273,13 +273,22 @@ class Installer
 
         switch ($installStep) {
             case 'getMetaData':
+                $params = array();
+
                 $plugins = $this->post('plugins', array());
                 $pluginCodes = array();
                 foreach ($plugins as $plugin) {
                     if (isset($plugin['code'])) $pluginCodes[] = $plugin['code'];
                 }
+                $params['plugins'] = $pluginCodes;
 
-                $params = array('plugins' => $pluginCodes);
+                $themes = $this->post('themes', array());
+                $themeCodes = array();
+                foreach ($themes as $theme) {
+                    if (isset($theme['code'])) $themeCodes[] = $theme['code'];
+                }
+                $params['themes'] = $themeCodes;
+
                 if ($project = $this->post('project_id', false))
                     $params['project'] = $project;
 
@@ -301,7 +310,20 @@ class Installer
                     $params['project'] = $project;
 
                 $hash = $this->getHashFromMeta($name, 'plugin');
-                $this->requestServerFile($name, $hash, 'plugin/get', $params);
+                $this->requestServerFile($name.'-plugin', $hash, 'plugin/get', $params);
+                break;
+
+            case 'downloadTheme':
+                $name = $this->post('name');
+                if (!$name)
+                    throw new Exception('Theme download failed, missing name');
+
+                $params = array('name' => $name);
+                if ($project = $this->post('project_id', false))
+                    $params['project'] = $project;
+
+                $hash = $this->getHashFromMeta($name, 'theme');
+                $this->requestServerFile($name.'-theme', $hash, 'theme/get', $params);
                 break;
 
             case 'extractCore':
@@ -325,9 +347,19 @@ class Installer
                 if (!$name)
                     throw new Exception('Plugin download failed, missing name');
 
-                $result = $this->unzipFile($name, 'plugins/');
+                $result = $this->unzipFile($name.'-plugin', 'plugins/');
                 if (!$result)
                     throw new Exception('Unable to open plugin archive file');
+                break;
+
+            case 'extractTheme':
+                $name = $this->post('name');
+                if (!$name)
+                    throw new Exception('Theme download failed, missing name');
+
+                $result = $this->unzipFile($name.'-theme', 'themes/');
+                if (!$result)
+                    throw new Exception('Unable to open theme archive file');
                 break;
 
             case 'setupConfig':

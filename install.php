@@ -140,8 +140,8 @@
 
                 Installer.Pages.projectForm.sections = [
                     { code: 'project', label: 'Project', partial: 'project/project' },
-                    { code: 'plugins', label: 'Plugins', partial: 'project/plugins' }
-                    // { code: 'themes', label: 'Themes', partial: 'project/themes' }
+                    { code: 'plugins', label: 'Plugins', partial: 'project/plugins' },
+                    { code: 'themes', label: 'Themes', partial: 'project/themes' }
                 ]
 
                 /*
@@ -152,8 +152,10 @@
                     { code: 'getMetaData', label: 'Requesting package information' },
                     { code: 'downloadCore', label: 'Downloading application files' },
                     { code: 'downloadPlugins', label: 'Downloading plugin: ' },
+                    { code: 'downloadThemes', label: 'Downloading theme: ' },
                     { code: 'extractCore', label: 'Unpacking application files' },
                     { code: 'extractPlugins', label: 'Unpacking plugin: ' },
+                    { code: 'extractThemes', label: 'Unpacking plugin: ' },
                     { code: 'setupConfig', label: 'Building configuration files' },
                     { code: 'createAdmin', label: 'Create admin account' },
                     { code: 'setupProject', label: 'Setting website project' },

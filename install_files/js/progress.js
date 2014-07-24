@@ -141,7 +141,10 @@ Installer.Pages.installProgress.execStep = {}
 Installer.Pages.installProgress.execStep.getMetaData = function(step) {
     return function() {
 
-        var data = { plugins: Installer.Pages.projectForm.includedPlugins }
+        var data = {
+            plugins: Installer.Pages.projectForm.includedPlugins,
+            themes: Installer.Pages.projectForm.includedThemes
+        }
         if (Installer.Data.project && Installer.Data.project.code)
             data.project_id = Installer.Data.project.code
 
@@ -161,6 +164,14 @@ Installer.Pages.installProgress.execStep.downloadPlugins = function(step) {
 
 Installer.Pages.installProgress.execStep.extractPlugins = function(step) {
     return Installer.Pages.installProgress.execIterationStep(step, 'extractPlugin', Installer.Pages.projectForm.includedPlugins)
+}
+
+Installer.Pages.installProgress.execStep.downloadThemes = function(step) {
+    return Installer.Pages.installProgress.execIterationStep(step, 'downloadTheme', Installer.Pages.projectForm.includedThemes)
+}
+
+Installer.Pages.installProgress.execStep.extractThemes = function(step) {
+    return Installer.Pages.installProgress.execIterationStep(step, 'extractTheme', Installer.Pages.projectForm.includedThemes)
 }
 
 Installer.Pages.installProgress.execStep.setupConfig = function(step) {

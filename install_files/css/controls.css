@@ -287,8 +287,8 @@
     padding: 5px;
 }
 .theme-list li .image img {
-    width: 125px;
-    height: 125px;
+    width: 210px;
+    height: 140px;
 }
 .theme-list li:hover .image {
     opacity: 0;
@@ -327,11 +327,22 @@
 .suggested-products .image img {
     width: 40px;
     height: 40px;
+    margin-top: 10px;
+}
+.suggested-themes .image img {
+    width: 60px;
+    height: 40px;
 }
 .suggested-products .image {
     float: left;
-    margin-right: 10px;
     position: relative;
+}
+.suggested-products .details {
+    margin-left: 50px;
+    padding: 10px 0;
+}
+.suggested-themes .details {
+    margin-left: 70px;
 }
 .suggested-products .details h5 {
     margin: 0 0 3px;
@@ -367,7 +378,7 @@
     text-align: center;
     line-height: 40px;
     position: absolute;
-    top: -3px;
+    top: 7px;
     left: 0;
 }
 .suggested-products a:hover:not(.product-included) .image img {
@@ -385,9 +396,12 @@
     width: 40px;
     height: 40px;
     position: absolute;
+    top: 10px;
     left: 0;
-    top: 0;
     background-position: 0 0;
+}
+.suggested-themes a.product-included .image:after {
+    left: 10px;
 }
 
 /*!
