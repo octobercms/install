@@ -439,7 +439,7 @@ class Installer
             case 'mysql':
                 $result = array(
                     'connections.mysql.host'     => $host,
-                    'connections.mysql.port'     => $port,
+                    'connections.mysql.port'     => empty($port) ? 3306 : $port,
                     'connections.mysql.database' => $name,
                     'connections.mysql.username' => $user,
                     'connections.mysql.password' => $pass,
@@ -467,7 +467,7 @@ class Installer
             case 'sqlsrv':
                 $result = array(
                     'connections.sqlsrv.host'     => $host,
-                    'connections.sqlsrv.port'     => $port,
+                    'connections.sqlsrv.port'     => empty($port) ? 1433 : $port,
                     'connections.sqlsrv.database' => $name,
                     'connections.sqlsrv.username' => $user,
                     'connections.sqlsrv.password' => $pass,
