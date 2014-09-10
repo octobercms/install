@@ -456,7 +456,7 @@ class Installer
             case 'pgsql':
                 $result = array(
                     'connections.pgsql.host'     => $host,
-                    'connections.pgsql.port'     => $port,
+                    'connections.pgsql.port'     => empty($port) ? 5432 : $port,
                     'connections.pgsql.database' => $name,
                     'connections.pgsql.username' => $user,
                     'connections.pgsql.password' => $pass,
