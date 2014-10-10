@@ -18,6 +18,31 @@
 
 <br />
 
+<!-- Cron information-->
+<div>
+    <h4>Setting up the crontab</h4>
+
+
+
+    <p>
+        For automated tasks to operate correctly, you should add the following to your Crontab using <strong>crontab -e</strong><br/>
+
+        Replace /path/to/artisan with the absolute path to the artisan file in the root directory of October:
+    </p>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <code>
+                * * * * * php /pathto/artisan queue:cron 1>> /dev/null 2>&1<br/>
+                * * * * * php /path/to/artisan scheduled:run 1>> /dev/null 2>&1
+            </code>
+        </div>
+    </div>
+
+    Note: If you are adding this to /etc/cron.d you'll need to specify a user immediately after * * * * *.
+</div>
+
+<br />
+
 <!-- Clean up reminder -->
 <div class="callout callout-info">
     <h4>Important!</h4>
