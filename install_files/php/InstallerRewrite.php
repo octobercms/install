@@ -82,6 +82,8 @@ class InstallerRewrite
                 $replaceValue = $value;
             }
 
+            $replaceValue = str_replace('$', '\$', $replaceValue);
+
             $patterns[] = $this->buildStringExpression($key, $items);
             $replacements[] = '${1}${2}'.$replaceValue;
 
