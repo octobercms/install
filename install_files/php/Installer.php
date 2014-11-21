@@ -83,14 +83,14 @@ class Installer
             case 'phpVersion':
                 $result = version_compare(PHP_VERSION , "5.4", ">=");
                 break;
-            case 'safeMode':
-                $result = !ini_get('safe_mode');
-                break;
             case 'pdoLibrary':
                 $result = defined('PDO::ATTR_DRIVER_NAME');
                 break;
             case 'mcryptLibrary':
                 $result = extension_loaded('mcrypt');
+                break;
+            case 'sslLibrary':
+                $result = extension_loaded('openssl');
                 break;
             case 'gdLibrary':
                 $result = extension_loaded('gd');

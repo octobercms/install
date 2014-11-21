@@ -17,7 +17,7 @@ The wizard installation is a recommended way to install October. It is simpler t
 
 October CMS has a few system requirements:
 
-* PHP 5.4 or higher with **safe_mode** restrictions disabled
+* PHP 5.4 or higher
 * PDO PHP Extension
 * cURL PHP Extension
 * MCrypt PHP Extension

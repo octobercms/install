@@ -23,8 +23,7 @@ define('OCTOBER_GATEWAY', 'http://octobercms.com/api');
 /*
  * Address timeout limits
  */
-if (!ini_get('safe_mode'))
-    set_time_limit(3600);
+@set_time_limit(3600);
 
 /*
  * Handle fatal errors with AJAX
