@@ -1,11 +1,22 @@
 <?php
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+/*
+ * Check PHP version
+ */
+if (version_compare(PHP_VERSION, '5.4.0', '<')) exit('You need at least PHP 5.4.0 to install October CMS.');
 
+/*
+ * PHP headers
+ */
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+header('Cache-Control: no-store, no-cache, must-revalidate');
+header('Cache-Control: post-check=0, pre-check=0', false);
+header('Pragma: no-cache');
+
+/*
+ * Debug mode
+ */
 $isDebug = array_key_exists('debug', $_REQUEST);
 
 if ($isDebug) {
@@ -17,6 +28,9 @@ else {
     error_reporting(0);
 }
 
+/*
+ * Constants
+ */
 define('PATH_INSTALL', str_replace("\\", "/", realpath(dirname(__FILE__)."/../../")));
 define('OCTOBER_GATEWAY', 'http://octobercms.com/api');
 
@@ -37,8 +51,9 @@ function installerShutdown()
         header('HTTP/1.1 500 Internal Server Error');
         $errorMsg = htmlspecialchars_decode(strip_tags($error['message']));
         echo $errorMsg;
-        if (isset($installer))
+        if (isset($installer)) {
             $installer->log('Fatal error: %s on line %s in file %s', $errorMsg, $error['line'], $error['file']);
+        }
         exit;
     }
 }
