@@ -1,9 +1,10 @@
 <?php include 'install_files/php/boot.php'; ?><!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
+        <!-- Meta Tags and Title -->
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>October Installation</title>
+        <title>October CMS Installation</title>
 
         <!-- Styles -->
         <link href="install_files/css/vendor.css" rel="stylesheet">
@@ -11,6 +12,7 @@
         <link href="install_files/css/controls.css" rel="stylesheet">
         <link href="install_files/css/animations.css" rel="stylesheet">
 
+        <!-- Base URL -->
         <?php if (!isset($fatalError)): ?>
             <script>
             <!--
@@ -92,7 +94,9 @@
             <?php endforeach ?>
 
             <!-- Scripts -->
-            <script src="install_files/js/vendor.js"></script>
+            <script src="install_files/js/jquery.js"></script>
+            <script src="install_files/js/mustache.js"></script>
+            <script src="install_files/js/waterfall.js"></script>
             <script src="install_files/js/app.js"></script>
             <script src="install_files/js/check.js"></script>
             <script src="install_files/js/config.js"></script>
