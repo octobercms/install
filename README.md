@@ -1,6 +1,6 @@
-# Installation wizard for October
+# Installation wizard for October CMS
 
-The wizard installation is a recommended way to install October. It is simpler than the command-line installation and doesn't require any special skills.
+The wizard installation is a recommended way to install October CMS. It is simpler than the command-line installation and doesn't require any special skills.
 
 1. Prepare a directory on your server that is empty. It can be a sub-directory, domain root or a sub-domain.
 1. [Download the installer archive file](https://github.com/octobercms/install/archive/master.zip).
@@ -8,10 +8,6 @@ The wizard installation is a recommended way to install October. It is simpler t
 1. Grant writing permissions on the installation directory and all its subdirectories and files.
 1. Navigate to the install.php script in your web browser.
 1. Follow the installation instructions.
-
-### Troubleshooting installation
-
-* **The page appears empty when opening the installer**: This might be caused by using older versions of PHP, check that you are running PHP version 5.4 or higher.
 
 ## Minimum System Requirements
 
