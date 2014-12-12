@@ -1,7 +1,7 @@
 <?php include 'install_files/php/boot.php'; ?><!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
         <title>October Installation</title>
 
@@ -11,6 +11,7 @@
         <link href="install_files/css/controls.css" rel="stylesheet">
         <link href="install_files/css/animations.css" rel="stylesheet">
 
+        <!-- Base URL -->
         <?php if (!isset($fatalError)): ?>
             <script>
             <!--
@@ -85,7 +86,7 @@
                 );
             ?>
 
-            <?php foreach($partialList as $file): ?>
+            <?php foreach ($partialList as $file): ?>
                 <script type="text/template" data-partial="<?= $file ?>">
                     <?php include 'install_files/partials/'.$file.'.htm'; ?>
                 </script>
