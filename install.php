@@ -14,7 +14,7 @@
         <?php if (!isset($fatalError)): ?>
             <script>
             <!--
-                installerBaseUrl = '<?= $installer->getBaseUrl() ?>';
+                installerBaseUrl = '<?php echo $installer->getBaseUrl() ?>';
             // -->
             </script>
         <?php endif ?>
@@ -38,7 +38,7 @@
             <section class="body">
                 <?php if (isset($fatalError)): ?>
                     <div class="container">
-                        <div class="callout callout-danger"><?= $fatalError ?></div>
+                        <div class="callout callout-danger"><?php echo $fatalError ?></div>
                     </div>
                 <?php else: ?>
                     <div class="container" id="containerBody"></div>
@@ -86,7 +86,7 @@
             ?>
 
             <?php foreach($partialList as $file): ?>
-                <script type="text/template" data-partial="<?= $file ?>">
+                <script type="text/template" data-partial="<?php echo $file ?>">
                     <?php include 'install_files/partials/'.$file.'.htm'; ?>
                 </script>
             <?php endforeach ?>
