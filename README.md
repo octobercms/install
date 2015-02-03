@@ -9,10 +9,6 @@ The wizard installation is a recommended way to install October. It is simpler t
 1. Navigate to the install.php script in your web browser.
 1. Follow the installation instructions.
 
-### Troubleshooting installation
-
-* **The page appears empty when opening the installer**: This might be caused by using older versions of PHP, check that you are running PHP version 5.4 or higher.
-
 ## Minimum System Requirements
 
 October CMS has a few system requirements:
