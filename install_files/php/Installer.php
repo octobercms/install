@@ -525,7 +525,7 @@ class Installer
         $this->bootFramework();
 
         call_user_func('System\Models\Parameters::set', array(
-            'system::core.hash'  => $this->post('hash'),
+            'system::core.hash'  => $this->post('uhash'),
             'system::core.build' => $this->post('build'),
         ));
     }

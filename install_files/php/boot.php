@@ -40,6 +40,11 @@ define('OCTOBER_GATEWAY', 'http://octobercms.com/api');
 @set_time_limit(3600);
 
 /*
+ * Prevent PCRE engine from crashing
+ */
+ini_set('pcre.recursion_limit', '524'); // 256KB stack. Win32 Apache
+
+/*
  * Handle fatal errors with AJAX
  */
 register_shutdown_function('installerShutdown');
