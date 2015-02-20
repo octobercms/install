@@ -3,11 +3,6 @@
 class Installer
 {
     /**
-     * @var Illuminate\Foundation\Application Framework application object, when booted.
-     */
-    protected $app;
-
-    /**
      * @var InstallerRewrite Configuration rewriter object.
      */
     protected $rewriter;
@@ -39,7 +34,7 @@ class Installer
          */
         $this->baseDirectory = PATH_INSTALL;
         $this->tempDirectory = PATH_INSTALL . '/install_files/temp'; // @todo Use sys_get_temp_dir()
-        $this->configDirectory = $this->baseDirectory . '/app/config';
+        $this->configDirectory = $this->baseDirectory . '/config';
         $this->logFile = PATH_INSTALL . '/install_files/install.log';
         $this->logPost();
 
@@ -88,6 +83,9 @@ class Installer
                 break;
             case 'mcryptLibrary':
                 $result = extension_loaded('mcrypt');
+                break;
+            case 'mbstringLibrary':
+                $result = extension_loaded('mbstring');
                 break;
             case 'sslLibrary':
                 $result = extension_loaded('openssl');
@@ -643,9 +641,19 @@ class Installer
 
     private function bootFramework()
     {
-        require $this->baseDirectory . '/bootstrap/autoload.php';
-        $this->app = $app = require_once $this->baseDirectory . '/bootstrap/start.php';
-        $app->boot();
+        $autoloadFile = $this->baseDirectory . '/bootstrap/autoload.php';
+        if (!file_exists($autoloadFile))
+            throw new Exception('Unable to find autoloader: ~/bootstrap/autoload.php');
+
+        require $autoloadFile;
+
+        $appFile = $this->baseDirectory . '/bootstrap/app.php';
+        if (!file_exists($appFile))
+            throw new Exception('Unable to find app loader: ~/bootstrap/app.php');
+
+        $app = require_once $appFile;
+        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
+        $kernel->bootstrap();
     }
 
     private function requestServerData($uri = null, $params = array())
