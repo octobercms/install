@@ -843,7 +843,7 @@ class Installer
 
         $directory = dirname($filename);
         if (!is_dir($directory))
-            mkdir($directory, 0666, true);
+            mkdir($directory, 0777, true);
 
         new SQLite3($filename);
     }
