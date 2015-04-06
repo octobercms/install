@@ -18,12 +18,6 @@ Installer.Pages.projectForm.init = function() {
     $('#suggestedProductsContainer').hide()
 
     Installer.Pages.projectForm.bindAll()
-
-    /*
-     * Hide the project section initially
-     */
-    Installer.toggleSection('project')
-    Installer.showSection('plugins')
 }
 
 Installer.Pages.projectForm.next = function() {
@@ -285,10 +279,4 @@ Installer.Pages.projectForm.hilightIncludedPackages = function(el) {
     $.each(includedProducts, function(index, product){
         $('[data-code="'+product.code+'"]').addClass('product-included')
     })
-}
-
-Installer.Pages.projectForm.showProject = function() {
-    $('.btn-show-project').hide()
-    Installer.toggleSection('project', true)
-    Installer.showSection('project')
 }

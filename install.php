@@ -146,7 +146,7 @@
                 /*
                  * Project Page
                  */
-                Installer.Pages.projectForm.title = 'Packages'
+                Installer.Pages.projectForm.title = 'Project details'
                 Installer.Pages.projectForm.nextButton = 'Install!'
 
                 Installer.Pages.projectForm.sections = [
