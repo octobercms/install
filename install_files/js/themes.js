@@ -2,18 +2,16 @@
  * Themes Form (Step 3)
  */
 
-Installer.Pages.themesForm.suggestedThemes = null
-
 Installer.Pages.themesForm.init = function() {
 
-    if (Installer.Pages.themesForm.suggestedThemes) {
-        Installer.Pages.themesForm.renderThemes(Installer.Pages.themesForm.suggestedThemes)
+    if (Installer.DataSet.suggestedThemes.length == 0) {
+        Installer.Pages.themesForm.renderThemes(Installer.DataSet.suggestedThemes)
         Installer.Pages.themesForm.pageReady()
     }
     else {
         $.sendRequest('onGetPopularThemes', {}, { loadingIndicator: false })
             .done(function(result){
-                Installer.Pages.themesForm.suggestedThemes = result
+                Installer.DataSet.suggestedThemes = result
                 Installer.Pages.themesForm.renderThemes(result)
                 Installer.Pages.themesForm.pageReady()
             })
@@ -31,6 +29,18 @@ Installer.Pages.themesForm.renderThemes = function(suggestedThemes) {
 Installer.Pages.themesForm.pageReady = function() {
     $('#themesForm').addClass('animate fade_in')
     $('#themesFormLoading').hide()
+}
+
+Installer.Pages.themesForm.installTheme = function(code) {
+    $.sendRequest('onThemeDetails', {
+        code: code
+    })
+    .done(function(theme){
+
+    })
+    .fail(function(data){
+        alert(data.responseText)
+    })
 }
 
 Installer.Pages.themesForm.confirmSelection = function(el) {

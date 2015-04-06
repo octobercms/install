@@ -27,6 +27,12 @@ var Installer = {
         meta:   null, // Meta information from the server
         config: null, // Configuration from the user
         project: null // Project for the installation
+    },
+    DataSet: {
+        includedPlugins: [],  // Plugins to install
+        includedThemes: [],   // Themes to install
+        suggestedPlugins: [], // Suggested plugins from the server
+        suggestedThemes: []   // Suggested themes from the server
     }
 }
 

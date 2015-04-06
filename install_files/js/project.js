@@ -2,11 +2,6 @@
  * Packages & Install (Step 3)
  */
 
-// Expected:
-//   [{ code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' }, ...]
-Installer.Pages.projectForm.suggestedPlugins = []
-Installer.Pages.projectForm.suggestedThemes = []
-
 Installer.Pages.projectForm.init = function() {
 
     var projectForm = $('#projectForm').addClass('animate fade_in')
@@ -100,8 +95,8 @@ Installer.Pages.projectForm.detachProject = function(el) {
     if (!confirm('Are you sure?')) return
 
     Installer.Data.project = null
-    Installer.Pages.installProgress.includedPlugins = []
-    Installer.Pages.installProgress.includedThemes = []
+    Installer.DataSet.includedPlugins = []
+    Installer.DataSet.includedThemes = []
     Installer.refreshSections()
     Installer.Pages.projectForm.bindAll()
 }
@@ -117,8 +112,8 @@ Installer.Pages.projectForm.attachProject = function(el) {
         .done(function(result){
             Installer.Data.project = result
             Installer.Data.project.code = code
-            Installer.Pages.installProgress.includedPlugins = result.plugins ? result.plugins : []
-            Installer.Pages.installProgress.includedThemes = result.themes ? result.themes : []
+            Installer.DataSet.includedPlugins = result.plugins ? result.plugins : []
+            Installer.DataSet.includedThemes = result.themes ? result.themes : []
             Installer.refreshSections({
                 projectId: code,
                 projectName: result.name,
@@ -137,7 +132,7 @@ Installer.Pages.projectForm.bindSuggested = function(el) {
 
     var
         dataSetId = $(el).data('set'),
-        productSet = Installer.Pages.projectForm[dataSetId]
+        productSet = Installer.DataSet[dataSetId]
 
     /*
      * If no suggested extras are provided, pull them from the server
@@ -178,7 +173,7 @@ Installer.Pages.projectForm.bindIncludeManager = function(el) {
         $counter = $el.find('.product-counter:first'),
         partial = $el.data('view'),
         dataSetId = $el.data('set'),
-        includedProducts = Installer.Pages.projectForm[dataSetId]
+        includedProducts = Installer.DataSet[dataSetId]
 
     if (!$el.length)
         return
@@ -218,7 +213,7 @@ Installer.Pages.projectForm.includePackage = function(el, code) {
         handler = $el.data('handler'),
         partial = $el.data('view'),
         dataSetId = $el.data('set'),
-        includedProducts = Installer.Pages.projectForm[dataSetId],
+        includedProducts = Installer.DataSet[dataSetId],
         productExists = false,
         extraData = { name: code }
 
@@ -252,11 +247,11 @@ Installer.Pages.projectForm.removePackage = function(el, code) {
         $counter = $el.find('.product-counter:first'),
         $empty = $el.find('.product-list-empty:first'),
         dataSetId = $el.data('set'),
-        includedProducts = Installer.Pages.projectForm[dataSetId]
+        includedProducts = Installer.DataSet[dataSetId]
 
     $el.find('[data-code="'+code+'"]').fadeOut(500, function(){
 
-        Installer.Pages.projectForm[dataSetId] = includedProducts = $.grep(includedProducts, function(product) {
+        Installer.DataSet[dataSetId] = includedProducts = $.grep(includedProducts, function(product) {
             return product.code != code;
         })
 
@@ -272,7 +267,7 @@ Installer.Pages.projectForm.hilightIncludedPackages = function(el) {
     var
         $el = $(el),
         dataSetId = $el.data('set'),
-        includedProducts = Installer.Pages.projectForm[dataSetId]
+        includedProducts = Installer.DataSet[dataSetId]
 
     $.each(includedProducts, function(index, product){
         $('[data-code="'+product.code+'"]').addClass('product-included')
