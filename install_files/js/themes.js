@@ -4,7 +4,7 @@
 
 Installer.Pages.themesForm.init = function() {
 
-    if (Installer.DataSet.suggestedThemes.length == 0) {
+    if (Installer.DataSet.suggestedThemes.length != 0) {
         Installer.Pages.themesForm.renderThemes(Installer.DataSet.suggestedThemes)
         Installer.Pages.themesForm.pageReady()
     }
@@ -32,11 +32,16 @@ Installer.Pages.themesForm.pageReady = function() {
 }
 
 Installer.Pages.themesForm.installTheme = function(code) {
+
+    Installer.DataSet.includedPlugins = []
+    Installer.DataSet.includedThemes = []
+
     $.sendRequest('onThemeDetails', {
         code: code
     })
     .done(function(theme){
-
+        Installer.DataSet.includedThemes.push(theme)
+        Installer.showPage('installProgress')
     })
     .fail(function(data){
         alert(data.responseText)
