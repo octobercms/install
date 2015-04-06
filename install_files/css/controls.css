@@ -179,6 +179,33 @@
     text-align: left;
 }
 
+.theme-item {
+    background: #fff;
+    padding: 20px;
+    margin-top: 20px;
+}
+.theme-item h4,
+.theme-item h4 + p {
+    display: inline-block;
+}
+.theme-item h4 + p {
+    position: relative;
+    top: -1px;
+    margin-left: 5px;
+    color: rgba(0,0,0,.5);
+}
+.theme-item .theme-item-thumb {
+    text-align: center;
+    padding: 10px 0 20px 0;
+}
+.theme-item .theme-item-description {
+    overflow-y: auto;
+    height: 75px;
+}
+.theme-item ul.list-inline {
+    margin-top: 20px;
+}
+
 .scroll-panel {
     padding: 20px;
     overflow: auto;

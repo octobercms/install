@@ -381,3 +381,23 @@ footer .form-control-panel.loading:before {
 p {
     font-size: 14px;
 }
+
+.loading-section:before {
+    content: "";
+    background: transparent url('../images/sprite.png') no-repeat;
+    background-size: 42px auto;
+    display: block;
+    width: 42px;
+    height: 42px;
+    margin-top: 2px;
+    margin-right: 10px;
+    float: left;
+    background-position: 0 -42px;
+    -moz-animation: spin 1s infinite linear;
+    -webkit-animation: spin 1s infinite linear;
+    animation: spin 1s infinite linear;
+}
+.loading-section p {
+    line-height: 42px;
+    margin-left: 72px;
+}

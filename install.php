@@ -74,6 +74,8 @@
                     'config/admin',
                     'config/advanced',
                     'starter',
+                    'themes',
+                    'themes/theme',
                     'project',
                     'project/project',
                     'project/plugins',
@@ -100,6 +102,7 @@
             <script src="install_files/js/check.js"></script>
             <script src="install_files/js/config.js"></script>
             <script src="install_files/js/starter.js"></script>
+            <script src="install_files/js/themes.js"></script>
             <script src="install_files/js/project.js"></script>
             <script src="install_files/js/progress.js"></script>
             <script src="install_files/js/complete.js"></script>
@@ -137,11 +140,15 @@
                     { code: 'advanced', label: 'Advanced', category: 'Advanced', handler: 'onValidateAdvancedConfig', partial: 'config/advanced' }
                 ]
 
-
                 /*
                  * Starter Page
                  */
                 Installer.Pages.starterForm.title = 'Getting started'
+
+                /*
+                 * Themes Page
+                 */
+                Installer.Pages.themesForm.title = 'Start from a theme'
 
                 /*
                  * Project Page

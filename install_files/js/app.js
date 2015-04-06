@@ -15,6 +15,7 @@ var Installer = {
         systemCheck:     { isStep1: true, body: 'check' },
         configForm:      { isStep2: true, body: 'config' },
         starterForm:     { isStep3: true, body: 'starter' },
+        themesForm:      { isStep3: true, body: 'themes' },
         projectForm:     { isStep3: true, body: 'project' },
         installProgress: { isStep4: true, body: 'progress' },
         installComplete: { isStep5: true, body: 'complete' }
