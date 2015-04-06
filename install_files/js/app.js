@@ -3,14 +3,12 @@
  */
 
 $(document).ready(function(){
-    // Installer.Pages.systemCheck.isRendered = true
-    Installer.Pages.themesForm.isRendered = true
+    Installer.Pages.systemCheck.isRendered = true
     Installer.showPage(Installer.ActivePage, true)
 })
 
 var Installer = {
-    // ActivePage: 'systemCheck',
-    ActivePage: 'themesForm',
+    ActivePage: 'systemCheck',
     Pages: {
         systemCheck:     { isStep1: true, body: 'check' },
         configForm:      { isStep2: true, body: 'config' },

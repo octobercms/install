@@ -37,7 +37,7 @@ Installer.Pages.themesForm.installTheme = function(code) {
     Installer.DataSet.includedThemes = []
 
     $.sendRequest('onThemeDetails', {
-        code: code
+        name: code
     })
     .done(function(theme){
         Installer.DataSet.includedThemes.push(theme)
