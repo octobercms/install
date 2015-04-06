@@ -210,7 +210,8 @@
     margin-top: 20px;
     font-weight: bold;
 }
-.theme-item .theme-item-confirm span {
+.theme-item .theme-item-confirm span,
+.theme-item .theme-item-confirm a.btn {
     margin-right: 5px;
 }
 
