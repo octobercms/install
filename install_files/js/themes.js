@@ -33,5 +33,17 @@ Installer.Pages.themesForm.pageReady = function() {
     $('#themesFormLoading').hide()
 }
 
+Installer.Pages.themesForm.confirmSelection = function(el) {
+    $(el).closest('.theme-item')
+        .find('.theme-item-confirm').show().end()
+        .find('.list-inline').hide()
+}
+
+Installer.Pages.themesForm.cancelSelection = function(el) {
+    $(el).closest('.theme-item')
+        .find('.theme-item-confirm').hide().end()
+        .find('.list-inline').show()
+}
+
 Installer.Pages.themesForm.next = function() {
 }

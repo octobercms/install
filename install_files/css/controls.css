@@ -183,6 +183,7 @@
     background: #fff;
     padding: 20px;
     margin-top: 20px;
+    min-height: 385px;
 }
 .theme-item h4,
 .theme-item h4 + p {
@@ -204,6 +205,13 @@
 }
 .theme-item ul.list-inline {
     margin-top: 20px;
+}
+.theme-item .theme-item-confirm {
+    margin-top: 20px;
+    font-weight: bold;
+}
+.theme-item .theme-item-confirm span {
+    margin-right: 5px;
 }
 
 .scroll-panel {
