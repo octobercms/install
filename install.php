@@ -10,6 +10,7 @@
         <link href="install_files/css/layout.css" rel="stylesheet">
         <link href="install_files/css/controls.css" rel="stylesheet">
         <link href="install_files/css/animations.css" rel="stylesheet">
+        <link href="install_files/css/fonts.css" rel="stylesheet">
 
         <!-- Base URL -->
         <?php if (!isset($fatalError)): ?>
@@ -72,6 +73,7 @@
                     'config/database',
                     'config/admin',
                     'config/advanced',
+                    'starter',
                     'project',
                     'project/project',
                     'project/plugins',
@@ -97,6 +99,7 @@
             <script src="install_files/js/app.js"></script>
             <script src="install_files/js/check.js"></script>
             <script src="install_files/js/config.js"></script>
+            <script src="install_files/js/starter.js"></script>
             <script src="install_files/js/project.js"></script>
             <script src="install_files/js/progress.js"></script>
             <script src="install_files/js/complete.js"></script>
@@ -134,8 +137,14 @@
                     { code: 'advanced', label: 'Advanced', category: 'Advanced', handler: 'onValidateAdvancedConfig', partial: 'config/advanced' }
                 ]
 
+
                 /*
-                 * Extras Page
+                 * Starter Page
+                 */
+                Installer.Pages.starterForm.title = 'Getting started'
+
+                /*
+                 * Project Page
                  */
                 Installer.Pages.projectForm.title = 'Packages'
                 Installer.Pages.projectForm.nextButton = 'Install!'

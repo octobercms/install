@@ -3,15 +3,18 @@
  */
 
 $(document).ready(function(){
-    Installer.Pages.systemCheck.isRendered = true
+    // Installer.Pages.systemCheck.isRendered = true
+    Installer.Pages.starterForm.isRendered = true
     Installer.showPage(Installer.ActivePage, true)
 })
 
 var Installer = {
-    ActivePage: 'systemCheck',
+    // ActivePage: 'systemCheck',
+    ActivePage: 'starterForm',
     Pages: {
         systemCheck:     { isStep1: true, body: 'check' },
         configForm:      { isStep2: true, body: 'config' },
+        starterForm:     { isStep3: true, body: 'starter' },
         projectForm:     { isStep3: true, body: 'project' },
         installProgress: { isStep4: true, body: 'progress' },
         installComplete: { isStep5: true, body: 'complete' }

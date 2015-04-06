@@ -156,6 +156,29 @@
     animation: spin 1s infinite linear;
 }
 
+.starter-item {
+    text-align: center;
+    margin-bottom: 40px;
+    min-height: 350px;
+}
+.starter-item.clean:before {
+    background-position: 35px 100%;
+}
+.starter-item.theme:before {
+    background-position: 235px 100%;
+}
+.starter-item.project:before {
+    background-position: 425px 100%;
+}
+.starter-item i.icon {
+    font-size: 42px;
+    display: block;
+    margin: 20px 0;
+}
+.starter-item p {
+    text-align: left;
+}
+
 .scroll-panel {
     padding: 20px;
     overflow: auto;
