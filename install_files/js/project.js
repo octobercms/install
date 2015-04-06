@@ -4,8 +4,6 @@
 
 // Expected:
 //   [{ code: 'October.Demo', name: 'Demo', author: 'October', description: 'Demonstration features.', image: 'http://placehold.it/100x100' }, ...]
-Installer.Pages.projectForm.includedPlugins = []
-Installer.Pages.projectForm.includedThemes = []
 Installer.Pages.projectForm.suggestedPlugins = []
 Installer.Pages.projectForm.suggestedThemes = []
 
@@ -102,8 +100,8 @@ Installer.Pages.projectForm.detachProject = function(el) {
     if (!confirm('Are you sure?')) return
 
     Installer.Data.project = null
-    Installer.Pages.projectForm.includedPlugins = []
-    Installer.Pages.projectForm.includedThemes = []
+    Installer.Pages.installProgress.includedPlugins = []
+    Installer.Pages.installProgress.includedThemes = []
     Installer.refreshSections()
     Installer.Pages.projectForm.bindAll()
 }
@@ -119,8 +117,8 @@ Installer.Pages.projectForm.attachProject = function(el) {
         .done(function(result){
             Installer.Data.project = result
             Installer.Data.project.code = code
-            Installer.Pages.projectForm.includedPlugins = result.plugins ? result.plugins : []
-            Installer.Pages.projectForm.includedThemes = result.themes ? result.themes : []
+            Installer.Pages.installProgress.includedPlugins = result.plugins ? result.plugins : []
+            Installer.Pages.installProgress.includedThemes = result.themes ? result.themes : []
             Installer.refreshSections({
                 projectId: code,
                 projectName: result.name,

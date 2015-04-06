@@ -2,6 +2,8 @@
  * Install Progress (Step 4)
  */
 
+Installer.Pages.installProgress.includedPlugins = []
+Installer.Pages.installProgress.includedThemes = []
 Installer.Pages.installProgress.activeStep = null
 
 Installer.Pages.installProgress.init = function() {
@@ -142,8 +144,8 @@ Installer.Pages.installProgress.execStep.getMetaData = function(step) {
     return function() {
 
         var data = {
-            plugins: Installer.Pages.projectForm.includedPlugins,
-            themes: Installer.Pages.projectForm.includedThemes
+            plugins: Installer.Pages.installProgress.includedPlugins,
+            themes: Installer.Pages.installProgress.includedThemes
         }
         if (Installer.Data.project && Installer.Data.project.code)
             data.project_id = Installer.Data.project.code
@@ -159,19 +161,19 @@ Installer.Pages.installProgress.execStep.getMetaData = function(step) {
 }
 
 Installer.Pages.installProgress.execStep.downloadPlugins = function(step) {
-    return Installer.Pages.installProgress.execIterationStep(step, 'downloadPlugin', Installer.Pages.projectForm.includedPlugins)
+    return Installer.Pages.installProgress.execIterationStep(step, 'downloadPlugin', Installer.Pages.installProgress.includedPlugins)
 }
 
 Installer.Pages.installProgress.execStep.extractPlugins = function(step) {
-    return Installer.Pages.installProgress.execIterationStep(step, 'extractPlugin', Installer.Pages.projectForm.includedPlugins)
+    return Installer.Pages.installProgress.execIterationStep(step, 'extractPlugin', Installer.Pages.installProgress.includedPlugins)
 }
 
 Installer.Pages.installProgress.execStep.downloadThemes = function(step) {
-    return Installer.Pages.installProgress.execIterationStep(step, 'downloadTheme', Installer.Pages.projectForm.includedThemes)
+    return Installer.Pages.installProgress.execIterationStep(step, 'downloadTheme', Installer.Pages.installProgress.includedThemes)
 }
 
 Installer.Pages.installProgress.execStep.extractThemes = function(step) {
-    return Installer.Pages.installProgress.execIterationStep(step, 'extractTheme', Installer.Pages.projectForm.includedThemes)
+    return Installer.Pages.installProgress.execIterationStep(step, 'extractTheme', Installer.Pages.installProgress.includedThemes)
 }
 
 Installer.Pages.installProgress.execStep.setupConfig = function(step) {
