@@ -400,8 +400,16 @@ class Installer
             'key'    => $this->post('encryption_code', 'ChangeMe!123'),
         ));
 
+        $activeTheme = $this->post('active_theme');
+        if ($activeTheme) {
+            $activeTheme = strtolower(str_replace('.', '-', $activeTheme));
+        }
+        else {
+            $activeTheme = 'demo';
+        }
+
         $this->rewriter->toFile($this->configDirectory . '/cms.php', array(
-            'activeTheme' => 'demo',
+            'activeTheme' => $activeTheme,
             'backendUri'  => $this->post('backend_uri', '/backend'),
             'defaultMask.file' => $this->post('file_mask', '777'),
             'defaultMask.folder' => $this->post('folder_mask', '777'),

@@ -41,6 +41,7 @@ Installer.Pages.themesForm.installTheme = function(code) {
     })
     .done(function(theme){
         Installer.DataSet.includedThemes.push(theme)
+        Installer.Data.config.active_theme = code
         Installer.showPage('installProgress')
     })
     .fail(function(data){
