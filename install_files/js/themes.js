@@ -40,8 +40,9 @@ Installer.Pages.themesForm.installTheme = function(code) {
         name: code
     })
     .done(function(theme){
-        Installer.DataSet.includedThemes.push(theme)
         Installer.Data.config.active_theme = code
+        Installer.DataSet.includedThemes.push(theme)
+        Installer.DataSet.includedPlugins = theme.require
         Installer.showPage('installProgress')
     })
     .fail(function(data){
