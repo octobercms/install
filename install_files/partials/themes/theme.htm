@@ -23,16 +23,20 @@
             </a>
         </p>
         <ul class="list-inline">
-            <li>
-                <a href="#" class="btn btn-default btn-sm">
-                    Demo
-                </a>
-            </li>
-            <li>
-                <a href="#" class="btn btn-default btn-sm">
-                    Github
-                </a>
-            </li>
+            {{#demo_url}}
+                <li>
+                    <a href="{{ demo_url }}" class="btn btn-default btn-sm" target="_blank">
+                        Demo
+                    </a>
+                </li>
+            {{/demo_url}}
+            {{#product_url}}
+                <li>
+                    <a href="{{ product_url }}" class="btn btn-default btn-sm" target="_blank">
+                        Details
+                    </a>
+                </li>
+            {{/product_url}}
             <li>
                 <a
                     href="javascript:;"
