@@ -13,7 +13,7 @@ class Lang
             static::init();
         }
         if (static::$langStrings === null) {
-            $path = PATH_INSTALL . '/install_files/lang/' . static::$lang . '/php/lang.php';
+            $path = PATH_INSTALL . '/install_files/lang/' . static::$lang . '/lang.php';
             static::$langStrings = require_once $path;
         }
 
