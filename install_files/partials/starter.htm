@@ -1,7 +1,7 @@
 <!-- Starter form -->
 <div id="starterForm" class="animated-content">
 
-    <p class="lead text-center">How do you want to set up your site?</p>
+    <p class="lead text-center"><?= Lang::get('html_starter_text_center') ?></p>
 
     <div class="row">
         <div class="col-md-4">
@@ -10,11 +10,11 @@
                 <a
                     href="javascript:Installer.Pages.starterForm.startClean()"
                     class="btn btn-default btn-lg">
-                    Start from scratch
+                    <?= Lang::get('html_starter_start_scratch') ?>
                 </a>
                 <hr />
-                <p>Install October without any plugins or themes. This is a good option to choose for custom building.</p>
-                <p>You'll need to code your site in HTML / CSS.</p>
+                <p><?= Lang::get('html_starter_scratch_p1') ?></p>
+                <p><?= Lang::get('html_starter_scratch_p2') ?></p>
             </div>
         </div>
         <div class="col-md-4">
@@ -23,11 +23,11 @@
                 <a
                     href="javascript:Installer.Pages.starterForm.startThemes()"
                     class="btn btn-default btn-lg">
-                    Start from a theme
+                    <?= Lang::get('html_starter_start_theme') ?>
                 </a>
                 <hr />
-                <p>Pick from a pre-built site that fits a general purpose and you can customize later.</p>
-                <p>For example: A blog site, a portfolio site.</p>
+                <p><?= Lang::get('html_starter_theme_p1') ?></p>
+                <p><?= Lang::get('html_starter_theme_p2') ?></p>
             </div>
         </div>
         <div class="col-md-4">
@@ -36,11 +36,11 @@
                 <a
                     href="javascript:Installer.Pages.starterForm.useProject()"
                     class="btn btn-default btn-lg">
-                    Use a project ID
+                    <?= Lang::get('html_starter_start_project') ?>
                 </a>
                 <hr />
-                <p>If you've set up a project at the OctoberCMS website you can enter it here.</p>
-                <p>This option can be used to define plugins and themes manually.</p>
+                <p><?= Lang::get('html_starter_project_p1') ?></p>
+                <p><?= Lang::get('html_starter_project_p2') ?></p>
             </div>
         </div>
     </div>

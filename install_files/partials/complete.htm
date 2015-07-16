@@ -1,17 +1,17 @@
 <!-- Success alert -->
-<p class="lead text-success with-tick">Installation has been successfully completed</p>
+<p class="lead text-success with-tick"><?= Lang::get('html_complete_lead') ?></p>
 
 <!-- Application information -->
 <div class="row">
     <div class="col-md-6">
-        <h4>Website address</h4>
-        <p>Your website is located at this URL:</p>
+        <h4><?= Lang::get('html_complete_app_h4') ?></h4>
+        <p><?= Lang::get('html_complete_app_p') ?></p>
         <p>&bull; <a target="_blank" href="{{baseUrl}}">{{baseUrl}}</a></p>
     </div>
 
     <div class="col-md-6">
-        <h4>Administration Area</h4>
-        <p>Use the following link to log into the administration area:</p>
+        <h4><?= Lang::get('html_complete_app_h4_2') ?></h4>
+        <p><?= Lang::get('html_complete_app_p_2') ?></p>
         <p>&bull; <a target="_blank" href="{{backendUrl}}">{{backendUrl}}</a></p>
     </div>
 </div>
@@ -20,11 +20,9 @@
 
 <!-- Post-install configuration-->
 <div>
-    <h4>Post-install configuration</h4>
+    <h4><?= Lang::get('html_complete_post_h4') ?></h4>
     <p>
-        Now that we're done, there a few things you may want to address for the smooth operation of your site. Please review the
-        <a href="http://octobercms.com/docs/help/installation#post-install-config" target="_blank">installation help guide</a>
-        for further instructions.
+        <?= Lang::get('html_complete_post_p') ?>
     </p>
 </div>
 
@@ -32,9 +30,8 @@
 
 <!-- Clean up reminder -->
 <div class="callout callout-info">
-    <h4>Important!</h4>
+    <h4><?= Lang::get('html_complete_clean_h4') ?></h4>
     <p>
-        For security reasons you should delete the installation files,
-        the <strong>install.php</strong> script and the <strong>install_files</strong> directory.
+        <?= Lang::get('html_complete_clean_p') ?>
     </p>
 </div>

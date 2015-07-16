@@ -84,5 +84,56 @@ return [
     'install_progress_create_admin' => 'Create admin account',
     'install_progress_setup_project' => 'Setting website project',
     'install_progress_finish_install' => 'Finishing installation',
-    'install_complete_title' => 'Congratulations!'
+    'install_complete_title' => 'Congratulations!',
+
+    /* title.htm */
+
+    /* themes.htm */
+    'html_themes_lead' => 'Loading themes...',
+    'html_themes_text_center' => 'Themes can install plugins and create pages needed to jump start your website.',
+
+    /* starter.htm */
+    'html_starter_text_center' => 'How do you want to set up your site?',
+    'html_starter_start_scratch' => 'Start from scratch',
+    'html_starter_scratch_p1' => 'Install October without any plugins or themes. This is a good option to choose for custom building.',
+    'html_starter_scratch_p2' => 'You\'ll need to code your site in HTML / CSS.',
+    'html_starter_start_theme' => 'Start from a theme',
+    'html_starter_theme_p1' => 'Pick from a pre-built site that fits a general purpose and you can customize later.',
+    'html_starter_theme_p2' => 'For example: A blog site, a portfolio site.',
+    'html_starter_start_project' => 'Use a project ID',
+    'html_starter_project_p1' => 'If you\'ve set up a project at the OctoberCMS website you can enter it here.',
+    'html_starter_project_p2' => 'This option can be used to define plugins and themes manually.',
+
+    /* project.htm */
+    'html_project_h3' => 'Custom install',
+    'html_project_p1' => 'Instead of providing a project ID, you can define plugins and themes manually using the links above.',
+    'html_project_p2' => 'When finished, click Install to continue.',
+
+    /* progress.htm */
+
+    /* header.htm */
+    'html_header_h1' => 'October',
+
+    /* footer.htm */
+
+    /* config.htm */
+
+    /* complete.htm */
+    'html_complete_lead' => 'Installation has been successfully completed',
+    'html_complete_app_h4' => 'Website address',
+    'html_complete_app_p' => 'Your website is located at this URL:',
+    'html_complete_app_h4_2' => 'Administration Area',
+    'html_complete_app_p_2' => 'Use the following link to log into the administration area:',
+    'html_complete_post_h4' => 'Post-install configuration',
+    'html_complete_post_p' => 'Now that we\'re done, there a few things you may want to address for the smooth operation of your site. Please review the ' .
+'<a href="http://octobercms.com/docs/help/installation#post-install-config" target="_blank">installation help guide</a> for further instructions.',
+    'html_complete_clean_h4' => 'Important!',
+    'html_complete_clean_p' => 'For security reasons you should delete the installation files, the <strong>install.php</strong> script and the <strong>install_files</strong> directory.',
+
+    /* check.htm */
+    'html_check_h3' => 'License agreement',
+    'html_check_p1' => 'MIT license',
+    'html_check_p2' => 'Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:',
+    'html_check_p3' => 'The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.',
+    'html_check_p4' => 'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.',
 ];
