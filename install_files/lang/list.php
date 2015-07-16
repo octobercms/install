@@ -4,5 +4,6 @@
  */
 
 return [
-    'en' => 'English'
+    'en' => 'English',
+    'zh-cn' => '简体中文'
 ];

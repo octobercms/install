@@ -175,6 +175,7 @@ return [
 
     /* project/plugins.htm */
     'html_project_plugins_lead' => 'Choose some plugins to get you started (optional).',
+    'html_project_plugins_search' => 'search plugins...',
     'html_project_plugins_included' => 'Included',
     'html_project_plugins_no_included' => 'There are no plugins included.',
     'html_project_plugins_recommended' => 'Recommended',
