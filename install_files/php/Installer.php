@@ -396,7 +396,7 @@ class Installer
 
         $this->rewriter->toFile($this->configDirectory . '/app.php', array(
             'url'    => $this->getBaseUrl(),
-            'locale' => 'en',
+            'locale' => Lang::getLang(),
             'key'    => $this->post('encryption_code', 'ChangeMe!123'),
         ));
 
