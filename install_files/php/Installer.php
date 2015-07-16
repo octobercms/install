@@ -43,7 +43,7 @@ class Installer
 
             try {
                 if (!preg_match('/^on[A-Z]{1}[\w+]*$/', $handler))
-                    throw new Exception(sprintf(Lang::get('invalid_handler'), $handler));
+                    throw new Exception(sprintf(Lang::get('installer_invalid_handler'), $handler));
 
                 if (method_exists($this, $handler) && ($result = $this->$handler()) !== null) {
                     $this->log('Execute handler (%s): %s', $handler, print_r($result, true));
@@ -108,10 +108,10 @@ class Installer
     protected function onValidateDatabase()
     {
         if ($this->post('db_type') != 'sqlite' && !strlen($this->post('db_host')))
-            throw new InstallerException(Lang::get('specify_database_host'), 'db_host');
+            throw new InstallerException(Lang::get('installer_specify_database_host'), 'db_host');
 
         if (!strlen($this->post('db_name')))
-            throw new InstallerException(Lang::get('specify_database_name'), 'db_name');
+            throw new InstallerException(Lang::get('installer_specify_database_name'), 'db_name');
 
         $config = array_merge(array(
             'type' => null,
@@ -163,7 +163,7 @@ class Installer
             $db = new PDO($dsn, $user, $pass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         }
         catch (PDOException $ex) {
-            throw new Exception(Lang::get('connection_failed') . $ex->getMessage());
+            throw new Exception(Lang::get('installer_connection_failed') . $ex->getMessage());
         }
 
         /*
@@ -180,53 +180,53 @@ class Installer
         while ($result = $fetch->fetch()) $tables++;
 
         if ($tables > 0)
-            throw new Exception(sprintf(Lang::get('database_not_empty'), $name));
+            throw new Exception(sprintf(Lang::get('installer_database_not_empty'), $name));
     }
 
     protected function onValidateAdminAccount()
     {
         if (!strlen($this->post('admin_first_name')))
-            throw new InstallerException(Lang::get('specify_admin_first_name'), 'admin_first_name');
+            throw new InstallerException(Lang::get('installer_specify_admin_first_name'), 'admin_first_name');
 
         if (!strlen($this->post('admin_last_name')))
-            throw new InstallerException(Lang::get('specify_admin_last_name'), 'admin_last_name');
+            throw new InstallerException(Lang::get('installer_specify_admin_last_name'), 'admin_last_name');
 
         if (!strlen($this->post('admin_email')))
-            throw new InstallerException(Lang::get('specify_admin_email'), 'admin_email');
+            throw new InstallerException(Lang::get('installer_specify_admin_email'), 'admin_email');
 
         if (!filter_var($this->post('admin_email'), FILTER_VALIDATE_EMAIL))
-            throw new InstallerException(Lang::get('specify_valid_email'), 'admin_email');
+            throw new InstallerException(Lang::get('installer_specify_valid_email'), 'admin_email');
 
         if (!strlen($this->post('admin_password')))
-            throw new InstallerException(Lang::get('specify_admin_password'), 'admin_password');
+            throw new InstallerException(Lang::get('installer_specify_admin_password'), 'admin_password');
 
         if (!strlen($this->post('admin_confirm_password')))
-            throw new InstallerException(Lang::get('confirm_admin_password'), 'admin_confirm_password');
+            throw new InstallerException(Lang::get('installer_confirm_admin_password'), 'admin_confirm_password');
 
         if (strcmp($this->post('admin_password'), $this->post('admin_confirm_password')))
-            throw new InstallerException(Lang::get('specify_password_not_match_confirm'), 'admin_password');
+            throw new InstallerException(Lang::get('installer_specify_password_not_match_confirm'), 'admin_password');
     }
 
     protected function onValidateAdvancedConfig()
     {
         if (!strlen($this->post('encryption_code')))
-            throw new InstallerException(Lang::get('specify_encryption_key'), 'encryption_code');
+            throw new InstallerException(Lang::get('installer_specify_encryption_key'), 'encryption_code');
 
         $validKeyLengths = [16, 24, 32];
         if (!in_array(strlen($this->post('encryption_code')), $validKeyLengths))
-            throw new InstallerException(sprintf(Lang::get('specify_valid_key'), implode(', ', $validKeyLengths)), 'encryption_code');
+            throw new InstallerException(sprintf(Lang::get('installer_specify_valid_key'), implode(', ', $validKeyLengths)), 'encryption_code');
 
         if (!strlen($this->post('folder_mask')))
-            throw new InstallerException(Lang::get('specify_folder_permission_mask'), 'folder_mask');
+            throw new InstallerException(Lang::get('installer_specify_folder_permission_mask'), 'folder_mask');
 
         if (!strlen($this->post('file_mask')))
-            throw new InstallerException(Lang::get('specify_file_permission_mask'), 'file_mask');
+            throw new InstallerException(Lang::get('installer_specify_file_permission_mask'), 'file_mask');
 
         if (!preg_match("/^[0-9]{3}$/", $this->post('folder_mask')) || $this->post('folder_mask') > 777)
-            throw new InstallerException(Lang::get('specify_folder_valid_mask'), 'folder_mask');
+            throw new InstallerException(Lang::get('installer_specify_folder_valid_mask'), 'folder_mask');
 
         if (!preg_match("/^[0-9]{3}$/", $this->post('file_mask')) || $this->post('file_mask') > 777)
-            throw new InstallerException(Lang::get('specify_file_valid_mask'), 'file_mask');
+            throw new InstallerException(Lang::get('installer_specify_file_valid_mask'), 'file_mask');
     }
 
     protected function onGetPopularPlugins()
@@ -302,7 +302,7 @@ class Installer
             case 'downloadPlugin':
                 $name = $this->post('name');
                 if (!$name)
-                    throw new Exception(Lang::get('plugin_download_failed'));
+                    throw new Exception(Lang::get('installer_plugin_download_failed'));
 
                 $params = array('name' => $name);
                 if ($project = $this->post('project_id', false))
@@ -315,7 +315,7 @@ class Installer
             case 'downloadTheme':
                 $name = $this->post('name');
                 if (!$name)
-                    throw new Exception(Lang::get('theme_download_failed'));
+                    throw new Exception(Lang::get('installer_theme_download_failed'));
 
                 $params = array('name' => $name);
                 if ($project = $this->post('project_id', false))
@@ -330,12 +330,12 @@ class Installer
 
                 $result = $this->unzipFile('core');
                 if (!$result)
-                    throw new Exception(Lang::get('unable_open_core'));
+                    throw new Exception(Lang::get('installer_unable_open_core'));
 
                 if (!file_exists(PATH_INSTALL . '/index.php')
                         || !is_dir(PATH_INSTALL . '/modules')
                         || !is_dir(PATH_INSTALL . '/vendor'))
-                    throw new Exception(Lang::get('unable_extract_core'));
+                    throw new Exception(Lang::get('installer_unable_extract_core'));
 
                 $this->moveHtaccess(null, 'october');
                 $this->moveHtaccess('installer', null);
@@ -344,21 +344,21 @@ class Installer
             case 'extractPlugin':
                 $name = $this->post('name');
                 if (!$name)
-                    throw new Exception(Lang::get('plugin_download_failed'));
+                    throw new Exception(Lang::get('installer_plugin_download_failed'));
 
                 $result = $this->unzipFile($name.'-plugin', 'plugins/');
                 if (!$result)
-                    throw new Exception(Lang::get('unable_open_plugin'));
+                    throw new Exception(Lang::get('installer_unable_open_plugin'));
                 break;
 
             case 'extractTheme':
                 $name = $this->post('name');
                 if (!$name)
-                    throw new Exception(Lang::get('theme_download_failed'));
+                    throw new Exception(Lang::get('installer_theme_download_failed'));
 
                 $result = $this->unzipFile($name.'-theme', 'themes/');
                 if (!$result)
-                    throw new Exception(Lang::get('unable_open_theme'));
+                    throw new Exception(Lang::get('installer_unable_open_theme'));
                 break;
 
             case 'setupConfig':
@@ -651,13 +651,13 @@ class Installer
     {
         $autoloadFile = $this->baseDirectory . '/bootstrap/autoload.php';
         if (!file_exists($autoloadFile))
-            throw new Exception(Lang::get('unable_find_autoloader'));
+            throw new Exception(Lang::get('installer_unable_find_autoloader'));
 
         require $autoloadFile;
 
         $appFile = $this->baseDirectory . '/bootstrap/app.php';
         if (!file_exists($appFile))
-            throw new Exception(Lang::get('unable_find_app_loader'));
+            throw new Exception(Lang::get('installer_unable_find_app_loader'));
 
         $app = require_once $appFile;
         $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
@@ -689,10 +689,10 @@ class Installer
         }
 
         if ($error !== null)
-            throw new Exception(Lang::get('server_responded_error') . $error);
+            throw new Exception(Lang::get('installer_server_responded_error') . $error);
 
         if (!$result || !strlen($result))
-            throw new Exception(Lang::get('server_no_response'));
+            throw new Exception(Lang::get('installer_server_no_response'));
 
         try {
             $_result = @json_decode($result, true);
@@ -701,7 +701,7 @@ class Installer
 
         if (!is_array($_result)) {
             $this->log('Server response: '. $result);
-            throw new Exception(Lang::get('server_invalid_response'));
+            throw new Exception(Lang::get('installer_server_invalid_response'));
         }
 
         return $_result;
@@ -716,7 +716,7 @@ class Installer
                 $tempDirectory = mkdir($this->tempDirectory, 0777, true); // @todo Use config
                 if ($tempDirectory === false) {
                     $this->log('Failed to get create temporary directory: %s', $this->tempDirectory);
-                    throw new Exception(sprintf(Lang::get('failed_create_temporary_directory'), $this->tempDirectory));
+                    throw new Exception(sprintf(Lang::get('installer_failed_create_temporary_directory'), $this->tempDirectory));
                 }
             }
 
@@ -737,18 +737,18 @@ class Installer
         }
         catch (Exception $ex) {
             $this->log('Failed to get server delivery: ' . $ex->getMessage());
-            throw new Exception(Lang::get('failed_deliver_package'));
+            throw new Exception(Lang::get('installer_failed_deliver_package'));
         }
 
         if ($error !== null)
-            throw new Exception(Lang::get('server_responded_error') . $error);
+            throw new Exception(Lang::get('installer_server_responded_error') . $error);
 
         $fileHash = md5_file($filePath);
         if ($expectedHash != $fileHash) {
             $this->log('File hash mismatch: %s (expected) vs %s (actual)', $expectedHash, $fileHash);
             $this->log('Local file size: %s', filesize($filePath));
             @unlink($filePath);
-            throw new Exception(Lang::get('corrupt_package'));
+            throw new Exception(Lang::get('installer_corrupt_package'));
         }
 
         $this->log('Saving to file (%s): %s', $fileCode, $filePath);
