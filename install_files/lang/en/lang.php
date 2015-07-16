@@ -136,4 +136,128 @@ return [
     'html_check_p2' => 'Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:',
     'html_check_p3' => 'The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.',
     'html_check_p4' => 'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.',
+
+    /* themes/theme.htm */
+    'html_themes_theme_span' => 'Install this?',
+    'html_themes_theme_confirm' => 'Confirm',
+    'html_themes_theme_cancel' => 'Cancel',
+    'html_themes_theme_demo' => 'Demo',
+    'html_themes_theme_details' => 'Details',
+    'html_themes_theme_install' => 'Install',
+
+    /* project/themes.htm */
+    'html_project_themes_lead' => 'Choose some starter themes to include (optional).',
+    'html_project_themes_search' => 'search themes...',
+    'html_project_themes_included' => 'Included',
+    'html_project_themes_no_included' => 'There are no themes included.',
+    'html_project_themes_recommended' => 'Recommended',
+    'html_project_themes_included_project' => 'These themes are included with the project',
+
+    /* project/theme.htm */
+
+    /* project/suggestion.htm */
+
+    /* project/project.htm */
+    'html_project_project_lead' => 'If you have a Project for this installation, specify it below.',
+    'html_project_project_success' => 'Project has been assigned to this installation.',
+    'html_project_project_project_id' => 'Project ID',
+    'html_project_project_check' => 'Check',
+    'html_project_project_remove' => 'Remove',
+    'html_project_project_find' => 'How to find your Project ID',
+    'html_project_project_name' => 'Name',
+    'html_project_project_owner' => 'Owner',
+    'html_project_project_description' => 'Description',
+    'html_project_project_view_plugins' => 'View Plugins',
+    'html_project_project_view_themes' => 'View Themes',
+
+    /* project/plugins.htm */
+    'html_project_plugins_lead' => 'Choose some plugins to get you started (optional).',
+    'html_project_plugins_included' => 'Included',
+    'html_project_plugins_no_included' => 'There are no plugins included.',
+    'html_project_plugins_recommended' => 'Recommended',
+    'html_project_plugins_included_project' => 'These plugins are included with the project',
+
+    /* project/plugin.htm */
+
+    /* project/fail.htm */
+    'html_project_fail_h4' => 'Check the supplied Project ID',
+
+    /* progress/fail.htm */
+    'html_progress_fail_h4' => 'Progress failed',
+    'html_progress_fail_p' => 'Something went wrong during the installation. Please check the log file or see <a href="http://octobercms.com/docs/help/install#troubleshoot-installation" target="_blank">the documentation</a> for more information.',
+    'html_progress_fail_try' => 'Try again',
+
+    /* config/sqlsrv.htm */
+    'html_config_sqlsrv_host' => 'SQL Host',
+    'html_config_sqlsrv_host_help' => 'Specify the hostname for the database connection.',
+    'html_config_sqlsrv_port' => 'SQL Port',
+    'html_config_sqlsrv_port_help' => '(Optional) Specify a non-default port for the database connection.',
+    'html_config_sqlsrv_name' => 'Database Name',
+    'html_config_sqlsrv_name_help' => 'Specify the name of the empty database.',
+    'html_config_sqlsrv_user' => 'SQL Login',
+    'html_config_sqlsrv_user_help' => 'User with all privileges in the database.',
+    'html_config_sqlsrv_pass' => 'SQL Password',
+    'html_config_sqlsrv_pass_help' => 'Password for the specified user.',
+
+    /* config/sqlite.htm */
+    'html_config_sqlite_name' => 'SQLite Database Path',
+    'html_config_sqlite_name_help' => 'Specify a relative or absolute path to the SQLite database file. Path is relative to the application root directory.',
+
+    /* config/pgsql.htm */
+    'html_config_pgsql_host' => 'Postgres Host',
+    'html_config_pgsql_host_help' => 'Specify the hostname for the database connection.',
+    'html_config_pgsql_port' => 'Postgres Port',
+    'html_config_pgsql_port_help' => '(Optional) Specify a non-default port for the database connection.',
+    'html_config_pgsql_name' => 'Database Name',
+    'html_config_pgsql_name_help' => 'Specify the name of the empty database.',
+    'html_config_pgsql_user' => 'Postgres Login',
+    'html_config_pgsql_user_help' => 'User with all privileges in the database.',
+    'html_config_pgsql_pass' => 'Postgres Password',
+    'html_config_pgsql_pass_help' => 'Password for the specified user.',
+
+    /* config/mysql.htm */
+    'html_config_mysql_host' => 'MySQL Host',
+    'html_config_mysql_host_help' => 'Specify the hostname for the database connection.',
+    'html_config_mysql_port' => 'MySQL Port',
+    'html_config_mysql_port_help' => '(Optional) Specify a non-default port for the database connection.',
+    'html_config_mysql_name' => 'Database Name',
+    'html_config_mysql_name_help' => 'Specify the name of the empty database.',
+    'html_config_mysql_user' => 'MySQL Login',
+    'html_config_mysql_user_help' => 'User with all privileges in the database.',
+    'html_config_mysql_pass' => 'MySQL Password',
+    'html_config_mysql_pass_help' => 'Password for the specified user.',
+
+    /* config/fail.htm */
+    'html_config_fail_p' => 'There is a problem with the specified {{label}} configuration.',
+
+	/* config/database.htm */
+	'html_config_database_lead' => 'Please prepare an empty database for this installation.',
+	'html_config_database_type' => 'Database Type',
+	'html_config_database_help' => 'Please specify the database driver type for this connection.',
+
+	/* config/advanced.htm */
+	'html_config_advanced_lead' => 'Provide a custom URL for the Administration Area.',
+	'html_config_advanced_backend' => 'Backend URL',
+	'html_config_advanced_backend_help' => 'Please specify a value which you will use to access the Backend.',
+	'html_config_advanced_lead2' => 'Specify a unique code for protecting sensitive data, such as user passwords.',
+	'html_config_advanced_encryption' => 'Encryption Code',
+	'html_config_advanced_encryption_help' => 'The encryption code should be of a valid length (16, 24, 32).',
+	'html_config_advanced_lead3' => 'Specify a permission mask for folders and files used for installation and software updates.',
+	'html_config_advanced_permission_file' => 'File Permission Mask',
+	'html_config_advanced_permission_folder' => 'Folder Permission Mask',
+
+	/* config/admin.htm */
+	'html_config_admin_lead' => 'Please specify details for logging in to the Administration Area.',
+	'html_config_admin_first' => 'First Name',
+	'html_config_admin_last' => 'Last Name',
+	'html_config_admin_email' => 'Email Address',
+	'html_config_admin_login' => 'Admin Login',
+	'html_config_admin_password' => 'Admin Password',
+	'html_config_admin_password_confirm' => 'Confirm Password',
+
+	/* check/fail.htm */
+	'html_check_fail_h4' => 'System Check Failed',
+	'html_check_fail_p' => '{{#reason}}{{reason}}{{/reason}} {{^reason}}Your system does not meet the minimum requirements for the installation.{{/reason}}Please see <a href="http://octobercms.com/docs/help/installation" target="_blank">the documentation</a> for more information.',
+	'html_check_fail_p2' => 'Retry System Check',
+	'html_check_fail_small' => 'Reason code: ',
 ];

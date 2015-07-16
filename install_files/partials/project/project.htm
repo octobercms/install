@@ -1,15 +1,15 @@
 {{^projectId}}
-    <p class="lead">If you have a Project for this installation, specify it below.</p>
+    <p class="lead"><?= Lang::get('html_project_project_lead') ?></p>
 {{/projectId}}
 {{#projectId}}
     <p class="lead text-success with-tick">
-        Project has been assigned to this installation.</p>
+        <?= Lang::get('html_project_project_success') ?></p>
     </p>
 {{/projectId}}
 
 <form id="attachProjectForm" onsubmit="Installer.Pages.projectForm.attachProject(this); return false">
     <div class="form-group">
-        <label for="attachProjectId" class="control-label">Project ID</label>
+        <label for="attachProjectId" class="control-label"><?= Lang::get('html_project_project_project_id') ?></label>
 
         {{^projectId}}
 
@@ -21,7 +21,7 @@
                     autocomplete="off"
                     id="attachProjectId" />
                 <span class="input-group-btn">
-                    <button class="btn btn-lg btn-success" type="submit">Check</button>
+                    <button class="btn btn-lg btn-success" type="submit"><?= Lang::get('html_project_project_check') ?></button>
                 </span>
             </div>
 
@@ -40,7 +40,7 @@
                         class="btn btn-lg btn-danger"
                         type="submit"
                         onclick="Installer.Pages.projectForm.detachProject(this); return false">
-                        Remove
+                        <?= Lang::get('html_project_project_remove') ?>
                     </button>
                 </span>
             </div>
@@ -56,7 +56,7 @@
 {{^projectId}}
 
     <ul class="list-inline">
-        <li><a href="http://octobercms.com/help/site/projects#project-id" target="_blank">How to find your Project ID</a></li>
+        <li><a href="http://octobercms.com/help/site/projects#project-id" target="_blank"><?= Lang::get('html_project_project_find') ?></a></li>
     </ul>
 
 {{/projectId}}
@@ -64,22 +64,22 @@
 
     <table class="table table-bordered">
         <tr>
-            <th class="col-md-2">Name</th>
+            <th class="col-md-2"><?= Lang::get('html_project_project_name') ?></th>
             <td>{{ projectName }}</td>
         </tr>
         <tr>
-            <th class="col-md-2">Owner</th>
+            <th class="col-md-2"><?= Lang::get('html_project_project_owner') ?></th>
             <td>{{ projectOwner }}</td>
         </tr>
         <tr>
-            <th class="col-md-2">Description</th>
+            <th class="col-md-2"><?= Lang::get('html_project_project_description') ?></th>
             <td>{{ projectDescription }}</td>
         </tr>
     </table>
 
     <ul class="list-inline">
-        <li><a href="javascript:Installer.showSection('plugins')">View Plugins</a></li>
-        <li><a href="javascript:Installer.showSection('themes')">View Themes</a></li>
+        <li><a href="javascript:Installer.showSection('plugins')"><?= Lang::get('html_project_project_view_plugins') ?></a></li>
+        <li><a href="javascript:Installer.showSection('themes')"><?= Lang::get('html_project_project_view_themes') ?></a></li>
     </ul>
 
 {{/projectId}}

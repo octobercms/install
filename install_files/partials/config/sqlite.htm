@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label for="dbName" class="control-label col-sm-4">SQLite Database Path</label>
+    <label for="dbName" class="control-label col-sm-4"><?= Lang::get('html_config_sqlite_name') ?></label>
     <div class="col-sm-8">
         <input
             id="dbName"
@@ -7,6 +7,6 @@
             class="form-control"
             value="storage/database.sqlite"
             />
-        <span class="help-block">Specify a relative or absolute path to the SQLite database file. Path is relative to the application root directory.</span>
+        <span class="help-block"><?= Lang::get('html_config_sqlite_name_help') ?></span>
     </div>
 </div>

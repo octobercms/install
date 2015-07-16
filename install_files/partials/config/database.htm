@@ -1,7 +1,7 @@
-<p class="lead">Please prepare an empty database for this installation.</p>
+<p class="lead"><?= Lang::get('html_config_database_lead') ?></p>
 
 <div class="form-group">
-    <label for="dbType" class="control-label col-sm-4">Database Type</label>
+    <label for="dbType" class="control-label col-sm-4"><?= Lang::get('html_config_database_type') ?></label>
     <div class="col-sm-8">
         <select
             id="dbType"
@@ -14,7 +14,7 @@
             <option value="sqlsrv">SQL Server</option>
         </select>
 
-        <span class="help-block">Please specify the database driver type for this connection.</span>
+        <span class="help-block"><?= Lang::get('html_config_database_help') ?></span>
     </div>
 </div>
 

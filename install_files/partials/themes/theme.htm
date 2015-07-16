@@ -9,31 +9,31 @@
             <p>{{description}}</p>
         </div>
         <p style="display: none" class="theme-item-confirm">
-            <span>Install this?</span>
+            <span><?= Lang::get('html_themes_theme_span') ?></span>
             <a
                 href="javascript:Installer.Pages.themesForm.installTheme('{{code}}')"
                 class="btn btn-success btn-sm">
-                Confirm
+                <?= Lang::get('html_themes_theme_confirm') ?>
             </a>
             <a
                 href="javascript:;"
                 onclick="Installer.Pages.themesForm.cancelSelection(this)"
                 class="btn btn-default btn-sm">
-                Cancel
+                <?= Lang::get('html_themes_theme_cancel') ?>
             </a>
         </p>
         <ul class="list-inline">
             {{#demo_url}}
                 <li>
                     <a href="{{ demo_url }}" class="btn btn-default btn-sm" target="_blank">
-                        Demo
+                        <?= Lang::get('html_themes_theme_demo') ?>
                     </a>
                 </li>
             {{/demo_url}}
             {{#product_url}}
                 <li>
                     <a href="{{ product_url }}" class="btn btn-default btn-sm" target="_blank">
-                        Details
+                        <?= Lang::get('html_themes_theme_details') ?>
                     </a>
                 </li>
             {{/product_url}}
@@ -42,7 +42,7 @@
                     href="javascript:;"
                     onclick="Installer.Pages.themesForm.confirmSelection(this)"
                     class="btn btn-info btn-sm">
-                    Install
+                    <?= Lang::get('html_themes_theme_install') ?>
                 </a>
             </li>
         </ul>

@@ -2,7 +2,7 @@
 
     {{^projectId}}
 
-        <p class="lead">Choose some plugins to get you started (optional).</p>
+        <p class="lead"><?= Lang::get('html_project_plugins_lead') ?></p>
 
         <!-- Search -->
         <form id="installPluginsForm" onsubmit="Installer.Pages.projectForm.searchSubmit(this); return false">
@@ -24,9 +24,9 @@
 
             <!-- Included plugins -->
             <div id="pluginList" class="product-list-manager" data-handler="onPluginDetails" data-view="project/plugin" data-set="includedPlugins">
-                <h4 class="section-header">Included <small>(<span class="product-counter">0</span>)</small></h4>
+                <h4 class="section-header"><?= Lang::get('html_project_plugins_included') ?> <small>(<span class="product-counter">0</span>)</small></h4>
                 <div class="product-list-empty">
-                    <p>There are no plugins included.</p>
+                    <p><?= Lang::get('html_project_plugins_no_included') ?></p>
                 </div>
                 <ul class="product-list plugin-list"></ul>
             </div>
@@ -38,7 +38,7 @@
 
                 <!-- Recommended extras -->
                 <div class="suggested-products-container animated-content">
-                    <h4 class="section-header">Recommended</h4>
+                    <h4 class="section-header"><?= Lang::get('html_project_plugins_recommended') ?></h4>
                     <div class="scroll-panel">
                         <div class="row suggested-products suggested-plugins" id="suggestedPlugins" data-handler="onGetPopularPlugins" data-set="suggestedPlugins"></div>
                     </div>
@@ -49,7 +49,7 @@
 
                 <div class="callout callout-success">
                     <h4>{{ projectName }}</h4>
-                    <p>These plugins are included with the project <strong>{{ projectName }}</strong>.</p>
+                    <p><?= Lang::get('html_project_plugins_included_project') ?> <strong>{{ projectName }}</strong>.</p>
                 </div>
 
             {{/projectId}}

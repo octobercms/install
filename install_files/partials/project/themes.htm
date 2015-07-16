@@ -2,14 +2,14 @@
 
     {{^projectId}}
 
-        <p class="lead">Choose some starter themes to include (optional).</p>
+        <p class="lead"><?= Lang::get('html_project_themes_lead') ?></p>
 
         <!-- Search -->
         <form id="installThemesForm" onsubmit="Installer.Pages.projectForm.searchSubmit(this); return false">
             <div class="product-search">
                 <input
                     class="product-search-input search-input-lg typeahead"
-                    placeholder="search themes..."
+                    placeholder="<?= Lang::get('html_project_themes_search') ?>"
                     id="themeSearchInput"
                     data-handler="onSearchThemes"
                     />
@@ -24,9 +24,9 @@
 
             <!-- Included themes -->
             <div id="themeList" class="product-list-manager" data-handler="onThemeDetails" data-view="project/theme" data-set="includedThemes">
-                <h4 class="section-header">Included <small>(<span class="product-counter">0</span>)</small></h4>
+                <h4 class="section-header"><?= Lang::get('html_project_themes_included') ?> <small>(<span class="product-counter">0</span>)</small></h4>
                 <div class="product-list-empty">
-                    <p>There are no themes included.</p>
+                    <p><?= Lang::get('html_project_themes_no_included') ?></p>
                 </div>
                 <ul class="product-list theme-list"></ul>
             </div>
@@ -38,7 +38,7 @@
 
                 <!-- Recommended extras -->
                 <div class="suggested-products-container animated-content">
-                    <h4 class="section-header">Recommended</h4>
+                    <h4 class="section-header"><?= Lang::get('html_project_themes_recommended') ?></h4>
                     <div class="scroll-panel">
                         <div class="row suggested-products suggested-themes" id="suggestedThemes" data-handler="onGetPopularThemes" data-set="suggestedThemes"></div>
                     </div>
@@ -49,7 +49,7 @@
 
                 <div class="callout callout-success">
                     <h4>{{ projectName }}</h4>
-                    <p>These themes are included with the project <strong>{{ projectName }}</strong>.</p>
+                    <p><?= Lang::get('html_project_themes_included_project') ?> <strong>{{ projectName }}</strong>.</p>
                 </div>
 
             {{/projectId}}

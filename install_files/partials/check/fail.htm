@@ -1,10 +1,8 @@
 <div class="callout callout-danger">
-    <h4>System Check Failed</h4>
+    <h4><?= Lang::get('html_check_fail_h4') ?></h4>
     <p>
-        {{#reason}}{{reason}}{{/reason}}
-        {{^reason}}Your system does not meet the minimum requirements for the installation.{{/reason}}
-        Please see <a href="http://octobercms.com/docs/help/installation" target="_blank">the documentation</a> for more information.
+        <?= Lang::get('html_check_fail_p') ?>
     </p>
-    <p><a href="javascript:Installer.Events.retry()" class="btn btn-default btn-sm">Retry System Check</a></p>
-    <small>Reason code: {{code}}</small>
+    <p><a href="javascript:Installer.Events.retry()" class="btn btn-default btn-sm"><?= Lang::get('html_check_fail_p2') ?></a></p>
+    <small><?= Lang::get('html_check_fail_small') ?>{{code}}</small>
 </div>

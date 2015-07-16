@@ -3,13 +3,10 @@
         <h4>{{reason}}</h4>
     {{/reason}}
     {{^reason}}
-        <h4>Progress failed</h4>
+        <h4><?= Lang::get('html_progress_fail_h4') ?></h4>
     {{/reason}}
     <p>
-        Something went wrong during the installation.
-        Please check the log file or see
-        <a href="http://octobercms.com/docs/help/install#troubleshoot-installation" target="_blank">the documentation</a>
-        for more information.
+        <?= Lang::get('html_progress_fail_p') ?>
     </p>
-    <p><a href="javascript:Installer.Events.retry()" class="btn btn-default btn-sm">Try again</a></p>
+    <p><a href="javascript:Installer.Events.retry()" class="btn btn-default btn-sm"><?= Lang::get('html_progress_fail_try') ?></a></p>
 </div>

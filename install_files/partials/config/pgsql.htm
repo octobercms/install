@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label for="dbHost" class="control-label col-sm-4">Postgres Host</label>
+    <label for="dbHost" class="control-label col-sm-4"><?= Lang::get('html_config_pgsql_host') ?></label>
     <div class="col-sm-8">
         <input
             id="dbHost"
@@ -7,12 +7,12 @@
             class="form-control"
             value="localhost"
             />
-            <span class="help-block">Specify the hostname for the database connection.</span>
+            <span class="help-block"><?= Lang::get('html_config_pgsql_host_help') ?></span>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="dbHost" class="control-label col-sm-4">Postgres Port</label>
+    <label for="dbHost" class="control-label col-sm-4"><?= Lang::get('html_config_pgsql_port') ?></label>
     <div class="col-sm-8">
         <input
             id="dbPort"
@@ -20,12 +20,12 @@
             class="form-control"
             placeholder="5432"
             />
-        <span class="help-block">(Optional) Specify a non-default port for the database connection.</span>
+        <span class="help-block"><?= Lang::get('html_config_pgsql_port_help') ?></span>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="dbName" class="control-label col-sm-4">Database Name</label>
+    <label for="dbName" class="control-label col-sm-4"><?= Lang::get('html_config_pgsql_name') ?></label>
     <div class="col-sm-8">
         <input
             id="dbName"
@@ -33,12 +33,12 @@
             class="form-control"
             value=""
             />
-            <span class="help-block">Specify the name of the empty database.</span>
+            <span class="help-block"><?= Lang::get('html_config_pgsql_name_help') ?></span>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="dbUser" class="control-label col-sm-4">Postgres Login</label>
+    <label for="dbUser" class="control-label col-sm-4"><?= Lang::get('html_config_pgsql_user') ?></label>
     <div class="col-sm-8">
         <input
             id="dbUser"
@@ -46,12 +46,12 @@
             class="form-control"
             value=""
             />
-            <span class="help-block">User with all privileges in the database.</span>
+            <span class="help-block"><?= Lang::get('html_config_pgsql_user_help') ?></span>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="dbPass" class="control-label col-sm-4">Postgres Password</label>
+    <label for="dbPass" class="control-label col-sm-4"><?= Lang::get('html_config_pgsql_pass') ?></label>
     <div class="col-sm-8">
         <input
             id="dbPass"
@@ -60,6 +60,6 @@
             class="form-control"
             value=""
             />
-            <span class="help-block">Password for the specified user.</span>
+            <span class="help-block"><?= Lang::get('html_config_pgsql_pass_help') ?></span>
     </div>
 </div>
