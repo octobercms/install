@@ -43,14 +43,14 @@ class InstallerRewrite
                     $array = $result;
                     foreach ($parts as $part) {
                         if (!is_array($array) || !array_key_exists($part, $array))
-                            throw new Exception(sprintf('Unable to rewrite key "%s" in config, does it exist?', $key));
+                            throw new Exception(sprintf(Lang::get('rewrite_key_not_exist'), $key));
 
                         $array = $array[$part];
                     }
                     $actualValue = $array;
 
                 if ($actualValue != $expectedValue)
-                    throw new Exception(sprintf('Unable to rewrite key "%s" in config, rewrite failed', $key));
+                    throw new Exception(sprintf(Lang::get('rewrite_failed'), $key));
             }
         }
 
