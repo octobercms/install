@@ -1,3 +1,12 @@
+<!-- Lang List -->
+<div class="system-check">
+	<?= Lang::get('html_check_language') ?> <select id="langList" onchange="Installer.Lang.toggleLang(this)">
+		<?php foreach (Lang::getLangList() as $value => $name): ?>
+			<option value="<?= $value ?>"<?= ($value == Lang::getLang()?'selected="selected"':'')?>><?= $name ?></option>
+		<?php endforeach;?>
+	</select>
+</div>
+
 <!-- Check list -->
 <ul class="list-unstyled system-check" id="systemCheckList"></ul>
 

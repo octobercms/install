@@ -106,6 +106,7 @@
             <script src="install_files/js/project.js"></script>
             <script src="install_files/js/progress.js"></script>
             <script src="install_files/js/complete.js"></script>
+            <script src="install_files/js/lang.js"></script>
 
             <!-- Bespoke Properties -->
             <script>

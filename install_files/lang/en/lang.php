@@ -133,6 +133,7 @@ return [
     'html_complete_clean_p' => 'For security reasons you should delete the installation files, the <strong>install.php</strong> script and the <strong>install_files</strong> directory.',
 
     /* check.htm */
+    'html_check_language' => 'Language:',
     'html_check_h3' => 'License agreement',
     'html_check_p1' => 'MIT license',
     'html_check_p2' => 'Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:',

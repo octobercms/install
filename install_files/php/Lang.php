@@ -7,14 +7,11 @@ class Lang
 {
     protected static $langStrings = null;
     protected static $lang = null;
+    protected static $languageList = null;
 
     public static function get($string) {
-        if (static::$lang == null) {
-            static::init();
-        }
         if (static::$langStrings === null) {
-            $path = PATH_INSTALL . '/install_files/lang/' . static::$lang . '/lang.php';
-            static::$langStrings = require_once $path;
+            static::init();
         }
 
         if (isset(static::$langStrings[$string])) {
@@ -24,16 +21,39 @@ class Lang
         }
     }
 
+    public static function getLangList() {
+        if (static::$languageList === null) {
+            static::init();
+        }
+        return static::$languageList;
+    }
+
+    public static function getLang() {
+        if (static::$lang === null) {
+            static::init();
+        }
+        return static::$lang;
+    }
+
     protected static function init() {
         static::$lang = 'en';
-        $languageList = require_once PATH_INSTALL . '/install_files/lang/list.php';
-        if (isset($_GET['lang']) && isset($languageList[$_GET['lang']])) {
+        /* Load Language List */
+        if (static::$languageList === null) {
+            static::$languageList = require_once PATH_INSTALL . '/install_files/lang/list.php';
+        }
+        /* Get User Choose Language */
+        if (isset($_GET['lang']) && isset(static::$languageList[$_GET['lang']])) {
             static::$lang = $_GET['lang'];
             setcookie('lang', static::$lang);
         } else {
-            if (isset($_COOKIE['lang']) && isset($languageList[$_COOKIE['lang']])) {
+            if (isset($_COOKIE['lang']) && isset(static::$languageList[$_COOKIE['lang']])) {
                 static::$lang = $_COOKIE['lang'];
             }
+        }
+        /* Load Language File */
+        if (static::$langStrings === null) {
+            $path = PATH_INSTALL . '/install_files/lang/' . static::$lang . '/lang.php';
+            static::$langStrings = require_once $path;
         }
     }
 }
