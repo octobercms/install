@@ -80,7 +80,7 @@ input.lock-input {
     min-height: 100%;
     height: auto;
     margin: 0 auto -100px;
-    padding 0 0 100px;
+    padding: 0 0 100px;
     background: #ecf0f1;
     position: relative;
     overflow: hidden;
