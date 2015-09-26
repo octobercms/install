@@ -200,6 +200,12 @@ class Installer
         if (!strlen($this->post('admin_password')))
             throw new InstallerException('Please specify password', 'admin_password');
 
+        if (strlen($this->post('admin_password')) < 4)
+            throw new InstallerException('Please specify password length more than 4 characters', 'admin_password');
+
+        if (strlen($this->post('admin_password')) > 64)
+            throw new InstallerException('Please specify password length less than 64 characters', 'admin_password');
+
         if (!strlen($this->post('admin_confirm_password')))
             throw new InstallerException('Please confirm chosen password', 'admin_confirm_password');
 
