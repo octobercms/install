@@ -18,7 +18,7 @@ class Installer
     protected $tempDirectory;
 
     /**
-     * @var string Expected path where configuration files can be found.
+     * @var string Expected path where configuration files can be found. 
      */
     protected $configDirectory;
 
@@ -151,8 +151,18 @@ class Installer
             case 'sqlsrv':
                 $availableDrivers = PDO::getAvailableDrivers();
                 $_port = $port ? ','.$port : '';
-                if (in_array('dblib', $availableDrivers))
-                    $dsn = 'dblib:host='.$host.$_port.';dbname='.$name;
+                if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                    if (in_array('sqlsrv', $availableDrivers)) {
+                        $dsn = 'sqlsrv:Server='.$host.$port.$_name;
+                    }
+                    else {
+                        throw new InstallerException("Please install sqlsrv pdo libaries. https://msdn.microsoft.com/en-us/sqlserver/ff657782.aspx");
+                    }
+                }
+                
+                elseif (in_array('dblib', $availableDrivers))
+                    $dsn = 'dblib:host='.$host.$_port.';dbname='.$_name;
+                    
                 else {
                     $_name = ($name != '') ? ';Database='.$name : '';
                     $dsn = 'dblib:host='.$host.$_port.$_name;
@@ -163,7 +173,27 @@ class Installer
             $db = new PDO($dsn, $user, $pass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         }
         catch (PDOException $ex) {
-            throw new Exception('Connection failed: ' . $ex->getMessage());
+             $appendMessage = '';
+            /* 
+             * SQL server can be VERY cryptic in explaining
+             * Why a thing has failed. These are the general 
+             * pointers one has to check in order to make
+             * sense of the cryptic messages microsoft hands
+             * out. 
+             */
+            if ($type == 'sqlsrv' && strpos('SQLEXPRESS', $host) === false)
+                $appendMessage .= "You might want to add \\SQLEXPRESS(Where SQLEXPRESS is the server name) after ".
+                    "your database host name '$host' or try to use '.\\SQLEXPRESS' if these issues persist. ";
+            
+            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && $type == 'sqlsrv') {
+                $appendMessage .= "Make sure the SQL Server Browser is set to autostart and is started(Start > run > services.msc). ";
+                $appendMessage .= "Make sure external logins are enabled. SQL Server Management Studio > right click server icon in tree menu " .
+                    "> properties > security > Server Authentication > select SQL Server and Windows Authentication. ";
+                $appendMessage .= "Make sure you've made a user that can log in and has access to your database. SQL Server ".
+                    "Management Studio > Security > Logins > rightclick > New Login. ";
+            }                    
+            
+            throw new Exception(sprintf("Connection failed: %s %s", $ex->getMessage(), $appendMessage));
         }
 
         /*
@@ -173,6 +203,8 @@ class Installer
             $fetch = $db->query("select name from sqlite_master where type='table'", PDO::FETCH_NUM);
         elseif ($type == 'pgsql')
             $fetch = $db->query("select table_name from information_schema.tables where table_schema = 'public'", PDO::FETCH_NUM);
+        elseif ($type === 'sqlsrv')
+            $fetch = $db->query("select table_name from information_schema.tables", PDO::FETCH_NUM);
         else
             $fetch = $db->query('show tables', PDO::FETCH_NUM);
 
