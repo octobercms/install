@@ -154,8 +154,10 @@ class Installer
                 if (in_array('dblib', $availableDrivers))
                     $dsn = 'dblib:host='.$host.$_port.';dbname='.$name;
                 else {
-                    $_name = ($name != '') ? ';Database='.$name : '';
-                    $dsn = 'dblib:host='.$host.$_port.$_name;
+					/*
+					 * dlib is obsolete, try PDO driver instead
+					 */
+					$dsn = 'sqlsrv:Server='.$host.(empty($port) ? '':','.$_port).';Database='.$name;
                 }
             break;
         }
@@ -173,6 +175,9 @@ class Installer
             $fetch = $db->query("select name from sqlite_master where type='table'", PDO::FETCH_NUM);
         elseif ($type == 'pgsql')
             $fetch = $db->query("select table_name from information_schema.tables where table_schema = 'public'", PDO::FETCH_NUM);
+		elseif ($type === 'sqlsrv') {
+            $fetch = $db->query("SELECT [TABLE_NAME] FROM INFORMATION_SCHEMA.TABLES", PDO::FETCH_NUM);
+        }
         else
             $fetch = $db->query('show tables', PDO::FETCH_NUM);
 
