@@ -151,13 +151,11 @@ class Installer
             case 'sqlsrv':
                 $availableDrivers = PDO::getAvailableDrivers();
                 $_port = $port ? ','.$port : '';
-                if (in_array('dblib', $availableDrivers))
+                if (in_array('dblib', $availableDrivers)) {
                     $dsn = 'dblib:host='.$host.$_port.';dbname='.$name;
+                }
                 else {
-					/*
-					 * dlib is obsolete, try PDO driver instead
-					 */
-					$dsn = 'sqlsrv:Server='.$host.(empty($port) ? '':','.$_port).';Database='.$name;
+                    $dsn = 'sqlsrv:Server='.$host.(empty($port) ? '':','.$_port).';Database='.$name;
                 }
             break;
         }
@@ -171,21 +169,25 @@ class Installer
         /*
          * Check the database is empty
          */
-        if ($type == 'sqlite')
+        if ($type == 'sqlite') {
             $fetch = $db->query("select name from sqlite_master where type='table'", PDO::FETCH_NUM);
-        elseif ($type == 'pgsql')
-            $fetch = $db->query("select table_name from information_schema.tables where table_schema = 'public'", PDO::FETCH_NUM);
-		elseif ($type === 'sqlsrv') {
-            $fetch = $db->query("SELECT [TABLE_NAME] FROM INFORMATION_SCHEMA.TABLES", PDO::FETCH_NUM);
         }
-        else
+        elseif ($type == 'pgsql') {
+            $fetch = $db->query("select table_name from information_schema.tables where table_schema = 'public'", PDO::FETCH_NUM);
+        }
+        elseif ($type === 'sqlsrv') {
+            $fetch = $db->query("select [table_name] from information_schema.tables", PDO::FETCH_NUM);
+        }
+        else {
             $fetch = $db->query('show tables', PDO::FETCH_NUM);
+        }
 
         $tables = 0;
         while ($result = $fetch->fetch()) $tables++;
 
-        if ($tables > 0)
+        if ($tables > 0) {
             throw new Exception(sprintf('Database "%s" is not empty. Please empty the database or specify another database.', $name));
+        }
     }
 
     protected function onValidateAdminAccount()
