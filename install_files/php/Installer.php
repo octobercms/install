@@ -446,6 +446,7 @@ class Installer
             case 'sqlite':
                 $result = array(
                     'connections.sqlite.database' => $name,
+                    'connections.sqlite.prefix'   => $prefix,
                 );
                 break;
 
