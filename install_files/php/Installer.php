@@ -863,6 +863,6 @@ class Installer
         if (!is_dir($directory))
             mkdir($directory, 0777, true);
 
-        new SQLite3($filename);
+        new PDO('sqlite:'.$filename);
     }
 }
