@@ -407,7 +407,7 @@ class Installer
         $this->rewriter->toFile($this->configDirectory . '/app.php', array(
             'url'    => $this->getBaseUrl(),
             'locale' => 'en',
-            'key'    => $this->post('encryption_code', 'ChangeMe!123'),
+            'key'    => $this->post('encryption_code', 'CHANGE_ME!!!!!!!!!!!!!!!!!!!!!!!'),
         ));
 
         $activeTheme = $this->post('active_theme');

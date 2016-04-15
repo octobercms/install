@@ -14,6 +14,7 @@
  * - integers
  * - booleans
  * - nulls
+ * - single-dimension arrays
  *
  * To do:
  * - When an entry does not exist, provide a way to create it
@@ -35,29 +36,34 @@ class InstallerRewrite
     {
         $contents = $this->parseContent($contents, $newValues);
 
-        if ($useValidation) {
-            $result = eval('?>'.$contents);
-                foreach ($newValues as $key => $expectedValue) {
-                    $parts = explode('.', $key);
+        if (!$useValidation) {
+            return $contents;
+        }
 
-                    $array = $result;
-                    foreach ($parts as $part) {
-                        if (!is_array($array) || !array_key_exists($part, $array))
-                            throw new Exception(sprintf('Unable to rewrite key "%s" in config, does it exist?', $key));
+        $result = eval('?>'.$contents);
 
-                        $array = $array[$part];
-                    }
-                    $actualValue = $array;
+        foreach ($newValues as $key => $expectedValue) {
+            $parts = explode('.', $key);
 
-                if ($actualValue != $expectedValue)
-                    throw new Exception(sprintf('Unable to rewrite key "%s" in config, rewrite failed', $key));
+            $array = $result;
+            foreach ($parts as $part) {
+                if (!is_array($array) || !array_key_exists($part, $array)) {
+                    throw new Exception(sprintf('Unable to rewrite key "%s" in config, does it exist?', $key));
+                }
+
+                $array = $array[$part];
+            }
+            $actualValue = $array;
+
+            if ($actualValue != $expectedValue) {
+                throw new Exception(sprintf('Unable to rewrite key "%s" in config, rewrite failed', $key));
             }
         }
 
         return $contents;
     }
 
-    private function parseContent($contents, $newValues)
+    protected function parseContent($contents, $newValues)
     {
         $patterns = array();
         $replacements = array();
@@ -66,23 +72,7 @@ class InstallerRewrite
             $items = explode('.', $path);
             $key = array_pop($items);
 
-            if (is_string($value) && strpos($value, "'") === false) {
-                $replaceValue = "'".$value."'";
-            }
-            elseif (is_string($value) && strpos($value, '"') === false) {
-                $replaceValue = '"'.$value.'"';
-            }
-            elseif (is_bool($value)) {
-                $replaceValue = ($value ? 'true' : 'false');
-            }
-            elseif (is_null($value)) {
-                $replaceValue = 'null';
-            }
-            else {
-                $replaceValue = $value;
-            }
-
-            $replaceValue = str_replace('$', '\$', $replaceValue);
+            $replaceValue = $this->writeValueToPhp($value);
 
             $patterns[] = $this->buildStringExpression($key, $items);
             $replacements[] = '${1}${2}'.$replaceValue;
@@ -92,12 +82,56 @@ class InstallerRewrite
 
             $patterns[] = $this->buildConstantExpression($key, $items);
             $replacements[] = '${1}${2}'.$replaceValue;
+
+            $patterns[] = $this->buildArrayExpression($key, $items);
+            $replacements[] = '${1}${2}'.$replaceValue;
         }
 
         return preg_replace($patterns, $replacements, $contents, 1);
     }
 
-    private function buildStringExpression($targetKey, $arrayItems = array(), $quoteChar = "'")
+    protected function writeValueToPhp($value)
+    {
+        if (is_string($value) && strpos($value, "'") === false) {
+            $replaceValue = "'".$value."'";
+        }
+        elseif (is_string($value) && strpos($value, '"') === false) {
+            $replaceValue = '"'.$value.'"';
+        }
+        elseif (is_bool($value)) {
+            $replaceValue = ($value ? 'true' : 'false');
+        }
+        elseif (is_null($value)) {
+            $replaceValue = 'null';
+        }
+        elseif (is_array($value) && count($value) === count($value, COUNT_RECURSIVE)) {
+            $replaceValue = $this->writeArrayToPhp($value);
+        }
+        else {
+            $replaceValue = $value;
+        }
+
+        $replaceValue = str_replace('$', '\$', $replaceValue);
+
+        return $replaceValue;
+    }
+
+    protected function writeArrayToPhp($array)
+    {
+        $result = [];
+
+        foreach ($array as $value) {
+            if (!is_array($value)) {
+                $result[] = $this->writeValueToPhp($value);
+            }
+        }
+
+        return '['.implode(', ', $result).']';
+
+        return $result;
+    }
+
+    protected function buildStringExpression($targetKey, $arrayItems = array(), $quoteChar = "'")
     {
         $expression = array();
 
@@ -119,7 +153,7 @@ class InstallerRewrite
     /**
      * Common constants only (true, false, null, integers)
      */
-    private function buildConstantExpression($targetKey, $arrayItems = array())
+    protected function buildConstantExpression($targetKey, $arrayItems = array())
     {
         $expression = array();
 
@@ -135,7 +169,26 @@ class InstallerRewrite
         return '/' . implode('', $expression) . '/';
     }
 
-    private function buildArrayOpeningExpression($arrayItems)
+    /**
+     * Single level arrays only
+     */
+    protected function buildArrayExpression($targetKey, $arrayItems = array())
+    {
+        $expression = array();
+
+        // Opening expression for array items ($1)
+        $expression[] = $this->buildArrayOpeningExpression($arrayItems);
+
+        // The target key opening ($2)
+        $expression[] = '([\'|"]'.$targetKey.'[\'|"]\s*=>\s*)';
+
+        // The target value to be replaced ($3)
+        $expression[] = '(?:[aA][rR]{2}[aA][yY]\(|[\[])([^\]|)]*)[\]|)]';
+
+        return '/' . implode('', $expression) . '/';
+    }
+
+    protected function buildArrayOpeningExpression($arrayItems)
     {
         if (count($arrayItems)) {
             $itemOpen = array();
