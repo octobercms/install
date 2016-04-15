@@ -400,7 +400,7 @@ class Installer
     // Installation Steps
     //
 
-    private function buildConfigFile()
+    protected function buildConfigFile()
     {
         $this->bootFramework();
 
@@ -428,7 +428,7 @@ class Installer
         $this->rewriter->toFile($this->configDirectory . '/database.php', $this->getDatabaseConfigValues());
     }
 
-    private function getDatabaseConfigValues()
+    protected function getDatabaseConfigValues()
     {
         $config = array_merge(array(
             'type' => null,
@@ -498,7 +498,7 @@ class Installer
         return $result;
     }
 
-    private function createAdminAccount()
+    protected function createAdminAccount()
     {
         $this->bootFramework();
 
@@ -550,7 +550,7 @@ class Installer
     // File Management
     //
 
-    private function moveHtaccess($old = null, $new = null)
+    protected function moveHtaccess($old = null, $new = null)
     {
         $oldFile = $this->baseDirectory . '/.htaccess';
         if ($old) $oldFile .= '.' . $old;
@@ -562,7 +562,7 @@ class Installer
             rename($oldFile, $newFile);
     }
 
-    private function unzipFile($fileCode, $directory = null)
+    protected function unzipFile($fileCode, $directory = null)
     {
         $source = $this->getFilePath($fileCode);
         $destination = $this->baseDirectory;
@@ -585,7 +585,7 @@ class Installer
         return false;
     }
 
-    private function getFilePath($fileCode)
+    protected function getFilePath($fileCode)
     {
         $name = md5($fileCode) . '.arc';
         return $this->tempDirectory . '/' . $name;
@@ -657,7 +657,7 @@ class Installer
     // Helpers
     //
 
-    private function bootFramework()
+    protected function bootFramework()
     {
         $autoloadFile = $this->baseDirectory . '/bootstrap/autoload.php';
         if (!file_exists($autoloadFile))
@@ -674,7 +674,7 @@ class Installer
         $kernel->bootstrap();
     }
 
-    private function requestServerData($uri = null, $params = array())
+    protected function requestServerData($uri = null, $params = array())
     {
         $result = null;
         $error = null;
@@ -717,7 +717,7 @@ class Installer
         return $_result;
     }
 
-    private function requestServerFile($fileCode, $expectedHash, $uri = null, $params = array())
+    protected function requestServerFile($fileCode, $expectedHash, $uri = null, $params = array())
     {
         $result = null;
         $error = null;
@@ -766,7 +766,7 @@ class Installer
         return true;
     }
 
-    private function prepareServerRequest($uri, $params = array())
+    protected function prepareServerRequest($uri, $params = array())
     {
         $params['url'] = base64_encode($this->getBaseUrl());
         $curl = curl_init();
@@ -786,7 +786,7 @@ class Installer
         return $curl;
     }
 
-    private function post($var, $default = null)
+    protected function post($var, $default = null)
     {
         if (array_key_exists($var, $_REQUEST)) {
             $result = $_REQUEST[$var];
@@ -797,7 +797,7 @@ class Installer
         return $default;
     }
 
-    private function getHashFromMeta($targetCode, $packageType = 'plugin')
+    protected function getHashFromMeta($targetCode, $packageType = 'plugin')
     {
         $meta = $this->post('meta');
         $packageType .= 's';
@@ -854,7 +854,7 @@ class Installer
         $d->close();
     }
 
-    private function validateSqliteFile($filename)
+    protected function validateSqliteFile($filename)
     {
         if (file_exists($filename))
             return;
