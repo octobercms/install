@@ -529,7 +529,7 @@ class Installer
 
         $this->bootFramework();
 
-        call_user_func('System\Models\Parameters::set', array(
+        call_user_func('System\Models\Parameter::set', array(
             'system::project.id'    => $projectId,
             'system::project.name'  => $this->post('name'),
             'system::project.owner' => $this->post('owner'),
@@ -540,7 +540,7 @@ class Installer
     {
         $this->bootFramework();
 
-        call_user_func('System\Models\Parameters::set', array(
+        call_user_func('System\Models\Parameter::set', array(
             'system::core.hash'  => $this->post('uhash'),
             'system::core.build' => $this->post('build'),
         ));
