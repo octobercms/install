@@ -222,7 +222,7 @@ class Installer
         if (!strlen($this->post('encryption_code')))
             throw new InstallerException('Please specify encryption key', 'encryption_code');
 
-        $validKeyLengths = [16, 24, 32];
+        $validKeyLengths = [32];
         if (!in_array(strlen($this->post('encryption_code')), $validKeyLengths))
             throw new InstallerException('The encryption key should be of a valid length ('.implode(', ', $validKeyLengths).').', 'encryption_code');
 
