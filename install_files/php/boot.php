@@ -3,7 +3,7 @@
 /*
  * Check PHP version
  */
-if (version_compare(PHP_VERSION, '5.4.0', '<')) exit('You need at least PHP 5.4.0 to install October CMS.');
+if (version_compare(PHP_VERSION, '5.5.9', '<')) exit('You need at least PHP 5.5.9 to install October CMS.');
 
 /*
  * PHP headers
