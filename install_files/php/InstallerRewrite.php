@@ -35,12 +35,12 @@ class InstallerRewrite
     public function toContent($contents, $newValues, $useValidation = true)
     {
         $contents = $this->parseContent($contents, $newValues);
-
         if (!$useValidation) {
             return $contents;
         }
 
-        $result = eval('?>'.$contents);
+        $contentsEval = str_replace('<?php', '', $contents);
+        $result = eval($contentsEval);
 
         foreach ($newValues as $key => $expectedValue) {
             $parts = explode('.', $key);
@@ -83,8 +83,11 @@ class InstallerRewrite
             $patterns[] = $this->buildConstantExpression($key, $items);
             $replacements[] = '${1}${2}'.$replaceValue;
 
-            $patterns[] = $this->buildArrayExpression($key, $items);
-            $replacements[] = '${1}${2}'.$replaceValue;
+            /** Only array - database config problem with replace redis => ['default' => []] */
+            if(count($items) > 1) {
+                $patterns[] = $this->buildArrayExpression($key, $items);
+                $replacements[] = '${1}${2}'.$replaceValue;
+            }
         }
 
         return preg_replace($patterns, $replacements, $contents, 1);
