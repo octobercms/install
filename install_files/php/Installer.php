@@ -43,7 +43,7 @@ class Installer
 
             try {
                 if (!preg_match('/^on[A-Z]{1}[\w+]*$/', $handler))
-                    throw new Exception(sprintf('Invalid handler: %s', $handler));
+                    throw new Exception(sprintf('Invalid handler: %s', $this->e($handler)));
 
                 if (method_exists($this, $handler) && ($result = $this->$handler()) !== null) {
                     $this->log('Execute handler (%s): %s', $handler, print_r($result, true));
@@ -183,7 +183,7 @@ class Installer
         while ($result = $fetch->fetch()) $tables++;
 
         if ($tables > 0) {
-            throw new Exception(sprintf('Database "%s" is not empty. Please empty the database or specify another database.', $name));
+            throw new Exception(sprintf('Database "%s" is not empty. Please empty the database or specify another database.', $this->e($name)));
         }
     }
 
@@ -852,6 +852,11 @@ class Installer
         }
 
         $d->close();
+    }
+
+    public function e($value)
+    {
+        return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
     }
 
     protected function validateSqliteFile($filename)
