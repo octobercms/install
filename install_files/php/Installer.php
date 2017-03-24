@@ -104,29 +104,18 @@ class Installer
 
     protected function onValidateDatabase()
     {
-        if ($this->post('db_type') != 'sqlite' && !strlen($this->post('db_host')))
+        $type = $this->post('db_type');
+        $host = $this->post('db_host');
+        $name = $this->post('db_name');
+        $user = $this->post('db_user');
+        $pass = $this->post('db_pass');
+        $port = $this->post('db_port');
+
+        if ($type != 'sqlite' && !strlen($host))
             throw new InstallerException('Please specify a database host', 'db_host');
 
-        if (!strlen($this->post('db_name')))
+        if (!strlen($name))
             throw new InstallerException('Please specify the database name', 'db_name');
-
-        $config = array_merge(array(
-            'type' => null,
-            'host' => null,
-            'name' => null,
-            'port' => null,
-            'user' => null,
-            'pass' => null,
-        ), array(
-            'type' => $this->post('db_type'),
-            'host' => $this->post('db_host'),
-            'name' => $this->post('db_name'),
-            'user' => $this->post('db_user'),
-            'pass' => $this->post('db_pass'),
-            'port' => $this->post('db_port'),
-        ));
-
-        extract($config);
 
         switch ($type) {
             case 'mysql':
@@ -430,25 +419,13 @@ class Installer
 
     protected function getDatabaseConfigValues()
     {
-        $config = array_merge(array(
-            'type' => null,
-            'host' => null,
-            'name' => null,
-            'port' => null,
-            'user' => null,
-            'pass' => null,
-            'prefix' => null,
-        ), array(
-            'type' => $this->post('db_type'),
-            'host' => $this->post('db_host', ''),
-            'name' => $this->post('db_name', ''),
-            'port' => $this->post('db_port', ''),
-            'user' => $this->post('db_user', ''),
-            'pass' => $this->post('db_pass', ''),
-            'prefix' => $this->post('db_prefix', ''),
-        ));
-
-        extract($config);
+        $type = $this->post('db_type');
+        $host = $this->post('db_host', '');
+        $name = $this->post('db_name', '');
+        $port = $this->post('db_port', '');
+        $user = $this->post('db_user', '');
+        $pass = $this->post('db_pass', '');
+        $prefix = $this->post('db_prefix', '');
 
         switch ($type) {
             default:
@@ -466,6 +443,7 @@ class Installer
             case 'sqlite':
                 $result = array(
                     'connections.sqlite.database' => $name,
+                    'connections.sqlite.prefix'   => $prefix,
                 );
                 break;
 
