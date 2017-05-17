@@ -96,6 +96,15 @@ class Installer
             case 'zipLibrary':
                 $result = class_exists('ZipArchive');
                 break;
+            case 'mod_rewrite':
+                $result = array_key_exists('HTTP_MOD_REWRITE', $_SERVER);
+                break;
+            case 'jsonLibrary':
+                $result = function_exists('json_decode');
+                break;
+            case 'fileinfoLibrary':
+                $result = extension_loaded('fileinfo') && function_exists('finfo_open');
+                break;
         }
 
         $this->log('Requirement %s %s', $checkCode, ($result ? '+OK' : '=FAIL'));
