@@ -84,6 +84,9 @@ class Installer
             case 'mbstringLibrary':
                 $result = extension_loaded('mbstring');
                 break;
+            case 'fileinfoLibrary':
+                $result = extension_loaded('fileinfo');
+                break;
             case 'sslLibrary':
                 $result = extension_loaded('openssl');
                 break;

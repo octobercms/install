@@ -122,6 +122,7 @@
                     { code: 'writePermission', label: 'Permission to write to directories and files', reason: 'The installer was unable to write to the installation directories and files.' },
                     { code: 'pdoLibrary', label: 'PDO PHP Extension is required' },
                     { code: 'mbstringLibrary', label: 'Mbstring PHP Extension is required' },
+                    { code: 'fileinfoLibrary', label: 'Fileinfo PHP Extension is required' },
                     { code: 'sslLibrary', label: 'OpenSSL PHP Extension is required' },
                     { code: 'zipLibrary', label: 'ZipArchive PHP Library is required' },
                     { code: 'gdLibrary', label: 'GD PHP Library is required' }
