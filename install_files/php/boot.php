@@ -6,6 +6,11 @@
 if (version_compare(PHP_VERSION, '7.0', '<')) exit('You need at least PHP 7.0 to install October CMS.');
 
 /*
+ * Check for JSON extension
+ */
+if (!function_exists('json_decode')) exit('JSON PHP Extension is required to install October CMS');
+
+/*
  * PHP headers
  */
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
