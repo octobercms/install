@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
         <title>October Installation</title>
+        <link type="image/png" href="install_files/images/october.png" rel="icon">
 
         <!-- Styles -->
         <link href="install_files/css/vendor.css" rel="stylesheet">
@@ -58,7 +59,7 @@
 
             <!-- Render Partials -->
             <?php
-                $partialList = array(
+                $partialList = [
                     'header',
                     'title',
                     'footer',
@@ -86,8 +87,8 @@
                     'project/fail',
                     'progress',
                     'progress/fail',
-                    'complete',
-                );
+                    'complete'
+                ];
             ?>
 
             <?php foreach ($partialList as $file): ?>
