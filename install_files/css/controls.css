@@ -109,6 +109,9 @@
 .callout-danger {
     background-color: #cc3300;
 }
+.callout-danger h4 a {
+    text-decoration: underline;
+}
 .callout-warning {
     background-color: #f0ad4e;
 }
