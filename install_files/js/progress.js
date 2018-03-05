@@ -97,7 +97,13 @@ Installer.Pages.installProgress.execDefaultStep = function(step, options) {
 
     $.sendRequest('onInstallStep', postData, { loadingIndicator: false })
         .fail(function(data){
-            deferred.reject(data.responseText)
+            if (data.status = 504) {
+                deferred.reject("The operation timed out. Please increase the server's timeout and try again.<br/><br/>\
+                    Relevant documentation for <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://httpd.apache.org/docs/2.4/mod/core.html#timeout\">Apache</a>,\
+                    <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_read_timeout\">Nginx</a>.");
+            } else {
+                deferred.reject(data.responseText)
+            }
         })
         .done(function(data){
             options.onSuccess && options.onSuccess(data)
