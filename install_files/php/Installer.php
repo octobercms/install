@@ -99,6 +99,9 @@ class Installer
             case 'zipLibrary':
                 $result = class_exists('ZipArchive');
                 break;
+            case 'mod_rewrite':
+                $result = (strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') === false) || array_key_exists('HTTP_MOD_REWRITE', $_SERVER);
+                break;
         }
 
         $this->log('Requirement %s %s', $checkCode, ($result ? '+OK' : '=FAIL'));

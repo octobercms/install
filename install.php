@@ -126,7 +126,8 @@
                     { code: 'fileinfoLibrary', label: 'Fileinfo PHP Extension is required' },
                     { code: 'sslLibrary', label: 'OpenSSL PHP Extension is required' },
                     { code: 'zipLibrary', label: 'ZipArchive PHP Library is required' },
-                    { code: 'gdLibrary', label: 'GD PHP Library is required' }
+                    { code: 'gdLibrary', label: 'GD PHP Library is required' },
+                    { code: 'mod_rewrite', label: 'PHP mod_rewrite module is required' }
                 ]
 
                 /*
