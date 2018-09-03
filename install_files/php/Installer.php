@@ -100,7 +100,7 @@ class Installer
                 $result = class_exists('ZipArchive');
                 break;
             case 'mod_rewrite':
-                $result = (strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') === false) || array_key_exists('HTTP_MOD_REWRITE', $_SERVER);
+                $result = (strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') === false) || array_key_exists('HTTP_MOD_REWRITE', $_SERVER) || array_key_exists('REDIRECT_HTTP_MOD_REWRITE', $_SERVER);
                 break;
         }
 
