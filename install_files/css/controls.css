@@ -188,15 +188,10 @@
     margin-top: 20px;
     min-height: 385px;
 }
-.theme-item h4,
-.theme-item h4 + p {
-    display: inline-block;
-}
-.theme-item h4 + p {
+.theme-item-header small {
+    color: rgba(0,0,0,.5);
     position: relative;
     top: -1px;
-    margin-left: 5px;
-    color: rgba(0,0,0,.5);
 }
 .theme-item .theme-item-thumb {
     text-align: center;
