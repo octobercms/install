@@ -76,7 +76,7 @@ class Installer
                 $result = is_writable(PATH_INSTALL) && is_writable($this->logFile);
                 break;
             case 'phpVersion':
-                $result = version_compare(PHP_VERSION , "7.0", ">=");
+                $result = PHP_VERSION_ID >= 70000;
                 break;
             case 'pdoLibrary':
                 $result = defined('PDO::ATTR_DRIVER_NAME');

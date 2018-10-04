@@ -3,7 +3,7 @@
 /*
  * Check PHP version
  */
-if (version_compare(PHP_VERSION, '7.0', '<')) exit('You need at least PHP 7.0 to install October CMS.');
+if (PHP_VERSION_ID < 70000) exit('You need at least PHP 7.0 to install October CMS.');
 
 /*
  * Check for JSON extension
