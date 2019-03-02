@@ -49,7 +49,7 @@ else {
  * Constants
  */
 define('PATH_INSTALL', str_replace("\\", "/", realpath(dirname(__FILE__)."/../../")));
-define('OCTOBER_GATEWAY', 'http://octobercms.com/api');
+define('OCTOBER_GATEWAY', 'http://gateway.octobercms.com/api');
 
 /*
  * Address timeout limits
