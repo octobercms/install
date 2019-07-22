@@ -855,6 +855,10 @@ class Installer
         }
 
         $d->close();
+
+        // remove installer files
+        $this->recursiveRemove('install_files');
+        @unlink(__FILE__);
     }
 
     public function e($value)
@@ -872,5 +876,17 @@ class Installer
             mkdir($directory, 0777, true);
 
         new PDO('sqlite:'.$filename);
+    }
+
+    protected function recursiveRemove($dir)
+    {
+        $structure = glob(rtrim($dir, "/").'/*');
+        if (is_array($structure)) {
+            foreach($structure as $file) {
+                if (is_dir($file)) $this->recursiveRemove($file);
+                elseif (is_file($file)) @unlink($file);
+            }
+        }
+        @rmdir($dir);
     }
 }
