@@ -880,11 +880,14 @@ class Installer
 
     protected function recursiveRemove($dir)
     {
-        $structure = glob(rtrim($dir, '/').'/*');
+        $structure = glob(rtrim($dir, '/') . '/*');
         if (is_array($structure)) {
-            foreach($structure as $file) {
-                if (is_dir($file)) $this->recursiveRemove($file);
-                elseif (is_file($file)) @unlink($file);
+            foreach ($structure as $file) {
+                if (is_dir($file)) {
+                    $this->recursiveRemove($file);
+                } elseif (is_file($file)) {
+                    @unlink($file);
+                }
             }
         }
         @rmdir($dir);
