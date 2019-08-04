@@ -890,6 +890,5 @@ class Installer
                 }
             }
         }
-        @rmdir($dir);
     }
 }
