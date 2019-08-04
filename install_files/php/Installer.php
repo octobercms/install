@@ -858,7 +858,7 @@ class Installer
 
         // remove installer files
         $this->recursiveRemove('install_files');
-        @unlink(__FILE__);
+        @unlink('install.php');
     }
 
     public function e($value)
