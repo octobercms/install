@@ -890,5 +890,9 @@ class Installer
                 }
             }
         }
+
+        if ($dir !== 'install_files') {
+            @rmdir($dir);
+        }
     }
 }
