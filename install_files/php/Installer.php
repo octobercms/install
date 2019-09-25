@@ -388,10 +388,10 @@ class Installer
 
             case 'finishInstall':
                 $this->setCoreBuild();
-                $this->moveHtaccess(null, 'installer');
-                $this->moveHtaccess('october', null);
                 break;
             case 'cleanInstall':
+                $this->moveHtaccess(null, 'installer');
+                $this->moveHtaccess('october', null);
                 $this->cleanUp();
                 break;
         }
