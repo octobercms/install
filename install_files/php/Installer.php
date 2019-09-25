@@ -390,11 +390,15 @@ class Installer
                 $this->setCoreBuild();
                 $this->moveHtaccess(null, 'installer');
                 $this->moveHtaccess('october', null);
+                break;
+            case 'cleanInstall':
                 $this->cleanUp();
                 break;
         }
 
-        $this->log('Step %s +OK', $installStep);
+        if ($installStep != 'cleanInstall') { // skip cleanInstall step to prevent writing to nonexisting folder
+            $this->log('Step %s +OK', $installStep);
+        }
 
         return array('result' => $result);
     }

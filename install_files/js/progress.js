@@ -204,3 +204,9 @@ Installer.Pages.installProgress.execStep.finishInstall = function(step) {
         return Installer.Pages.installProgress.execDefaultStep(step, { extraData: Installer.Data.meta.core })
     }
 }
+
+Installer.Pages.installProgress.execStep.cleanInstall = function(step) {
+    return function() {
+        return Installer.Pages.installProgress.execDefaultStep(step, { extraData: Installer.Data.meta.core })
+    }
+}
