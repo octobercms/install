@@ -3,12 +3,11 @@
  */
 
 Installer.Pages.projectForm.init = function() {
-
     var projectForm = $('#projectForm').addClass('animate fade_in')
 
-    Installer.renderSections(Installer.Pages.projectForm.sections)
+    Installer.Pages.projectForm.refreshSections()
 
-    $('#suggestedProductsContainer').hide()
+    $('#nextButton').addClass('disabled')
 
     Installer.Pages.projectForm.bindAll()
 }
@@ -32,7 +31,7 @@ Installer.Pages.projectForm.detachProject = function(el) {
     Installer.Data.project = null
     Installer.DataSet.includedPlugins = []
     Installer.DataSet.includedThemes = []
-    Installer.refreshSections()
+    Installer.Pages.projectForm.refreshSections()
     Installer.Pages.projectForm.bindAll()
 }
 
@@ -49,17 +48,21 @@ Installer.Pages.projectForm.attachProject = function(el) {
             Installer.Data.project.code = code
             Installer.DataSet.includedPlugins = result.plugins ? result.plugins : []
             Installer.DataSet.includedThemes = result.themes ? result.themes : []
-            Installer.refreshSections({
+            Installer.Pages.projectForm.refreshSections({
                 projectId: code,
                 projectName: result.name,
                 projectOwner: result.owner,
                 projectDescription: result.description
             })
             Installer.Pages.projectForm.bindAll()
+
+            $('#nextButton').removeClass('disabled')
         })
         .fail(function(data){
             projectFormFailed.show().addClass('animate fade_in')
             projectFormFailed.renderPartial('project/fail', { reason: data.responseText })
+
+            $('#nextButton').addClass('disabled')
         })
 }
 
@@ -93,11 +96,6 @@ Installer.Pages.projectForm.bindIncludeManager = function(el) {
     $counter.text(includedProducts.length)
 }
 
-Installer.Pages.projectForm.findIncludeManagerFromEl = function(el) {
-    var $el = $(el)
-
-    if ($el.hasClass('product-list-manager'))
-        return el
-
-    return $(el).closest('[data-manager]').data('manager')
+Installer.Pages.projectForm.refreshSections = function(vars) {
+    $('#projectForm').find('.section-content:first').renderPartial('project/project', vars)
 }

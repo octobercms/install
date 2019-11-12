@@ -1,9 +1,11 @@
 {{^projectId}}
-    <p class="lead">If you have a Project for this installation, specify it below.</p>
+    <p class="lead">
+        Please enter your Project ID to verify your installation
+    </p>
 {{/projectId}}
 {{#projectId}}
     <p class="lead text-success with-tick">
-        Project has been assigned to this installation.</p>
+        Project license verified! Ready to install
     </p>
 {{/projectId}}
 
@@ -63,24 +65,47 @@
 {{/projectId}}
 {{#projectId}}
 
-    <table class="table table-bordered">
-        <tr>
-            <th class="col-md-2">Name</th>
-            <td>{{ projectName }}</td>
-        </tr>
-        <tr>
-            <th class="col-md-2">Owner</th>
-            <td>{{ projectOwner }}</td>
-        </tr>
-        <tr>
-            <th class="col-md-2">Description</th>
-            <td>{{ projectDescription }}</td>
-        </tr>
-    </table>
+    <div class="project-details">
+        <table class="table table-bordered">
+            <tr>
+                <th class="col-md-2">Name</th>
+                <td>{{ projectName }}</td>
+            </tr>
+            <tr>
+                <th class="col-md-2">Owner</th>
+                <td>{{ projectOwner }}</td>
+            </tr>
+            <tr>
+                <th class="col-md-2">Description</th>
+                <td>{{ projectDescription }}</td>
+            </tr>
+        </table>
+    </div>
 
-    <ul class="list-inline">
-        <li><a href="javascript:Installer.showSection('plugins')">View Plugins</a></li>
-        <li><a href="javascript:Installer.showSection('themes')">View Themes</a></li>
-    </ul>
+    <div data-manager="#pluginList">
+
+        <!-- Included plugins -->
+        <div id="pluginList" class="product-list-manager" data-handler="onPluginDetails" data-view="project/plugin" data-set="includedPlugins">
+            <h4 class="product-list-header section-header">Included Plugins <small>(<span class="product-counter">0</span>)</small></h4>
+            <div class="product-list-empty">
+                <p>There are no plugins included with this project.</p>
+            </div>
+            <ul class="product-list plugin-list"></ul>
+        </div>
+
+    </div>
+
+    <div data-manager="#themeList">
+
+        <!-- Included themes -->
+        <div id="themeList" class="product-list-manager" data-handler="onThemeDetails" data-view="project/theme" data-set="includedThemes">
+            <h4 class="product-list-header section-header">Included Themes <small>(<span class="product-counter">0</span>)</small></h4>
+            <div class="product-list-empty">
+                <p>There are no themes included with this project.</p>
+            </div>
+            <ul class="product-list theme-list"></ul>
+        </div>
+
+    </div>
 
 {{/projectId}}
