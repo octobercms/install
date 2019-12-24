@@ -1,6 +1,6 @@
 <?php
 
-define('OCTOBER_MINIMUM_PHP_VERSION_ID', 70000);
+define('OCTOBER_MINIMUM_PHP_VERSION_ID', 70800);
 
 /**
  * PHP_VERSION_ID is available as of PHP 5.2.7, if our 
