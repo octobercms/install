@@ -69,7 +69,7 @@ function installerShutdown()
 {
     global $installer;
     $error = error_get_last();
-    if ($error['type'] == 1) {
+    if ($error && $error['type'] == 1) {
         header('HTTP/1.1 500 Internal Server Error');
         $errorMsg = htmlspecialchars_decode(strip_tags($error['message']));
         echo $errorMsg;
