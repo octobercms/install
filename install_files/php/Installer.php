@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
+
 class Installer
 {
     /**
@@ -429,6 +431,13 @@ class Installer
         ));
 
         $this->rewriter->toFile($this->configDirectory . '/database.php', $this->getDatabaseConfigValues());
+
+        // Force cache flush
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        if (function_exists('opcache_reset')) {
+            opcache_reset();
+        }
     }
 
     protected function getDatabaseConfigValues()
