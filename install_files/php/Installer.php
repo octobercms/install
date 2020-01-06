@@ -431,8 +431,6 @@ class Installer
         $this->rewriter->toFile($this->configDirectory . '/database.php', $this->getDatabaseConfigValues());
 
         // Force cache flush
-        \Illuminate\Support\Facades\Artisan::call('cache:clear');
-        \Illuminate\Support\Facades\Artisan::call('config:clear');
         if (function_exists('opcache_reset')) {
             opcache_reset();
         }
