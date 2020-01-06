@@ -429,6 +429,14 @@ class Installer
         ));
 
         $this->rewriter->toFile($this->configDirectory . '/database.php', $this->getDatabaseConfigValues());
+
+        // Force cache flush
+        if (function_exists('opcache_reset')) {
+            opcache_reset();
+        }
+        if (function_exists('apc_clear_cache')) {
+            apc_clear_cache();
+        }
     }
 
     protected function getDatabaseConfigValues()
