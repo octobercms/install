@@ -41,7 +41,7 @@
             id="advFileMask"
             name="file_mask"
             class="form-control"
-            value="777" />
+            value="644" />
     </div>
 </div>
 
@@ -52,6 +52,12 @@
             id="advFolderMask"
             name="folder_mask"
             class="form-control"
-            value="777" />
+            value="755" />
     </div>
 </div>
+
+<p class="help-block">
+    * If file permission issues occur, then use <strong>777</strong> and <strong>666</strong>.
+    Setting the file permissions to either <strong>777</strong> means that anyone can write and
+    execute anything in that folder, this is highly not recommend for shared hosting.
+</p>
