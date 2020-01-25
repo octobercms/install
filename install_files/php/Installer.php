@@ -424,8 +424,8 @@ class Installer
         $this->rewriter->toFile($this->configDirectory . '/cms.php', array(
             'activeTheme' => $activeTheme,
             'backendUri'  => $this->post('backend_uri', '/backend'),
-            'defaultMask.file' => $this->post('file_mask', '777'),
-            'defaultMask.folder' => $this->post('folder_mask', '777'),
+            'defaultMask.file' => $this->post('file_mask', '644'),
+            'defaultMask.folder' => $this->post('folder_mask', '755'),
         ));
 
         $this->rewriter->toFile($this->configDirectory . '/database.php', $this->getDatabaseConfigValues());
