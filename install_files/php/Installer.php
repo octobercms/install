@@ -388,13 +388,17 @@ class Installer
 
             case 'finishInstall':
                 $this->setCoreBuild();
+                break;
+            case 'cleanInstall':
                 $this->moveHtaccess(null, 'installer');
                 $this->moveHtaccess('october', null);
                 $this->cleanUp();
                 break;
         }
 
-        $this->log('Step %s +OK', $installStep);
+        if ($installStep != 'cleanInstall') { // skip cleanInstall step to prevent writing to nonexisting folder
+            $this->log('Step %s +OK', $installStep);
+        }
 
         return array('result' => $result);
     }
@@ -863,6 +867,10 @@ class Installer
         }
 
         $d->close();
+
+        // remove installer files
+        $this->recursiveRemove('install_files');
+        @unlink('install.php');
     }
 
     public function e($value)
@@ -880,5 +888,20 @@ class Installer
             mkdir($directory, 0777, true);
 
         new PDO('sqlite:'.$filename);
+    }
+
+    protected function recursiveRemove($dir)
+    {
+        $structure = glob(rtrim($dir, '/') . '/*');
+        if (is_array($structure)) {
+            foreach ($structure as $file) {
+                if (is_dir($file)) {
+                    $this->recursiveRemove($file);
+                } elseif (is_file($file)) {
+                    @unlink($file);
+                }
+            }
+        }
+        @rmdir($dir);
     }
 }
