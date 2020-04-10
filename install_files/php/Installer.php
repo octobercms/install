@@ -435,7 +435,14 @@ class Installer
         $this->rewriter->toFile($this->configDirectory . '/database.php', $this->getDatabaseConfigValues());
 
         // Force cache flush
-        if (function_exists('opcache_reset')) {
+        $opcache_enabled = ini_get('opcache.enable');
+        $opcache_path = trim(ini_get('opcache.restrict_api'));
+
+        if (!empty($opcache_path) && !starts_with(__FILE__, $opcache_path)) {
+            $opcache_enabled = false;
+        }
+
+        if (function_exists('opcache_reset') && $opcache_enabled) {
             opcache_reset();
         }
         if (function_exists('apc_clear_cache')) {
