@@ -1,9 +1,9 @@
 <?php
 
-define('OCTOBER_MINIMUM_PHP_VERSION_ID', 70008);
+define('OCTOBER_MINIMUM_PHP_VERSION_ID', 70200);
 
 /**
- * PHP_VERSION_ID is available as of PHP 5.2.7, if our 
+ * PHP_VERSION_ID is available as of PHP 5.2.7, if our
  * version is lower than that, then emulate it
  */
 if (!defined('PHP_VERSION_ID')) {
@@ -15,7 +15,7 @@ if (!defined('PHP_VERSION_ID')) {
 /*
  * Check PHP version
  */
-if (PHP_VERSION_ID < OCTOBER_MINIMUM_PHP_VERSION_ID) exit('You need at least PHP 7.0 to install October CMS.');
+if (PHP_VERSION_ID < OCTOBER_MINIMUM_PHP_VERSION_ID) exit('You need at least PHP 7.2 to install October CMS.');
 
 /*
  * Check for JSON extension

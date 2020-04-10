@@ -117,7 +117,7 @@
                 Installer.Pages.systemCheck.nextButton = 'Agree & Continue'
 
                 Installer.Pages.systemCheck.requirements = [
-                    { code: 'phpVersion', label: 'PHP version 7.0 or greater required' },
+                    { code: 'phpVersion', label: 'PHP version 7.2 or greater required' },
                     { code: 'curlLibrary', label: 'cURL PHP Extension is required' },
                     { code: 'liveConnection', label: 'Test connection to the installation server' },
                     { code: 'writePermission', label: 'Permission to write to directories and files', reason: 'The installer was unable to write to the installation directories and files.' },

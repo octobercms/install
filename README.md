@@ -13,13 +13,20 @@ The wizard installation is a recommended way to install October. It is simpler t
 
 October CMS has a few system requirements:
 
-* PHP version 7.0.8 or higher
-* PDO PHP Extension
+* PHP version 7.2 or higher
+* PDO PHP Extension (and relevant driver for the database you want to connect to)
 * cURL PHP Extension
 * OpenSSL PHP Extension
-* Mbstring PHP Library
-* ZipArchive PHP Library
-* GD PHP Library
+* Mbstring PHP Extension
+* ZipArchive PHP Extension
+* GD PHP Extension
+* SimpleXML PHP Extension
 
-As of PHP 5.5, some OS distributions may require you to manually install the PHP JSON extension.
-When using Ubuntu, this can be done via ``apt-get install php5-json``.
+Some OS distributions may require you to manually install some of the required PHP extensions.
+
+When using Ubuntu, the following command can be run to install all required extensions:
+
+```bash
+sudo apt-get update &&
+sudo apt-get install php php-ctype php-curl php-xml php-fileinfo php-gd php-json php-mbstring php-mysql php-sqlite3 php-zip
+```
