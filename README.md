@@ -1,6 +1,8 @@
 # Installation wizard for October
 
-The wizard installation is a recommended way to install October. It is simpler than the command-line installation and doesn't require any special skills.
+The wizard installation is the recommended way to install October for **non-technical users**. It is simpler than the command-line installation and doesn't require any special skills.
+
+> **Note:** If you are a developer, we recommend that you install via Composer instead: https://octobercms.com/docs/console/commands#console-install-composer
 
 1. Prepare a directory on your server that is empty. It can be a sub-directory, domain root or a sub-domain.
 1. [Download the installer archive file](https://github.com/octobercms/install/archive/master.zip).
