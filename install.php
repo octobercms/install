@@ -117,16 +117,20 @@
                 Installer.Pages.systemCheck.nextButton = 'Agree & Continue'
 
                 Installer.Pages.systemCheck.requirements = [
-                    { code: 'phpVersion', label: 'PHP version 7.2 or greater required' },
+                    { code: 'phpVersion', label: 'PHP version 7.2.9 or greater required' },
                     { code: 'curlLibrary', label: 'cURL PHP Extension is required' },
+                    { code: 'jsonLibrary', label: 'JSON PHP Extension is required' },
                     { code: 'liveConnection', label: 'Test connection to the installation server' },
                     { code: 'writePermission', label: 'Permission to write to directories and files', reason: 'The installer was unable to write to the installation directories and files.' },
                     { code: 'pdoLibrary', label: 'PDO PHP Extension is required' },
                     { code: 'mbstringLibrary', label: 'Mbstring PHP Extension is required' },
                     { code: 'fileinfoLibrary', label: 'Fileinfo PHP Extension is required' },
                     { code: 'sslLibrary', label: 'OpenSSL PHP Extension is required' },
-                    { code: 'zipLibrary', label: 'ZipArchive PHP Library is required' },
-                    { code: 'gdLibrary', label: 'GD PHP Library is required' }
+                    { code: 'gdLibrary', label: 'GD PHP Extension is required' },
+                    { code: 'zipLibrary', label: 'ZipArchive PHP Extension is required' },
+                    { code: 'filterLibrary', label: 'Filter PHP Extension is required' },
+                    { code: 'hashLibrary', label: 'Hash PHP Extension is required' },
+                    { code: 'allowUrlFopenConfig', label: 'PHP INI setting "allow_url_fopen" is enabled' }
                 ]
 
                 /*
