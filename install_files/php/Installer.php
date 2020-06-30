@@ -155,7 +155,7 @@ class Installer
                     $dsn = 'dblib:host='.$host.$_port.';dbname='.$name;
                 }
                 else {
-                    $dsn = 'sqlsrv:Server='.$host.(empty($port) ? '':','.$_port).';Database='.$name;
+                    $dsn = 'sqlsrv:server = tcp:'.$host.(empty($port) ? '':$_port).'; Database = '.$name;
                 }
             break;
         }
@@ -169,6 +169,7 @@ class Installer
         /*
          * Check the database is empty
          */
+        $exptectedTablesAndViewsCount = 0;
         if ($type == 'sqlite') {
             $fetch = $db->query("select name from sqlite_master where type='table'", PDO::FETCH_NUM);
         }
@@ -177,6 +178,7 @@ class Installer
         }
         elseif ($type === 'sqlsrv') {
             $fetch = $db->query("select [table_name] from information_schema.tables", PDO::FETCH_NUM);
+            $exptectedTablesAndViewsCount = 1;
         }
         else {
             $fetch = $db->query('show tables', PDO::FETCH_NUM);
@@ -185,7 +187,7 @@ class Installer
         $tables = 0;
         while ($result = $fetch->fetch()) $tables++;
 
-        if ($tables > 0) {
+        if ($tables > $exptectedTablesAndViewsCount) {
             throw new Exception(sprintf('Database "%s" is not empty. Please empty the database or specify another database.', $this->e($name)));
         }
     }
