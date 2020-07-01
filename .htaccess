@@ -1,0 +1,5 @@
+# Used for testing if URL rewriting is enabled
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^rewrite/test/$ install.php
+</IfModule>

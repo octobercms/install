@@ -16,9 +16,7 @@
         <!-- Base URL -->
         <?php if (!isset($fatalError)): ?>
             <script>
-            <!--
                 installerBaseUrl = '<?= $installer->getBaseUrl() ?>';
-            // -->
             </script>
         <?php endif ?>
     </head>
@@ -130,7 +128,8 @@
                     { code: 'zipLibrary', label: 'ZipArchive PHP Extension is required' },
                     { code: 'filterLibrary', label: 'Filter PHP Extension is required' },
                     { code: 'hashLibrary', label: 'Hash PHP Extension is required' },
-                    { code: 'allowUrlFopenConfig', label: 'PHP INI setting "allow_url_fopen" is enabled' }
+                    { code: 'allowUrlFopenConfig', label: 'PHP INI setting "allow_url_fopen" is enabled' },
+                    { code: 'urlRewriting', label: 'URL rewriting is enabled on the web server' }
                 ]
 
                 /*

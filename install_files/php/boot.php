@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Required PHP version for October CMS
  */
@@ -24,6 +23,15 @@ header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 header('Cache-Control: no-store, no-cache, must-revalidate');
 header('Cache-Control: post-check=0, pre-check=0', false);
 header('Pragma: no-cache');
+
+/*
+ * Used for the rewriting test
+ */
+if ($_SERVER['REQUEST_URI'] === '/rewrite/test/') {
+    header('HTTP/1.1 200 OK');
+    echo 'Rewrite successful';
+    exit();
+}
 
 /*
  * Debug mode

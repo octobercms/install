@@ -111,6 +111,9 @@ class Installer
             case 'allowUrlFopenConfig':
                 $result = ini_get('allow_url_fopen');
                 break;
+            case 'urlRewriting':
+                $content = @file_get_contents($this->getBaseUrl() . 'rewrite/test/');
+                $result = ($content === 'Rewrite successful');
         }
 
         $this->log('Requirement %s %s', $checkCode, ($result ? '+OK' : '=FAIL'));
