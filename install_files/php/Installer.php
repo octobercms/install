@@ -155,7 +155,7 @@ class Installer
                     $dsn = 'dblib:host='.$host.$_port.';dbname='.$name;
                 }
                 else {
-                    $dsn = 'sqlsrv:Server='.$host.(empty($port) ? '':','.$_port).';Database='.$name;
+                    $dsn = 'sqlsrv:Server='.$host.(empty($port) ? '':$_port).';Database='.$name;
                 }
             break;
         }
