@@ -69,14 +69,20 @@ class Installer
 
         $result = false;
         switch ($checkCode) {
+            case 'phpVersion':
+                $result = version_compare(trim(strtolower(PHP_VERSION)), REQUIRED_PHP_VERSION, '>=');
+                break;
+            case 'curlLibrary':
+                $result = function_exists('curl_init') && defined('CURLOPT_FOLLOWLOCATION');
+                break;
+            case 'jsonLibrary':
+                $result = function_exists('json_decode');
+                break;
             case 'liveConnection':
                 $result = ($this->requestServerData('ping') !== null);
                 break;
             case 'writePermission':
                 $result = is_writable(PATH_INSTALL) && is_writable($this->logFile);
-                break;
-            case 'phpVersion':
-                $result = PHP_VERSION_ID >= OCTOBER_MINIMUM_PHP_VERSION_ID;
                 break;
             case 'pdoLibrary':
                 $result = defined('PDO::ATTR_DRIVER_NAME');
@@ -93,11 +99,17 @@ class Installer
             case 'gdLibrary':
                 $result = extension_loaded('gd');
                 break;
-            case 'curlLibrary':
-                $result = function_exists('curl_init') && defined('CURLOPT_FOLLOWLOCATION');
-                break;
             case 'zipLibrary':
                 $result = class_exists('ZipArchive');
+                break;
+            case 'filterLibrary':
+                $result = extension_loaded('filter');
+                break;
+            case 'hashLibrary':
+                $result = extension_loaded('hash');
+                break;
+            case 'allowUrlFopenConfig':
+                $result = ini_get('allow_url_fopen');
                 break;
         }
 
