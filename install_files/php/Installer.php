@@ -891,6 +891,7 @@ class Installer
 
         // remove installer files
         $this->recursiveRemove('install_files');
+        @unlink('install-master.zip');
         @unlink('install.php');
     }
 
