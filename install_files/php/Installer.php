@@ -114,6 +114,7 @@ class Installer
             case 'urlRewriting':
                 $content = @file_get_contents($this->getBaseUrl() . 'rewrite/test/');
                 $result = ($content === 'Rewrite successful');
+                break;
         }
 
         $this->log('Requirement %s %s', $checkCode, ($result ? '+OK' : '=FAIL'));
