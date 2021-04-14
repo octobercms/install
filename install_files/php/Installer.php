@@ -358,7 +358,7 @@ class Installer
                 if (!$name)
                     throw new Exception('Plugin download failed, missing name');
 
-                $result = $this->unzipFile($name.'-plugin', 'plugins/');
+                $result = $this->unzipFile($name.'-plugin', 'plugins/'.$this->octoberToFolderCode($name).'/');
                 if (!$result)
                     throw new Exception('Unable to open plugin archive file');
                 break;
@@ -368,7 +368,7 @@ class Installer
                 if (!$name)
                     throw new Exception('Theme download failed, missing name');
 
-                $result = $this->unzipFile($name.'-theme', 'themes/');
+                $result = $this->unzipFile($name.'-theme', 'themes/'.$this->octoberToFolderCode($name, true).'/');
                 if (!$result)
                     throw new Exception('Unable to open theme archive file');
                 break;
@@ -400,6 +400,15 @@ class Installer
         }
 
         return array('result' => $result);
+    }
+
+    protected function octoberToFolderCode($name, $isTheme)
+    {
+        if ($isTheme) {
+            return str_replace('.', '-', strtolower($name));
+        }
+
+        return str_replace('.', '/', strtolower($name));
     }
 
     //
@@ -789,7 +798,13 @@ class Installer
 
     protected function prepareServerRequest($uri, $params = array())
     {
-        $params['url'] = base64_encode($this->getBaseUrl());
+        $params['protocol_version'] = '1.2';
+        $params['client'] = 'october';
+        $params['server'] = base64_encode(json_encode([
+            'php'   => PHP_VERSION,
+            'url'   => $this->getBaseUrl()
+        ]));
+
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, OCTOBER_GATEWAY.'/'.$uri);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -874,7 +889,7 @@ class Installer
 
         $d->close();
 
-        // remove installer files
+        // Remove installer files
         $this->recursiveRemove('install_files');
         @unlink('install-master.zip');
         @unlink('install.php');
@@ -900,15 +915,18 @@ class Installer
     protected function recursiveRemove($dir)
     {
         $structure = glob(rtrim($dir, '/') . '/*');
+
         if (is_array($structure)) {
             foreach ($structure as $file) {
                 if (is_dir($file)) {
                     $this->recursiveRemove($file);
-                } elseif (is_file($file)) {
+                }
+                elseif (is_file($file)) {
                     @unlink($file);
                 }
             }
         }
+
         @rmdir($dir);
     }
 }
