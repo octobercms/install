@@ -123,13 +123,8 @@
                     { code: 'liveConnection', label: 'Test connection to the installation server' },
                     { code: 'writePermission', label: 'Permission to write to directories and files', reason: 'The installer was unable to write to the installation directories and files.' },
                     { code: 'pdoLibrary', label: 'PDO PHP Extension is required' },
-                    { code: 'mbstringLibrary', label: 'Mbstring PHP Extension is required' },
-                    { code: 'fileinfoLibrary', label: 'Fileinfo PHP Extension is required' },
-                    { code: 'sslLibrary', label: 'OpenSSL PHP Extension is required' },
-                    { code: 'gdLibrary', label: 'GD PHP Extension is required' },
+                    { code: 'phpExtensions', label: 'PHP Extensions Loaded: Mbstring, Fileinfo, OpenSSL, GD, Filter, Hash' },
                     { code: 'zipLibrary', label: 'ZipArchive PHP Extension is required' },
-                    { code: 'filterLibrary', label: 'Filter PHP Extension is required' },
-                    { code: 'hashLibrary', label: 'Hash PHP Extension is required' },
                     { code: 'allowUrlFopenConfig', label: 'PHP INI setting "allow_url_fopen" is enabled' }
                 ]
 

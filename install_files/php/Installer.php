@@ -87,26 +87,11 @@ class Installer
             case 'pdoLibrary':
                 $result = defined('PDO::ATTR_DRIVER_NAME');
                 break;
-            case 'mbstringLibrary':
-                $result = extension_loaded('mbstring');
-                break;
-            case 'fileinfoLibrary':
-                $result = extension_loaded('fileinfo');
-                break;
-            case 'sslLibrary':
-                $result = extension_loaded('openssl');
-                break;
-            case 'gdLibrary':
-                $result = extension_loaded('gd');
+            case 'phpExtensions':
+                $result = extension_loaded('mbstring') && extension_loaded('fileinfo') && extension_loaded('openssl') && extension_loaded('gd') && extension_loaded('filter') && extension_loaded('hash');
                 break;
             case 'zipLibrary':
                 $result = class_exists('ZipArchive');
-                break;
-            case 'filterLibrary':
-                $result = extension_loaded('filter');
-                break;
-            case 'hashLibrary':
-                $result = extension_loaded('hash');
                 break;
             case 'allowUrlFopenConfig':
                 $result = ini_get('allow_url_fopen');
