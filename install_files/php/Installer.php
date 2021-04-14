@@ -358,7 +358,7 @@ class Installer
                 if (!$name)
                     throw new Exception('Plugin download failed, missing name');
 
-                $result = $this->unzipFile($name.'-plugin', 'plugins/'.$this->octoberToFolderCode($name).'/');
+                $result = $this->unzipFile($name.'-plugin', 'plugins/'.$this->octoberToFolderCode($name, false).'/');
                 if (!$result)
                     throw new Exception('Unable to open plugin archive file');
                 break;
