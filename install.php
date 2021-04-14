@@ -74,16 +74,12 @@
                     'config/database',
                     'config/admin',
                     'config/advanced',
-                    'starter',
-                    'themes',
-                    'themes/theme',
                     'project',
                     'project/project',
                     'project/plugins',
                     'project/plugin',
                     'project/themes',
                     'project/theme',
-                    'project/suggestion',
                     'project/fail',
                     'progress',
                     'progress/fail',
@@ -102,8 +98,6 @@
             <script src="install_files/js/app.js"></script>
             <script src="install_files/js/check.js"></script>
             <script src="install_files/js/config.js"></script>
-            <script src="install_files/js/starter.js"></script>
-            <script src="install_files/js/themes.js"></script>
             <script src="install_files/js/project.js"></script>
             <script src="install_files/js/progress.js"></script>
             <script src="install_files/js/complete.js"></script>
@@ -139,16 +133,6 @@
                     { code: 'admin', label: 'Administrator', category: 'General', handler: 'onValidateAdminAccount', partial: 'config/admin' },
                     { code: 'advanced', label: 'Advanced', category: 'Advanced', handler: 'onValidateAdvancedConfig', partial: 'config/advanced' }
                 ]
-
-                /*
-                 * Starter Page
-                 */
-                Installer.Pages.starterForm.title = 'Getting started'
-
-                /*
-                 * Themes Page
-                 */
-                Installer.Pages.themesForm.title = 'Start from a theme'
 
                 /*
                  * Project Page

@@ -1,23 +1,5 @@
 <div data-manager="#pluginList">
 
-    {{^projectId}}
-
-        <p class="lead">Choose some plugins to get you started (optional).</p>
-
-        <!-- Search -->
-        <form id="installPluginsForm" onsubmit="Installer.Pages.projectForm.searchSubmit(this); return false">
-            <div class="product-search">
-                <input
-                    class="product-search-input search-input-lg typeahead"
-                    placeholder="search plugins..."
-                    id="pluginSearchInput"
-                    data-handler="onSearchPlugins"
-                    />
-            </div>
-        </form>
-
-    {{/projectId}}
-
     <div class="row">
 
         <div class="col-md-7">
@@ -34,17 +16,6 @@
         </div>
         <div class="col-md-5">
 
-            {{^projectId}}
-
-                <!-- Recommended extras -->
-                <div class="suggested-products-container animated-content">
-                    <h4 class="section-header">Recommended</h4>
-                    <div class="scroll-panel">
-                        <div class="row suggested-products suggested-plugins" id="suggestedPlugins" data-handler="onGetPopularPlugins" data-set="suggestedPlugins"></div>
-                    </div>
-                </div>
-
-            {{/projectId}}
             {{#projectId}}
 
                 <div class="callout callout-success">

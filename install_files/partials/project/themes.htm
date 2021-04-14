@@ -1,23 +1,5 @@
 <div data-manager="#themeList">
 
-    {{^projectId}}
-
-        <p class="lead">Choose some starter themes to include (optional).</p>
-
-        <!-- Search -->
-        <form id="installThemesForm" onsubmit="Installer.Pages.projectForm.searchSubmit(this); return false">
-            <div class="product-search">
-                <input
-                    class="product-search-input search-input-lg typeahead"
-                    placeholder="search themes..."
-                    id="themeSearchInput"
-                    data-handler="onSearchThemes"
-                    />
-            </div>
-        </form>
-
-    {{/projectId}}
-
     <div class="row">
 
         <div class="col-md-7">
@@ -34,17 +16,6 @@
         </div>
         <div class="col-md-5">
 
-            {{^projectId}}
-
-                <!-- Recommended extras -->
-                <div class="suggested-products-container animated-content">
-                    <h4 class="section-header">Recommended</h4>
-                    <div class="scroll-panel">
-                        <div class="row suggested-products suggested-themes" id="suggestedThemes" data-handler="onGetPopularThemes" data-set="suggestedThemes"></div>
-                    </div>
-                </div>
-
-            {{/projectId}}
             {{#projectId}}
 
                 <div class="callout callout-success">
