@@ -603,7 +603,7 @@ class Installer
             $destination .= '/' . $directory;
 
         if (!file_exists($destination))
-            mkdir($destination, 0777, true); // @todo Use config
+            mkdir($destination, 0777, true);
 
         $zip = new ZipArchive;
         if ($zip->open($source) === true) {
@@ -767,6 +767,7 @@ class Installer
             curl_setopt($curl, CURLOPT_FILE, $stream);
             curl_exec($curl);
 
+            $info = curl_getinfo($curl);
             $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             if ($httpCode == 500) {
                 $error = file_get_contents($filePath);
@@ -774,6 +775,37 @@ class Installer
 
             curl_close($curl);
             fclose($stream);
+
+            // Repeat for redirect
+            if (in_array($httpCode, [301, 302]) && isset($info['redirect_url'])) {
+                $filePath = $this->getFilePath($fileCode);
+                $stream = fopen($filePath, 'w');
+
+                $curl = curl_init();
+                curl_setopt($curl, CURLOPT_URL, $info['redirect_url']);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($curl, CURLOPT_TIMEOUT, 3600);
+                // curl_setopt($curl, CURLOPT_FOLLOWLOCATION , true);
+                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+
+                if (defined('OCTOBER_GATEWAY_AUTH')) {
+                    curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                    curl_setopt($curl, CURLOPT_USERPWD, OCTOBER_GATEWAY_AUTH);
+                }
+
+                curl_setopt($curl, CURLOPT_FILE, $stream);
+                curl_exec($curl);
+
+                $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                if ($httpCode == 500) {
+                    $error = file_get_contents($filePath);
+                }
+
+                curl_close($curl);
+                fclose($stream);
+            }
+
         }
         catch (Exception $ex) {
             $this->log('Failed to get server delivery: ' . $ex->getMessage());
