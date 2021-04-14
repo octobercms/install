@@ -783,14 +783,6 @@ class Installer
         if ($error !== null)
             throw new Exception('Server responded with error: ' . $error);
 
-        $fileHash = md5_file($filePath);
-        if ($expectedHash != $fileHash) {
-            $this->log('File hash mismatch: %s (expected) vs %s (actual)', $expectedHash, $fileHash);
-            $this->log('Local file size: %s', filesize($filePath));
-            @unlink($filePath);
-            throw new Exception('Package files from server are corrupt');
-        }
-
         $this->log('Saving to file (%s): %s', $fileCode, $filePath);
 
         return true;
