@@ -17,6 +17,10 @@ Installer.Pages.projectForm.next = function() {
     Installer.showPage('installProgress')
 }
 
+Installer.Pages.projectForm.startClean = function() {
+    Installer.showPage('installProgress')
+}
+
 Installer.Pages.projectForm.bindAll = function() {
     Installer.Pages.projectForm.bindIncludeManager('#pluginList')
     Installer.Pages.projectForm.bindIncludeManager('#themeList')
