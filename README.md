@@ -1,8 +1,6 @@
-# Installation wizard for October
+# Installation Wizard for October CMS
 
-The wizard installation is the recommended way to install October for **non-technical users**. It is simpler than the command-line installation and doesn't require any special skills.
-
-> **Note:** If you are a developer, we recommend that you install via Composer instead: https://octobercms.com/docs/console/commands#console-install-composer
+The wizard installation will install the free version of October CMS (v1.0) for testing, trial and teaching purposes. To install the latest version of October CMS (v2.0+) please read the [documentation for installation instructions](https://octobercms.com/docs).
 
 1. Prepare a directory on your server that is empty. It can be a sub-directory, domain root or a sub-domain.
 1. [Download the installer archive file](https://github.com/octobercms/install/archive/master.zip).
@@ -24,11 +22,19 @@ October CMS has a few system requirements:
 * GD PHP Extension
 * SimpleXML PHP Extension
 
+## Install Dependencies
+
 Some OS distributions may require you to manually install some of the required PHP extensions.
 
 When using Ubuntu, the following command can be run to install all required extensions:
 
-```bash
-sudo apt-get update &&
-sudo apt-get install php php-ctype php-curl php-xml php-fileinfo php-gd php-json php-mbstring php-mysql php-sqlite3 php-zip
-```
+    sudo apt-get update &&
+    sudo apt-get install php php-ctype php-curl php-xml php-fileinfo php-gd php-json php-mbstring php-mysql php-sqlite3 php-zip
+
+## Install with Composer instead
+
+You may also install v1.1 of October CMS using composer, which is also a free version for testing, trial and teaching purposes.
+
+    composer create-project october/october:1.1.* myoctober
+
+> **Note**: To install the latest version of October CMS, visit the [documentation for installation instructions](https://octobercms.com/docs).
