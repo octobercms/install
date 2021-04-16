@@ -14,7 +14,7 @@ u[o]&&(delete u[o],c?delete n[l]:typeof n.removeAttribute!==i?n.removeAttribute(
 /*!
  * jquery.waterfall.js
  */
-(function(e){e.waterfall=function(){var t=[],n=e.Deferred(),r=0;e.each(arguments,function(i,s){t.push(function(){var i=[].slice.apply(arguments),o;if(typeof s=="function"){if(!((o=s.apply(null,i))&&o.promise)){o=e.Deferred()[o===false?"reject":"resolve"](o)}}else if(s&&s.promise){o=s}else{o=e.Deferred()[s===false?"reject":"resolve"](s)}o.fail(function(){n.reject.apply(n,[].slice.apply(arguments))}).done(function(e){r++;i.push(e);r==t.length?n.resolve.apply(n,i):t[r].apply(null,i)})})});t.length?t[0]():n.resolve();return n}})(jQuery)
+(function(e){e.waterfall=function(){var t=[],n=e.Deferred(),r=0;e.each(arguments,function(i,s){t.push(function(){var i=[].slice.apply(arguments),o;if(typeof s=="function"){if(!((o=s.apply(null,i))&&o.promise)){o=e.Deferred()[o===false?"reject":"resolve"](o)}}else if(s&&s.promise){o=s}else{o=e.Deferred()[s===false?"reject":"resolve"](s)}o.fail(function(){n.reject.apply(n,[].slice.apply(arguments))}).done(function(e){r++;i.push(e);r==t.length?n.resolve.apply(n,i):t[r].apply(null,i)})})});t.length?t[0]():n.resolve();return n}})(jQuery);
 
 // rotate3Di v0.9.2
 // https://github.com/zachstronaut/rotate3Di
