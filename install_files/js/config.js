@@ -50,7 +50,7 @@ Installer.Pages.configForm.next = function() {
     })
 
     $.waterfall.apply(this, eventChain).done(function(){
-        Installer.showPage('projectForm')
+        Installer.showPage('installProgress')
     })
 }
 
