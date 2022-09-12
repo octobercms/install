@@ -39,4 +39,4 @@ The latest version of October CMS is v2.0, a professionally managed version of O
 
     composer create-project october/october myoctober
 
-For further information, visit the [documentation for installation instructions](https://octobercms.com/docs/setup/installation).
+For further information, visit the [documentation for installation instructions](https://docs.octobercms.com).
