@@ -108,7 +108,7 @@
                  * Checker Page
                  */
                 Installer.Pages.systemCheck.title = 'System Check'
-                Installer.Pages.systemCheck.nextButton = 'Continue'
+                Installer.Pages.systemCheck.nextButton = 'Agree & Continue'
 
                 Installer.Pages.systemCheck.requirements = [
                     { code: 'phpVersion', label: 'PHP version 7.2.9 or greater required' },
