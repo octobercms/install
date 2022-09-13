@@ -1,6 +1,21 @@
 /*!
  * Install Progress (Step 4)
  */
+Installer.Pages.installProgress.title = 'Installation progress...'
+Installer.Pages.installProgress.steps = [
+    { code: 'getMetaData', label: 'Requesting package information' },
+    { code: 'downloadCore', label: 'Downloading application files' },
+    { code: 'downloadPlugins', label: 'Downloading plugin: ' },
+    { code: 'downloadThemes', label: 'Downloading theme: ' },
+    { code: 'extractCore', label: 'Unpacking application files' },
+    { code: 'extractPlugins', label: 'Unpacking plugin: ' },
+    { code: 'extractThemes', label: 'Unpacking plugin: ' },
+    { code: 'setupConfig', label: 'Building configuration files' },
+    { code: 'createAdmin', label: 'Create admin account' },
+    { code: 'setupProject', label: 'Setting website project' },
+    { code: 'finishInstall', label: 'Finishing installation' },
+    { code: 'cleanInstall', label: 'Clean installation files' }
+]
 
 Installer.Pages.installProgress.activeStep = null
 

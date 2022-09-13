@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>October Installation</title>
+        <title>October CMS Installation</title>
         <link type="image/png" href="install_files/images/october.png" rel="icon">
 
         <!-- Styles -->
@@ -101,70 +101,6 @@
             <script src="install_files/js/project.js"></script>
             <script src="install_files/js/progress.js"></script>
             <script src="install_files/js/complete.js"></script>
-
-            <!-- Bespoke Properties -->
-            <script>
-                /*
-                 * Checker Page
-                 */
-                Installer.Pages.systemCheck.title = 'System Check'
-                Installer.Pages.systemCheck.nextButton = 'Agree & Continue'
-
-                Installer.Pages.systemCheck.requirements = [
-                    { code: 'phpVersion', label: 'PHP version 7.2.9 or greater required' },
-                    { code: 'curlLibrary', label: 'cURL PHP Extension is required' },
-                    { code: 'jsonLibrary', label: 'JSON PHP Extension is required' },
-                    { code: 'liveConnection', label: 'Test connection to the installation server' },
-                    { code: 'writePermission', label: 'Permission to write to directories and files', reason: 'The installer was unable to write to the installation directories and files.' },
-                    { code: 'pdoLibrary', label: 'PDO PHP Extension is required' },
-                    { code: 'phpExtensions', label: 'PHP Extensions Loaded: Mbstring, Fileinfo, OpenSSL, GD, Filter, Hash' },
-                    { code: 'zipLibrary', label: 'ZipArchive PHP Extension is required' },
-                    { code: 'allowUrlFopenConfig', label: 'PHP INI setting "allow_url_fopen" is enabled' }
-                ]
-
-                /*
-                 * Config Page
-                 */
-                Installer.Pages.configForm.title = 'Configuration'
-                Installer.Pages.configForm.nextButton = 'Continue'
-
-                Installer.Pages.configForm.sections = [
-                    { code: 'database', label: 'Database', category: 'General', handler: 'onValidateDatabase', partial: 'config/database' },
-                    { code: 'admin', label: 'Administrator', category: 'General', handler: 'onValidateAdminAccount', partial: 'config/admin' },
-                    { code: 'advanced', label: 'Advanced', category: 'Advanced', handler: 'onValidateAdvancedConfig', partial: 'config/advanced' }
-                ]
-
-                /*
-                 * Project Page
-                 */
-                Installer.Pages.projectForm.title = 'License Details'
-                Installer.Pages.projectForm.nextButton = 'Install!'
-
-                /*
-                 * Progress Page
-                 */
-                Installer.Pages.installProgress.title = 'Installation progress...'
-                Installer.Pages.installProgress.steps = [
-                    { code: 'getMetaData', label: 'Requesting package information' },
-                    { code: 'downloadCore', label: 'Downloading application files' },
-                    { code: 'downloadPlugins', label: 'Downloading plugin: ' },
-                    { code: 'downloadThemes', label: 'Downloading theme: ' },
-                    { code: 'extractCore', label: 'Unpacking application files' },
-                    { code: 'extractPlugins', label: 'Unpacking plugin: ' },
-                    { code: 'extractThemes', label: 'Unpacking plugin: ' },
-                    { code: 'setupConfig', label: 'Building configuration files' },
-                    { code: 'createAdmin', label: 'Create admin account' },
-                    { code: 'setupProject', label: 'Setting website project' },
-                    { code: 'finishInstall', label: 'Finishing installation' },
-                    { code: 'cleanInstall', label: 'Clean installation files' }
-                ]
-
-                /*
-                 * Final Pages
-                 */
-                Installer.Pages.installComplete.title = 'Congratulations!'
-
-            </script>
 
         <?php endif ?>
 

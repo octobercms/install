@@ -420,9 +420,9 @@ class Installer
         $this->bootFramework();
 
         $this->rewriter->toFile($this->configDirectory . '/app.php', array(
-            'url'    => $this->getBaseUrl(),
+            'url' => $this->getBaseUrl(),
             'locale' => 'en',
-            'key'    => $this->post('encryption_code', 'CHANGE_ME!!!!!!!!!!!!!!!!!!!!!!!'),
+            'key' => $this->post('encryption_code', 'CHANGE_ME!!!!!!!!!!!!!!!!!!!!!!!'),
         ));
 
         $activeTheme = $this->post('active_theme');

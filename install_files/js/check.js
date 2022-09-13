@@ -1,6 +1,20 @@
 /*!
  * System Check Page (Step 1)
  */
+Installer.Pages.systemCheck.title = 'System Check'
+Installer.Pages.systemCheck.nextButton = 'Agree & Continue'
+
+Installer.Pages.systemCheck.requirements = [
+    { code: 'phpVersion', label: 'PHP version 7.2.9 or greater required' },
+    { code: 'curlLibrary', label: 'cURL PHP Extension is required' },
+    { code: 'jsonLibrary', label: 'JSON PHP Extension is required' },
+    { code: 'liveConnection', label: 'Test connection to the installation server' },
+    { code: 'writePermission', label: 'Permission to write to directories and files', reason: 'The installer was unable to write to the installation directories and files.' },
+    { code: 'pdoLibrary', label: 'PDO PHP Extension is required' },
+    { code: 'phpExtensions', label: 'PHP Extensions Loaded: Mbstring, Fileinfo, OpenSSL, GD, Filter, Hash' },
+    { code: 'zipLibrary', label: 'ZipArchive PHP Extension is required' },
+    { code: 'allowUrlFopenConfig', label: 'PHP INI setting "allow_url_fopen" is enabled' }
+]
 
 Installer.Pages.systemCheck.init = function() {
     var checkList = $('#systemCheckList'),

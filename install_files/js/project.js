@@ -2,6 +2,9 @@
  * Packages & Install (Step 3)
  */
 
+Installer.Pages.projectForm.title = 'License Details'
+Installer.Pages.projectForm.nextButton = 'Install!'
+
 Installer.Pages.projectForm.init = function() {
     var projectForm = $('#projectForm').addClass('animate fade_in')
 

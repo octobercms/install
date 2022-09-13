@@ -1,6 +1,14 @@
 /*!
  * Configuration Form (Step 2)
  */
+Installer.Pages.configForm.title = 'Configuration'
+Installer.Pages.configForm.nextButton = 'Continue'
+
+Installer.Pages.configForm.sections = [
+    { code: 'database', label: 'Database', category: 'General', handler: 'onValidateDatabase', partial: 'config/database' },
+    { code: 'admin', label: 'Administrator', category: 'General', handler: 'onValidateAdminAccount', partial: 'config/admin' },
+    { code: 'advanced', label: 'Advanced', category: 'Advanced', handler: 'onValidateAdvancedConfig', partial: 'config/advanced' }
+]
 
 Installer.Pages.configForm.activeCategory = null
 

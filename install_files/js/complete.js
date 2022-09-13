@@ -1,6 +1,7 @@
 /*!
  * Install Progress (Step 5)
  */
+Installer.Pages.installComplete.title = 'Congratulations!'
 
 Installer.Pages.installComplete.beforeUnload = function() {
     // Hide the leaves
