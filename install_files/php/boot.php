@@ -3,10 +3,10 @@
 /*
  * Required PHP version for October CMS
  */
-define('REQUIRED_PHP_VERSION', '7.2.9');
+define('REQUIRED_PHP_VERSION', '8.0.0');
 
 if (version_compare(trim(strtolower(PHP_VERSION)), REQUIRED_PHP_VERSION, '<')) {
-    exit('PHP version 7.2.9 or above is required to install October CMS.');
+    exit('PHP version 8.0.0 or above is required to install October CMS.');
 }
 
 /*

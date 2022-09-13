@@ -125,6 +125,7 @@
 .system-check {
     padding-bottom: 20px;
     overflow: hidden;
+    margin: 0 -10px;
 }
 .system-check li {
     padding: 10px;
@@ -134,6 +135,10 @@
     background: #FFF;
     position: relative;
     font-size: 14px;
+    float: left;
+    width: calc(50% - 20px);
+    margin-left: 10px;
+    margin-right: 10px;
 }
 .system-check li:before {
     content: "";
@@ -206,7 +211,7 @@
     max-height: 350px;
     line-height: 2;
 }
-.app-eula h3 {
+.app-eula .eula-title {
     text-align: center;
     padding: 10px 0;
 }

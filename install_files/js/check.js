@@ -4,17 +4,12 @@
 Installer.Pages.systemCheck.title = 'System Check'
 Installer.Pages.systemCheck.nextButton = 'Agree & Continue'
 
-Installer.Pages.systemCheck.requirements = [
-    { code: 'phpVersion', label: 'PHP version 7.2.9 or greater required' },
-    { code: 'curlLibrary', label: 'cURL PHP Extension is required' },
-    { code: 'jsonLibrary', label: 'JSON PHP Extension is required' },
-    { code: 'liveConnection', label: 'Test connection to the installation server' },
-    { code: 'writePermission', label: 'Permission to write to directories and files', reason: 'The installer was unable to write to the installation directories and files.' },
-    { code: 'pdoLibrary', label: 'PDO PHP Extension is required' },
-    { code: 'phpExtensions', label: 'PHP Extensions Loaded: Mbstring, Fileinfo, OpenSSL, GD, Filter, Hash' },
-    { code: 'zipLibrary', label: 'ZipArchive PHP Extension is required' },
-    { code: 'allowUrlFopenConfig', label: 'PHP INI setting "allow_url_fopen" is enabled' }
-]
+Installer.Pages.systemCheck.requirements = {
+    phpVersion: { label: 'PHP version 8.0.0 or greater required' },
+    liveConnection: { label: 'Test connection to the installation server' },
+    writePermission: { label: 'Permission to write to directories and files', reason: 'The installer was unable to write to the installation directories and files.' },
+    phpExtensions: { label: 'Required PHP Extensions' },
+};
 
 Installer.Pages.systemCheck.init = function() {
     var checkList = $('#systemCheckList'),
@@ -24,67 +19,104 @@ Installer.Pages.systemCheck.init = function() {
         eventChain = [],
         failCodes = [],
         failReasons = [],
-        success = true
+        success = false,
+        self = this;
+
+    var showError = function(code, reason) {
+        systemCheckFailed.show().addClass('animate fade_in');
+        systemCheckFailed.renderPartial('check/fail', { code: code, reason: reason });
+    }
 
     /*
      * Loops each requirement, posts it back and processes the result
      * as part of a waterfall
      */
-    $.each(this.requirements, function(index, requirement){
-        eventChain.push(function(){
-            var deferred = $.Deferred();
+    $.sendRequest('onCheckRequirements', {}, { loadingIndicator: false })
+        .done(function(data){
+            if (data.result) {
+                success = true;
+                $.each(data.result, function(key, pass) {
+                    if (key === 'isPass') {
+                        return;
+                    }
 
-            var item = $('<li />').addClass('animated-content move_right').text(requirement.label)
-            item.addClass('load animate fade_in')
-            checkList.append(item)
+                    eventChain.push(function() {
+                        var deferred = $.Deferred(),
+                            requirement = self.requirements[key],
+                            item = $('<li />').addClass('animated-content move_right').text(requirement.label);
+                        item.addClass('load animate fade_in');
+                        checkList.append(item);
 
-            $.sendRequest('onCheckRequirement', { code: requirement.code }, { loadingIndicator: false })
-                .done(function(data){
-                    setTimeout(function() {
-                        if (data.result) {
-                            item.removeClass('load').addClass('pass')
-                            deferred.resolve()
-                        }
-                        else {
-                            /*
-                             * Fail the item but continue the waterfall.
-                             */
-                            success = false
-                            failCodes.push(requirement.code)
-                            if (requirement.reason) failReasons.push(requirement.reason)
-                            item.removeClass('load').addClass('fail')
-                            deferred.resolve()
-                        }
-                    }, 500)
-                }).fail(function(data){
-                    setTimeout(function() {
-                        success = false
-                        failCodes.push(requirement.code)
-                        if (requirement.reason) failReasons.push(requirement.reason)
-                        if (data.responseText) console.log('Failure reason: ' + data.responseText)
-                        item.removeClass('load').addClass('fail')
-                        deferred.resolve()
-                    }, 500)
-                })
+                        setTimeout(function() {
+                            if (pass) {
+                                item.removeClass('load').addClass('pass');
+                            }
+                            else {
+                                success = false;
+                                failCodes.push(key);
+                                if (requirement.reason) {
+                                    failReasons.push(requirement.reason);
+                                }
+                                item.removeClass('load').addClass('fail');
+                            }
 
-            return deferred;
+                            deferred.resolve();
+                        }, 500);
+
+                        return deferred;
+                    })
+                });
+            }
+            else {
+                showError('501', 'Bad response from server');
+            }
         })
-    })
+        .fail(function(data) {
+            showError('500', data.responseText);
+        })
+        .always(function() {
+            $.waterfall.apply(this, eventChain).done(function() {
+                if (success) {
+                    appEula.show().addClass('animate fade_in');
+                    nextButton.removeClass('disabled');
+                }
+                else {
+                    showError(failCodes.join(', '), failReasons.join(', '));
+                }
+            });
+        });
+
+    // /*
+    //  * Fail the item but continue the waterfall.
+    //  */
+    // success = false
+    // failCodes.push(requirement.code)
+    // if (requirement.reason) failReasons.push(requirement.reason)
+    // item.removeClass('load').addClass('fail')
+    // deferred.resolve()
+
+
+    // $.each(this.requirements, function(index, requirement){
+    //     eventChain.push(function(){
+    //         var deferred = $.Deferred();
+
+    //         var item = $('<li />').addClass('animated-content move_right').text(requirement.label)
+    //         item.addClass('load animate fade_in')
+    //         checkList.append(item)
+    //         return deferred;
+    //     })
+    // })
 
     /*
      * Handle the waterfall result
      */
-    $.waterfall.apply(this, eventChain).done(function(){
-        if (!success) {
-            // Specific reasons are not currently being used.
-            systemCheckFailed.show().addClass('animate fade_in')
-            systemCheckFailed.renderPartial('check/fail', { code: failCodes.join(', '), reason: failReasons.join(', ') })
-        } else {
-            // Success
-            appEula.show().addClass('animate fade_in')
-            nextButton.removeClass('disabled')
-        }
-    })
+    // $.waterfall.apply(this, eventChain).done(function() {
+    //     console.log(success);
+    //     if (success) {
+    //         appEula.show().addClass('animate fade_in');
+    //         nextButton.removeClass('disabled');
+    //     }
+    // });
 }
 
 Installer.Pages.systemCheck.next = function() {

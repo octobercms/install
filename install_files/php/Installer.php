@@ -33,7 +33,7 @@ class Installer
          * Establish directory paths
          */
         $this->baseDirectory = PATH_INSTALL;
-        $this->tempDirectory = PATH_INSTALL . '/install_files/temp'; // @todo Use sys_get_temp_dir()
+        $this->tempDirectory = PATH_INSTALL . '/install_files/temp';
         $this->configDirectory = $this->baseDirectory . '/config';
         $this->logFile = PATH_INSTALL . '/install_files/install.log';
         $this->logPost();
@@ -62,53 +62,57 @@ class Installer
         }
     }
 
-    protected function onCheckRequirement()
+    protected function onCheckRequirements()
     {
-        $checkCode = $this->post('code');
-        $this->log('System check: %s', $checkCode);
+        $this->log('System check...');
 
-        $result = false;
-        switch ($checkCode) {
-            case 'phpVersion':
-                $result = version_compare(trim(strtolower(PHP_VERSION)), REQUIRED_PHP_VERSION, '>=');
-                break;
-            case 'curlLibrary':
-                $result = function_exists('curl_init') && defined('CURLOPT_FOLLOWLOCATION');
-                break;
-            case 'jsonLibrary':
-                $result = function_exists('json_decode');
-                break;
-            case 'liveConnection':
-                $result = ($this->requestServerData('ping') !== null);
-                break;
-            case 'writePermission':
-                $result = is_writable(PATH_INSTALL) && is_writable($this->logFile);
-                break;
-            case 'pdoLibrary':
-                $result = defined('PDO::ATTR_DRIVER_NAME');
-                break;
-            case 'phpExtensions':
-                $result = extension_loaded('mbstring') && extension_loaded('fileinfo') && extension_loaded('openssl') && extension_loaded('gd') && extension_loaded('filter') && extension_loaded('hash');
-                break;
-            case 'zipLibrary':
-                $result = class_exists('ZipArchive');
-                break;
-            case 'allowUrlFopenConfig':
-                $result = ini_get('allow_url_fopen');
-                break;
-        }
+        $checkPass = function($result) use (&$checkPass) {
+            foreach ($result as $item) {
+                if (!$item) {
+                    return false;
+                }
+                if (is_array($item)) {
+                    if (!$checkPass($item)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        };
 
-        $this->log('Requirement %s %s', $checkCode, ($result ? '+OK' : '=FAIL'));
-        return array('result' => $result);
+        $isPass = false;
+        $result['phpVersion'] = !version_compare(trim(strtolower(PHP_VERSION)), REQUIRED_PHP_VERSION, '>=');
+        $result['liveConnection'] = ($this->requestServerData('ping') !== null);
+        $result['writePermission'] = is_writable(PATH_INSTALL) && is_writable($this->logFile);
+
+        $result['phpExtensions'] = [
+            'mbstring' => extension_loaded('mbstring'),
+            'fileinfo' => extension_loaded('fileinfo'),
+            'openssl' => extension_loaded('openssl'),
+            'gd' => extension_loaded('gd'),
+            'filter' => extension_loaded('filter'),
+            'hash' => extension_loaded('hash'),
+            'pdo' => defined('PDO::ATTR_DRIVER_NAME'),
+            'zip' => class_exists('ZipArchive'),
+            'json' => function_exists('json_decode'),
+            'curl' => function_exists('curl_init') && defined('CURLOPT_FOLLOWLOCATION'),
+        ];
+
+        $result['isPass'] = $isPass = $checkPass($result);
+
+        $this->log('Requirement %s %s', print_r($result, true), ($isPass ? '+OK' : '=FAIL'));
+        return ['result' => $result];
     }
 
     protected function onValidateDatabase()
     {
-        if ($this->post('db_type') != 'sqlite' && !strlen($this->post('db_host')))
+        if ($this->post('db_type') != 'sqlite' && !strlen($this->post('db_host'))) {
             throw new InstallerException('Please specify a database host', 'db_host');
+        }
 
-        if (!strlen($this->post('db_name')))
+        if (!strlen($this->post('db_name'))) {
             throw new InstallerException('Please specify the database name', 'db_name');
+        }
 
         $config = array_merge(array(
             'type' => null,
