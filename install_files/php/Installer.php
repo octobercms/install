@@ -62,45 +62,43 @@ class Installer
         }
     }
 
-    protected function onCheckRequirements()
+    protected function onCheckRequirement()
     {
-        $this->log('System check...');
+        $checkCode = $this->post('code');
+        $this->log('System check: %s', $checkCode);
 
-        $checkPass = function($result) use (&$checkPass) {
-            foreach ($result as $item) {
-                if (!$item) {
-                    return false;
-                }
-                if (is_array($item)) {
-                    if (!$checkPass($item)) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        };
+        if ($checkCode === 'phpExtensions') {
+            $subChecks = array_keys(array_filter([
+                'mbstring' => extension_loaded('mbstring'),
+                'fileinfo' => extension_loaded('fileinfo'),
+                'openssl' => extension_loaded('openssl'),
+                'gd' => extension_loaded('gd'),
+                'filter' => extension_loaded('filter'),
+                'hash' => extension_loaded('hash'),
+                'pdo' => defined('PDO::ATTR_DRIVER_NAME'),
+                'zip' => class_exists('ZipArchive'),
+                'json' => function_exists('json_decode'),
+                'curl' => function_exists('curl_init') && defined('CURLOPT_FOLLOWLOCATION'),
+            ], function($v) { return !$v; }));
+            $result = count($subChecks) === 0;
+            $this->log('Requirement %s %s %s', $checkCode, print_r($subChecks, true), ($result ? '+OK' : '=FAIL'));
+            return ['result' => $result, 'subChecks' => $subChecks];
+        }
 
-        $isPass = false;
-        $result['phpVersion'] = !version_compare(trim(strtolower(PHP_VERSION)), REQUIRED_PHP_VERSION, '>=');
-        $result['liveConnection'] = ($this->requestServerData('ping') !== null);
-        $result['writePermission'] = is_writable(PATH_INSTALL) && is_writable($this->logFile);
+        $result = false;
+        switch ($checkCode) {
+            case 'phpVersion':
+                $result = version_compare(trim(strtolower(PHP_VERSION)), REQUIRED_PHP_VERSION, '>=');
+                break;
+            case 'liveConnection':
+                $result = ($this->requestServerData('ping') !== null);
+                break;
+            case 'writePermission':
+                $result = is_writable(PATH_INSTALL) && is_writable($this->logFile);
+                break;
+        }
 
-        $result['phpExtensions'] = [
-            'mbstring' => extension_loaded('mbstring'),
-            'fileinfo' => extension_loaded('fileinfo'),
-            'openssl' => extension_loaded('openssl'),
-            'gd' => extension_loaded('gd'),
-            'filter' => extension_loaded('filter'),
-            'hash' => extension_loaded('hash'),
-            'pdo' => defined('PDO::ATTR_DRIVER_NAME'),
-            'zip' => class_exists('ZipArchive'),
-            'json' => function_exists('json_decode'),
-            'curl' => function_exists('curl_init') && defined('CURLOPT_FOLLOWLOCATION'),
-        ];
-
-        $result['isPass'] = $isPass = $checkPass($result);
-
-        $this->log('Requirement %s %s', print_r($result, true), ($isPass ? '+OK' : '=FAIL'));
+        $this->log('Requirement %s %s', $checkCode, ($result ? '+OK' : '=FAIL'));
         return ['result' => $result];
     }
 
