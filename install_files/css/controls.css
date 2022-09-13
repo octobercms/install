@@ -206,20 +206,30 @@
 .scroll-panel p:last-child {
     margin-bottom: 0;
 }
-.app-eula .scroll-panel {
-    height: 350px;
-    max-height: 350px;
-    line-height: 2;
-}
+
 .app-eula .eula-title {
     text-align: center;
     padding: 10px 0;
 }
-.app-eula pre {
-    margin: 10px 0;
-    font-family: 'lato';
+.app-eula .scroll-panel {
+    height: 350px;
+    max-height: 350px;
+    line-height: 2;
+    overflow-anchor: none;
+}
+.app-eula article * {
+    font-size: 12px;
+}
+.app-eula article h1 {
+    font-size: 15px;
+}
+.app-eula article h2 {
+    font-size: 14px;
+}
+.app-eula article h3 {
     font-size: 13px;
 }
+
 .suggested-products-container .scroll-panel {
     padding: 0 15px;
     max-height: 250px;
