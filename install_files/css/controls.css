@@ -212,8 +212,8 @@
     padding: 10px 0;
 }
 .app-eula .scroll-panel {
-    height: 350px;
-    max-height: 350px;
+    height: 450px;
+    max-height: 450px;
     line-height: 2;
     overflow-anchor: none;
 }
@@ -222,12 +222,15 @@
 }
 .app-eula article h1 {
     font-size: 15px;
+    font-weight: bold;
 }
 .app-eula article h2 {
     font-size: 14px;
+    font-weight: bold;
 }
 .app-eula article h3 {
     font-size: 13px;
+    font-weight: bold;
 }
 
 .suggested-products-container .scroll-panel {

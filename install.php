@@ -11,7 +11,6 @@
         <link href="install_files/css/layout.css" rel="stylesheet">
         <link href="install_files/css/controls.css" rel="stylesheet">
         <link href="install_files/css/animations.css" rel="stylesheet">
-        <link href="install_files/css/fonts.css" rel="stylesheet">
 
         <!-- Base URL -->
         <?php if (!isset($fatalError)): ?>
