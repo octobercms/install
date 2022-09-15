@@ -1,8 +1,8 @@
 /*!
  * System Check Page (Step 1)
  */
-Installer.Pages.systemCheck.title = 'System Check';
-Installer.Pages.systemCheck.nextButton = 'Agree & Continue';
+Installer.Pages.systemCheck.title = 'webinstaller.system_check';
+Installer.Pages.systemCheck.nextButton = 'webinstaller.agree_continue';
 
 Installer.Pages.systemCheck.requirements = [
     { code: 'phpVersion', label: 'PHP version 8.0.0 or greater required' },

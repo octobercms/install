@@ -61,13 +61,28 @@ class Installer
         }
     }
 
-    protected function octoberToFolderCode($name, $isTheme)
+    /**
+     * getUpdateWantVersion
+     */
+    public function getUpdateWantVersion()
     {
-        if ($isTheme) {
-            return str_replace('.', '-', strtolower($name));
-        }
+        return '^3.0';
+    }
 
-        return str_replace('.', '/', strtolower($name));
+    /**
+     * getBasePath
+     */
+    public function getBasePath($path = '')
+    {
+        return __DIR__ . $path;
+    }
+
+    /**
+     * getLang
+     */
+    public function getLang($key, $vars = [])
+    {
+        return str_replace('system::lang.', '', $key);
     }
 
     //

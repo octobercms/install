@@ -281,4 +281,13 @@ trait InstallerHandlers
 
         return array('result' => $result);
     }
+
+    protected function octoberToFolderCode($name, $isTheme)
+    {
+        if ($isTheme) {
+            return str_replace('.', '-', strtolower($name));
+        }
+
+        return str_replace('.', '/', strtolower($name));
+    }
 }

@@ -58,6 +58,7 @@
                     'header',
                     'title',
                     'footer',
+                    'lang',
                     'check',
                     'check/fail',
                     'config',
@@ -86,9 +87,34 @@
                 </script>
             <?php endforeach ?>
 
+            <!-- Render Lang -->
+            <?php
+                $langList = [
+                    'en',
+                    'fi',
+                    'fr',
+                    'hu',
+                    'nl',
+                    'pt-br',
+                    'ru',
+                    'zh-cn',
+                ];
+                $lastLangKey = end(array_keys($langList));
+            ?>
+
+            <script>
+                var installerLang = {
+                    <?php foreach ($langList as $key => $file): ?>
+                        <?php $messages = include 'install_files/php/lang/'.$file.'.php'; ?>
+                        "<?= $file ?>": <?= json_encode($messages) ?><?= $key === $lastLangKey ? '' : ',' ?>
+                    <?php endforeach ?>
+                };
+            </script>
+
             <!-- Scripts -->
             <script src="install_files/js/vendor.js"></script>
             <script src="install_files/js/app.js"></script>
+            <script src="install_files/js/lang.js"></script>
             <script src="install_files/js/check.js"></script>
             <script src="install_files/js/config.js"></script>
             <script src="install_files/js/project.js"></script>

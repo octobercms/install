@@ -3,19 +3,21 @@
  */
 
 $(document).ready(function(){
-    Installer.Pages.systemCheck.isRendered = true
+    Installer.Pages.langPicker.isRendered = true
     Installer.showPage(Installer.ActivePage, true)
 })
 
 var Installer = {
-    ActivePage: 'systemCheck',
+    ActivePage: 'langPicker',
     Pages: {
+        langPicker:      { isStep0: true, body: 'lang' },
         systemCheck:     { isStep1: true, body: 'check' },
         configForm:      { isStep2: true, body: 'config' },
         projectForm:     { isStep3: true, body: 'project' },
         installProgress: { isStep4: true, body: 'progress' },
         installComplete: { isStep5: true, body: 'complete' }
     },
+    Locale: 'en',
     ActiveSection: null,
     Sections: {},
     Events: {},
@@ -37,30 +39,29 @@ Installer.Events.retry = function() {
 
 Installer.Events.next = function() {
     var nextButton = $('#nextButton')
-    if (nextButton.hasClass('disabled'))
-        return
+    if (nextButton.hasClass('disabled')) {
+        return;
+    }
 
-    var pageEvent = Installer.Pages[Installer.ActivePage].next
-    pageEvent && pageEvent()
+    var pageEvent = Installer.Pages[Installer.ActivePage].next;
+    pageEvent && pageEvent();
 }
 
 Installer.showPage = function(pageId, noPush) {
-    $('html, body').scrollTop(0)
+    $('html, body').scrollTop(0);
     var page = Installer.Pages[pageId],
-        oldPage = (pageId != Installer.ActivePage) ? Installer.Pages[Installer.ActivePage] : null
+        oldPage = (pageId != Installer.ActivePage) ? Installer.Pages[Installer.ActivePage] : null;
 
     /*
      * Page events
      */
-    oldPage && oldPage.beforeUnload && oldPage.beforeUnload()
+    oldPage && oldPage.beforeUnload && oldPage.beforeUnload();
+    Installer.ActivePage = pageId;
+    page.beforeShow && page.beforeShow();
 
-    Installer.ActivePage = pageId
-
-    page.beforeShow && page.beforeShow()
-
-    $('#containerHeader').renderPartial('header', page)
-    $('#containerTitle').renderPartial('title', page).find('.steps > .last.pass:first').addClass('animate fade_in')
-    $('#containerFooter').renderPartial('footer', page)
+    $('#containerHeader').renderPartial('header', page);
+    $('#containerTitle').renderPartial('title', page).find('.steps > .last.pass:first').addClass('animate fade_in');
+    $('#containerFooter').renderPartial('footer', page);
 
     /*
      * Check if the content container exists already, if not, create it
@@ -68,18 +69,20 @@ Installer.showPage = function(pageId, noPush) {
     var pageContainer = $('#containerBody').find('.pageContainer-' + pageId);
     if (!pageContainer.length) {
         pageContainer = $('<div />').addClass('pageContainer-' + pageId);
-        pageContainer.renderPartial(page.body, page)
+        pageContainer.renderPartial(page.body, page);
         $('#containerBody').append(pageContainer);
-        page.init && page.init()
+        page.init && page.init();
     }
 
     pageContainer.show().siblings().hide();
 
     // New page, add it to the history
     if (history.pushState && !noPush) {
-        window.history.pushState({page:pageId}, '', window.location.pathname)
-        page.isRendered = true
+        window.history.pushState({ page: pageId }, '', window.location.pathname);
+        page.isRendered = true;
     }
+
+    Installer.renderLangMessages();
 }
 
 Installer.setLoadingBar = function(state, message) {
@@ -108,6 +111,31 @@ Installer.setLoadingBar = function(state, message) {
     }
 }
 
+Installer.renderLangMessages = function() {
+    // Render language string
+    $('[data-lang]').each(function() {
+        // Make JS lang key
+        var activeLocale = installerLang[Installer.Locale] ? Installer.Locale : 'en',
+            langKey = $(this).data('lang') ? $(this).data('lang') : $(this).text();
+
+        // Access dot notation
+        var langValue = langKey.split('.').reduce(function(a, b) {
+            return a[b] ? a[b] : '';
+        }, installerLang[activeLocale]);
+
+        if (!langValue) {
+            langValue = langKey.split('.').reduce(function(a, b) {
+                return a[b] ? a[b] : '';
+            }, installerLang['en']);
+        }
+
+        if (langValue) {
+            $(this).text(langValue);
+            $(this).attr('data-lang', langKey);
+        }
+    });
+}
+
 $.fn.extend({
     renderPartial: function(name, data, options) {
         var container = $(this),
@@ -125,7 +153,7 @@ $.fn.extend({
             container.html(contents);
         }
 
-        return this
+        return this;
     },
 
     sendRequest: function(handler, data, options) {
@@ -201,7 +229,7 @@ window.onpopstate = function(event) {
         }
     }
     // Otherwise show the first page, if not already on it
-    else if (Installer.ActivePage != 'systemCheck') {
-        Installer.showPage('systemCheck', true);
+    else if (Installer.ActivePage != 'langPicker') {
+        Installer.showPage('langPicker', true);
     }
 }

@@ -374,3 +374,32 @@
     text-transform: uppercase;
     font-size: 12px;
 }
+
+/* Language List */
+
+.language-list {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    flex-wrap: wrap;
+}
+
+.language-list a {
+    flex: 0 33.3%;
+    display: block;
+    margin-bottom: 10px;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+
+.language-list a:hover {
+    box-shadow: inset 0 0 3px rgba(0,0,0,.6);
+}
+
+.language-list a > span {
+    display: block;
+}
+
+.language-list a > small {
+    color: #666;
+}
