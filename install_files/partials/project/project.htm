@@ -1,17 +1,13 @@
 {{^projectId}}
-    <p class="lead">
-        Please enter your Project ID to verify your installation
-    </p>
+    <p class="lead" data-lang>installer.license_key_comment</p>
 {{/projectId}}
 {{#projectId}}
-    <p class="lead text-success with-tick">
-        Project license verified! Ready to install
-    </p>
+    <p class="lead text-success with-tick" data-lang>installer.license_thanks_comment</p>
 {{/projectId}}
 
 <form id="attachProjectForm" onsubmit="Installer.Pages.projectForm.attachProject(this); return false">
     <div class="form-group">
-        <label for="attachProjectId" class="control-label">Project ID</label>
+        <label for="attachProjectId" class="control-label" data-lang>installer.license_key_label</label>
 
         {{^projectId}}
 

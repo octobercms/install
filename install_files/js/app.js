@@ -3,9 +3,9 @@
  */
 
 $(document).ready(function(){
-    Installer.Pages.langPicker.isRendered = true
-    Installer.showPage(Installer.ActivePage, true)
-})
+    Installer.Pages.langPicker.isRendered = true;
+    Installer.showPage(Installer.ActivePage, true);
+});
 
 var Installer = {
     ActivePage: 'langPicker',
@@ -52,9 +52,7 @@ Installer.showPage = function(pageId, noPush) {
     var page = Installer.Pages[pageId],
         oldPage = (pageId != Installer.ActivePage) ? Installer.Pages[Installer.ActivePage] : null;
 
-    /*
-     * Page events
-     */
+    // Page events
     oldPage && oldPage.beforeUnload && oldPage.beforeUnload();
     Installer.ActivePage = pageId;
     page.beforeShow && page.beforeShow();
@@ -75,14 +73,13 @@ Installer.showPage = function(pageId, noPush) {
     }
 
     pageContainer.show().siblings().hide();
+    Installer.renderLangMessages(pageContainer);
 
     // New page, add it to the history
     if (history.pushState && !noPush) {
         window.history.pushState({ page: pageId }, '', window.location.pathname);
         page.isRendered = true;
     }
-
-    Installer.renderLangMessages();
 }
 
 Installer.setLoadingBar = function(state, message) {
@@ -116,7 +113,7 @@ Installer.renderLangMessages = function(container) {
     $('[data-lang]', container).each(function() {
         // Make JS lang key
         var activeLocale = installerLang[Installer.Locale] ? Installer.Locale : 'en',
-            langKey = $(this).data('lang') ? $(this).data('lang') : $(this).text();
+            langKey = $(this).attr('data-lang') ? $(this).attr('data-lang') : $(this).text();
 
         // Access dot notation
         var langValue = langKey.split('.').reduce(function(a, b) {
@@ -131,8 +128,9 @@ Installer.renderLangMessages = function(container) {
 
         if (langValue) {
             $(this).text(langValue);
-            $(this).attr('data-lang', langKey);
         }
+
+        $(this).attr('data-lang', langKey);
     });
 }
 
@@ -153,7 +151,7 @@ $.fn.extend({
             container.html(contents);
         }
 
-        Installer.renderLangMessages();
+        Installer.renderLangMessages(container);
 
         return this;
     },
