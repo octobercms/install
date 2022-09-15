@@ -47,34 +47,30 @@ label {
     border: 1px solid #e0e0e0;
     border-radius: 3px;
     font-family: sans-serif;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 .form-control:focus {
     -webkit-box-shadow: none;
     box-shadow: none;
-    border: 1px solid #E6E9E9;
+    border: 1px solid #72809d;
+}
+.form-control-prefix {
+    display: flex;
+    align-items: center;
+}
+.form-control-prefix .prefix {
+    border: 1px solid #cfd7e1;
+    padding: 6px 13px;
+
+    background: #f9f9f9;
+    border-radius: 4px;
+}
+.form-control-prefix .prefix + .form-control {
+    box-shadow: -2px 0 2px -2px rgba(0,0,0,.2);
+    margin-left: -5px;
 }
 input.project-id-input {
     font-family: monospace;
-}
-input.search-input,
-input.search-input-lg,
-input.user-input,
-input.lock-input {
-    background-repeat: no-repeat;
-    padding-right: 30px !important;
-    background-image: url('../images/bitmap-icons.png');
-}
-input.search-input {
-    background-position: right -84px;
-}
-input.search-input-lg {
-    background-position: right -78px;
-}
-input.user-input {
-    background-position: right -41px;
-}
-input.lock-input {
-    background-position: right 0;
 }
 
 #wrap {

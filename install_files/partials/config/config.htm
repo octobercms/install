@@ -5,11 +5,14 @@
 <div class="form-group">
     <label for="advBackendUri" class="control-label col-sm-4">Backend URL</label>
     <div class="col-sm-8">
-        <input
-            id="advBackendUri"
-            name="backend_uri"
-            class="form-control"
-            value="/backend" />
+        <div class="form-control-prefix">
+            <span class="prefix"><?= $installer->getBaseUrl() ?></span>
+            <input
+                id="advBackendUri"
+                name="backend_uri"
+                class="form-control"
+                value="/backend" />
+        </div>
         <span class="help-block">Please specify a value that you will use to access the admin panel.</span>
     </div>
 </div>

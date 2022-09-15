@@ -486,8 +486,8 @@ class Installer
         $params['protocol_version'] = '1.2';
         $params['client'] = 'october';
         $params['server'] = base64_encode(json_encode([
-            'php'   => PHP_VERSION,
-            'url'   => $this->getBaseUrl()
+            'php' => PHP_VERSION,
+            'url' => $this->getBaseUrl()
         ]));
 
         $curl = curl_init();
@@ -549,10 +549,10 @@ class Installer
             $baseUrl .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
         }
         else {
-            $baseUrl = 'http://localhost/';
+            $baseUrl = 'http://localhost';
         }
 
-        return $baseUrl;
+        return rtrim($baseUrl, '/');
     }
 
     public function cleanUp()

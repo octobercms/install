@@ -14,11 +14,7 @@
 
         <!-- Base URL -->
         <?php if (!isset($fatalError)): ?>
-            <script>
-            <!--
-                installerBaseUrl = '<?= $installer->getBaseUrl() ?>';
-            // -->
-            </script>
+            <script> var installerBaseUrl = '<?= $installer->getBaseUrl() ?>'; </script>
         <?php endif ?>
     </head>
     <body class="js">
