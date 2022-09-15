@@ -40,6 +40,7 @@
     'license_agreement' => 'License Agreement',
     'system_check' => 'System Check',
     'agree_continue' => 'Agree & Continue',
+    'continue' => 'Continue',
   ],
   'locale' => [
     'ar' => 'العربية',

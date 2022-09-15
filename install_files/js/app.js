@@ -111,9 +111,9 @@ Installer.setLoadingBar = function(state, message) {
     }
 }
 
-Installer.renderLangMessages = function() {
+Installer.renderLangMessages = function(container) {
     // Render language string
-    $('[data-lang]').each(function() {
+    $('[data-lang]', container).each(function() {
         // Make JS lang key
         var activeLocale = installerLang[Installer.Locale] ? Installer.Locale : 'en',
             langKey = $(this).data('lang') ? $(this).data('lang') : $(this).text();
@@ -152,6 +152,8 @@ $.fn.extend({
         else {
             container.html(contents);
         }
+
+        Installer.renderLangMessages();
 
         return this;
     },

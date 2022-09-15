@@ -3,7 +3,7 @@
 </p>
 
 <div class="form-group">
-    <label for="advBackendUri" class="control-label col-sm-4">Backend URL</label>
+    <label for="advBackendUri" class="control-label col-sm-4" data-lang>installer.backend_uri_label</label>
     <div class="col-sm-8">
         <div class="form-control-prefix">
             <span class="prefix"><?= $installer->getBaseUrl() ?></span>
@@ -13,7 +13,7 @@
                 class="form-control"
                 value="/backend" />
         </div>
-        <span class="help-block">Please specify a value that you will use to access the admin panel.</span>
+        <span class="help-block" data-lang>installer.backend_uri_comment</span>
     </div>
 </div>
 
@@ -22,20 +22,51 @@
 </p>
 
 <div class="form-group">
-    <label for="dbType" class="control-label col-sm-4">Database Type</label>
+    <label for="dbType" class="control-label col-sm-4" data-lang>installer.database_engine_label</label>
     <div class="col-sm-8">
-        <select
-            id="dbType"
-            name="db_type"
-            class="form-control"
-            onchange="Installer.Pages.configForm.toggleDatabase(this)">
-            <option value="mysql">MySQL</option>
-            <option value="pgsql">Postgres</option>
-            <option value="sqlite">SQLite</option>
-            <option value="sqlsrv">SQL Server</option>
-        </select>
-
-        <span class="help-block">Please specify the database driver type for this connection.</span>
+        <div class="radio-group">
+            <span>
+                <input
+                    id="dbTypeMysql"
+                    name="db_type"
+                    type="radio"
+                    value="mysql"
+                    onchange="Installer.Pages.configForm.toggleDatabase(this)"
+                    checked
+                />
+                <label for="dbTypeMysql">MySQL</label>
+            </span>
+            <span>
+                <input
+                    id="dbTypePgsql"
+                    name="db_type"
+                    type="radio"
+                    value="pgsql"
+                    onchange="Installer.Pages.configForm.toggleDatabase(this)"
+                />
+                <label for="dbTypePgsql">Postgres</label>
+            </span>
+            <span>
+                <input
+                    id="dbTypeSqlite"
+                    name="db_type"
+                    type="radio"
+                    value="sqlite"
+                    onchange="Installer.Pages.configForm.toggleDatabase(this)"
+                />
+                <label for="dbTypeSqlite">SQLite</label>
+            </span>
+            <span>
+                <input
+                    id="dbTypeSqlsrv"
+                    name="db_type"
+                    type="radio"
+                    value="sqlsrv"
+                    onchange="Installer.Pages.configForm.toggleDatabase(this)"
+                />
+                <label for="dbTypeSqlsrv">SQL Server</label>
+            </span>
+        </div>
     </div>
 </div>
 

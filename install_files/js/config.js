@@ -1,15 +1,15 @@
 /*!
  * Configuration Form (Step 2)
  */
-Installer.Pages.configForm.title = 'Configuration';
-Installer.Pages.configForm.nextButton = 'Continue';
+Installer.Pages.configForm.title = 'installer.app_config_section';
+Installer.Pages.configForm.nextButton = 'webinstaller.continue';
 Installer.Pages.configForm.activeCategory = null;
 
 Installer.Pages.configForm.init = function() {
     $('#configForm').addClass('animate fade_in');
     $('#configForm .section-content:first').renderPartial('config/config');
     $('#configFormFailed').hide();
-    $('#configFormDatabase').renderPartial('config/mysql');
+    $('#configFormDatabase').renderPartial('config/sql');
 }
 
 Installer.Pages.configForm.next = function() {
@@ -39,7 +39,11 @@ Installer.Pages.configForm.next = function() {
 Installer.Pages.configForm.toggleDatabase = function(el) {
     var selectedValue = $(el).val(),
         configFormDatabase = $('#configFormDatabase'),
-        databasePartial = 'config/' + selectedValue
+        databasePartial = 'config/' + selectedValue;
 
-    configFormDatabase.renderPartial(databasePartial)
+    if (selectedValue === 'mysql' || selectedValue === 'pgsql' || selectedValue === 'sqlsrv') {
+        databasePartial = 'config/sql';
+    }
+
+    configFormDatabase.renderPartial(databasePartial);
 }

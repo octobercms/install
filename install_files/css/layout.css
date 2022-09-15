@@ -68,6 +68,13 @@ label {
 .form-control-prefix .prefix + .form-control {
     box-shadow: -2px 0 2px -2px rgba(0,0,0,.2);
     margin-left: -5px;
+
+}
+.radio-group {
+    padding-top: 7px;
+}
+.radio-group > span > label {
+    padding-right: 15px;
 }
 input.project-id-input {
     font-family: monospace;

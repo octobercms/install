@@ -38,5 +38,6 @@
     'license_agreement' => 'Accord de licence',
     'system_check' => 'Verification du système',
     'agree_continue' => 'Accepter et continuer',
+    'continue' => 'Continuer',
   ],
 ];
