@@ -83,13 +83,13 @@ Installer.showPage = function(pageId, noPush) {
 }
 
 Installer.setLoadingBar = function(state, message) {
-
     var progressBarContainer = $('#progressBar'),
         progressBar = $('#progressBar .progress-bar:first'),
-        progressBarMessage = $('#progressBarMessage')
+        progressBarMessage = $('#progressBarMessage');
 
-    if (message)
-        progressBarMessage.text(message)
+    if (message) {
+        progressBarMessage.text(message);
+    }
 
     progressBar.removeClass('progress-bar-danger')
     progressBarContainer.removeClass('failed')
@@ -108,143 +108,23 @@ Installer.setLoadingBar = function(state, message) {
     }
 }
 
-Installer.renderSections = function(sections, vars) {
-    Installer.Sections = sections
-
-    $.each(sections, function(index, section){
-        Installer.renderSection(section, vars)
-    })
-
-    Installer.showSection(sections[0].code)
-}
-
-Installer.refreshSections = function(vars) {
-    var stepContainer = $('#' + Installer.ActivePage)
-
-    stepContainer.find('.section-area').remove()
-    stepContainer.find('.section-side-nav:first').empty()
-
-    $.each(Installer.Sections, function(index, section){
-        Installer.renderSection(section, vars)
-    })
-
-    Installer.showSection(Installer.Sections[0].code)
-}
-
-Installer.renderSection = function(section, vars) {
-    var sectionElement = $('<div />').addClass('section-area').attr('data-section-code', section.code),
-        stepContainer = $('#' + Installer.ActivePage),
-        container = stepContainer.find('.section-content:first')
-
-    if (!section.category) section.category = "NULL"
-
-    sectionElement
-        .renderPartial(section.partial, vars)
-        .prepend($('<h3 />').text(section.label))
-        .hide()
-        .appendTo(container)
-
-    /*
-     * Side navigation
-     */
-    var sideNav = stepContainer.find('.section-side-nav:first'),
-        menuItem = $('<li />').attr('data-section-code', section.code),
-        menuItemLink = $('<a />').attr({ href: "javascript:Installer.showSection('"+section.code+"')"}).text(section.label),
-        sideNavCategory = sideNav.find('[data-section-category="'+section.category+'"]:first')
-
-    if (sideNavCategory.length == 0) {
-        sideNavCategory = $('<ul />').addClass('nav').attr('data-section-category', section.category)
-        sideNavCategoryTitle = $('<h3 />').text(section.category)
-        if (section.category == "NULL") sideNavCategoryTitle.text('')
-        sideNav.append(sideNavCategoryTitle).append(sideNavCategory)
-    }
-
-    sideNavCategory.append(menuItem.append(menuItemLink))
-}
-
-Installer.renderSectionNav = function() {
-    var
-        stepContainer = $('#' + Installer.ActivePage),
-        pageNav = stepContainer.find('.section-page-nav:first').empty(),
-        sections = Installer.Sections
-
-    $.each(sections, function(index, section){
-        if (section.code == Installer.ActiveSection) {
-
-            var nextStep = sections[index+1] ? sections[index+1] : null,
-                lastStep = sections[index-1] ? sections[index-1] : null
-
-            if (lastStep && Installer.isSectionVisible(lastStep.code)) {
-                $('<a />')
-                    .text(lastStep.label)
-                    .addClass('btn btn-default prev')
-                    .attr('href', "javascript:Installer.showSection('"+lastStep.code+"')")
-                    .appendTo(pageNav)
-            }
-
-            if (nextStep && Installer.isSectionVisible(nextStep.code)) {
-                $('<a />')
-                    .text(nextStep.label)
-                    .addClass('btn btn-default next')
-                    .attr('href', "javascript:Installer.showSection('"+nextStep.code+"')")
-                    .appendTo(pageNav)
-            }
-
-            return false
-        }
-    })
-}
-
-Installer.showSection = function(code) {
-    var
-        stepContainer = $('#' + Installer.ActivePage),
-        sideNav = stepContainer.find('.section-side-nav:first'),
-        menuItem = sideNav.find('[data-section-code="'+code+'"]:first'),
-        container = stepContainer.find('.section-content:first'),
-        sectionElement = container.find('[data-section-code="'+code+'"]:first')
-
-    sideNav.find('li.active').removeClass('active')
-    menuItem.addClass('active')
-    sectionElement.show().siblings().hide()
-
-    Installer.ActiveSection = code
-    Installer.renderSectionNav()
-}
-
-Installer.toggleSection = function(code, state) {
-    var
-        stepContainer = $('#' + Installer.ActivePage),
-        sideNav = stepContainer.find('.section-side-nav:first'),
-        menuItem = sideNav.find('[data-section-code="'+code+'"]:first'),
-        container = stepContainer.find('.section-content:first'),
-        sectionElement = container.find('[data-section-code="'+code+'"]:first')
-
-    if (state) {
-        menuItem.show()
-        sectionElement.show()
-    }
-    else {
-        menuItem.hide()
-        sectionElement.hide()
-    }
-}
-
-Installer.isSectionVisible = function(code) {
-    return $('#' + Installer.ActivePage + ' [data-section-code="'+code+'"]:first').is(':visible')
-}
-
 $.fn.extend({
     renderPartial: function(name, data, options) {
         var container = $(this),
             template = $('[data-partial="' + name + '"]'),
-            contents = Mustache.to_html(template.html(), data)
+            contents = Mustache.to_html(template.html(), data);
 
         options = $.extend(true, {
             append: false
-        }, options)
+        }, options);
 
-        if (options.append) container.append(contents)
-        else container.html(contents)
+        if (options.append) {
+            container.append(contents);
+        }
+        else {
+            container.html(contents);
+        }
+
         return this
     },
 
@@ -252,24 +132,27 @@ $.fn.extend({
         var form = $(this),
             postData = form.serializeObject(),
             controlPanel = $('#formControlPanel'),
-            nextButton = $('#nextButton')
+            nextButton = $('#nextButton');
 
         options = $.extend(true, {
             loadingIndicator: true
-        }, options)
+        }, options);
 
         if (options.loadingIndicator) {
-            nextButton.attr('disabled', true)
-            controlPanel.addClass('loading')
+            nextButton.attr('disabled', true);
+            controlPanel.addClass('loading');
         }
 
-        if (!data)
-            data = {handler: handler}
-        else
-            data.handler = handler
+        if (!data) {
+            data = { handler: handler };
+        }
+        else {
+            data.handler = handler;
+        }
 
-        if (data)
-            $.extend(postData, data)
+        if (data) {
+            $.extend(postData, data);
+        }
 
         var postObj = $.post(window.location.pathname, postData)
         postObj.always(function(){
@@ -300,7 +183,7 @@ $.fn.extend({
 
 $.extend({
     sendRequest: function(handler, data, options) {
-        return $('<form />').sendRequest(handler, data, options)
+        return $('<form />').sendRequest(handler, data, options);
     }
 })
 
@@ -313,11 +196,12 @@ window.onpopstate = function(event) {
     else if (event.state) {
         // Only allow navigation to previously rendered pages
         var noPop = (!Installer.Pages[event.state.page].isRendered || Installer.ActivePage == event.state.page)
-        if (!noPop)
-            Installer.showPage(event.state.page, true)
+        if (!noPop) {
+            Installer.showPage(event.state.page, true);
+        }
     }
     // Otherwise show the first page, if not already on it
     else if (Installer.ActivePage != 'systemCheck') {
-        Installer.showPage('systemCheck', true)
+        Installer.showPage('systemCheck', true);
     }
 }

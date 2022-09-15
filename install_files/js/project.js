@@ -2,40 +2,40 @@
  * Packages & Install (Step 3)
  */
 
-Installer.Pages.projectForm.title = 'License Details'
-Installer.Pages.projectForm.nextButton = 'Install!'
+Installer.Pages.projectForm.title = 'License Details';
+Installer.Pages.projectForm.nextButton = 'Install!';
 
 Installer.Pages.projectForm.init = function() {
-    var projectForm = $('#projectForm').addClass('animate fade_in')
+    var projectForm = $('#projectForm').addClass('animate fade_in');
 
-    Installer.Pages.projectForm.refreshSections()
+    Installer.Pages.projectForm.refreshSections();
 
-    $('#nextButton').addClass('disabled')
+    $('#nextButton').addClass('disabled');
 
-    Installer.Pages.projectForm.bindAll()
+    Installer.Pages.projectForm.bindAll();
 }
 
 Installer.Pages.projectForm.next = function() {
-    Installer.showPage('installProgress')
+    Installer.showPage('installProgress');
 }
 
 Installer.Pages.projectForm.startClean = function() {
-    Installer.showPage('installProgress')
+    Installer.showPage('installProgress');
 }
 
 Installer.Pages.projectForm.bindAll = function() {
-    Installer.Pages.projectForm.bindIncludeManager('#pluginList')
-    Installer.Pages.projectForm.bindIncludeManager('#themeList')
+    Installer.Pages.projectForm.bindIncludeManager('#pluginList');
+    Installer.Pages.projectForm.bindIncludeManager('#themeList');
 }
 
 Installer.Pages.projectForm.detachProject = function(el) {
-    if (!confirm('Are you sure?')) return
+    Installer.Data.project = null;
+    Installer.DataSet.includedPlugins = [];
+    Installer.DataSet.includedThemes = [];
+    Installer.Pages.projectForm.refreshSections();
+    Installer.Pages.projectForm.bindAll();
 
-    Installer.Data.project = null
-    Installer.DataSet.includedPlugins = []
-    Installer.DataSet.includedThemes = []
-    Installer.Pages.projectForm.refreshSections()
-    Installer.Pages.projectForm.bindAll()
+    $('#nextButton').addClass('disabled');
 }
 
 Installer.Pages.projectForm.attachProject = function(el) {
@@ -43,7 +43,7 @@ Installer.Pages.projectForm.attachProject = function(el) {
         $el = $(el),
         $input = $el.find('.project-id-input:first'),
         code = $input.val(),
-        projectFormFailed = $('#projectFormFailed').hide().removeClass('animate fade_in')
+        projectFormFailed = $('#projectFormFailed').hide().removeClass('animate fade_in');
 
     $.sendRequest('onProjectDetails', { project_id: code })
         .done(function(result){
@@ -56,16 +56,15 @@ Installer.Pages.projectForm.attachProject = function(el) {
                 projectName: result.name,
                 projectOwner: result.owner,
                 projectDescription: result.description
-            })
-            Installer.Pages.projectForm.bindAll()
+            });
 
-            $('#nextButton').removeClass('disabled')
+            Installer.Pages.projectForm.bindAll();
+            $('#nextButton').removeClass('disabled');
         })
         .fail(function(data){
-            projectFormFailed.show().addClass('animate fade_in')
-            projectFormFailed.renderPartial('project/fail', { reason: data.responseText })
-
-            $('#nextButton').addClass('disabled')
+            projectFormFailed.show().addClass('animate fade_in');
+            projectFormFailed.renderPartial('project/fail', { reason: data.responseText });
+            $('#nextButton').addClass('disabled');
         })
 }
 
@@ -100,5 +99,5 @@ Installer.Pages.projectForm.bindIncludeManager = function(el) {
 }
 
 Installer.Pages.projectForm.refreshSections = function(vars) {
-    $('#projectForm').find('.section-content:first').renderPartial('project/project', vars)
+    $('#projectForm').find('.section-content:first').renderPartial('project/project', vars);
 }

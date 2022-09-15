@@ -59,7 +59,7 @@
 
     <ul class="list-inline">
         <li><a href="http://octobercms.com/help/site/projects#project-id" target="_blank">How to find your Project ID</a></li>
-        <li><a href="javascript:;" onclick="Installer.Pages.projectForm.startClean()">Install without a Project</a></li>
+        <li><a href="javascript:;" onclick="return confirm('This is used to test if your server can run an October CMS installation. Continue?') ? Installer.Pages.projectForm.startClean() : false">Install without a Project</a></li>
     </ul>
 
 {{/projectId}}

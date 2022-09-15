@@ -78,7 +78,8 @@ function installerShutdown()
  * Bootstrap the installer
  */
 require_once 'InstallerException.php';
-require_once 'InstallerRewrite.php';
+require_once 'InstallerHandlers.php';
+require_once 'InstallerSetup.php';
 require_once 'Installer.php';
 
 try {

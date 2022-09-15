@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * InstallerSetup
+ */
+trait InstallerSetup
+{
+}
