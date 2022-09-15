@@ -53,7 +53,7 @@ trait InstallerHandlers
      */
     protected function onValidateConfig()
     {
-        if ($this->post('db_type') != 'sqlite' && !strlen($this->post('db_host'))) {
+        if ($this->post('db_type') !== 'sqlite' && !strlen($this->post('db_host'))) {
             throw new InstallerException('Please specify a database host', 'db_host');
         }
 
@@ -61,62 +61,17 @@ trait InstallerHandlers
             throw new InstallerException('Please specify the database name', 'db_name');
         }
 
-        $config = array_merge(array(
-            'type' => null,
-            'host' => null,
-            'name' => null,
-            'port' => null,
-            'user' => null,
-            'pass' => null,
-        ), array(
-            'type' => $this->post('db_type'),
-            'host' => $this->post('db_host'),
-            'name' => $this->post('db_name'),
-            'user' => $this->post('db_user'),
-            'pass' => $this->post('db_pass'),
-            'port' => $this->post('db_port'),
-        ));
+        // Check the database credentials
+        $db = $this->checkDatabase(
+            $type = $this->post('db_type'),
+            $this->post('db_host'),
+            $this->post('db_port'),
+            $this->post('db_name'),
+            $this->post('db_user'),
+            $this->post('db_pass'),
+        );
 
-        extract($config);
-
-        switch ($type) {
-            case 'mysql':
-                $dsn = 'mysql:host='.$host.';dbname='.$name;
-                if ($port) $dsn .= ";port=".$port;
-                break;
-
-            case 'pgsql':
-                $_host = ($host) ? 'host='.$host.';' : '';
-                $dsn = 'pgsql:'.$_host.'dbname='.$name;
-                if ($port) $dsn .= ";port=".$port;
-                break;
-
-            case 'sqlite':
-                $dsn = 'sqlite:'.$name;
-                $this->validateSqliteFile($name);
-                break;
-
-            case 'sqlsrv':
-                $availableDrivers = PDO::getAvailableDrivers();
-                $_port = $port ? ','.$port : '';
-                if (in_array('dblib', $availableDrivers)) {
-                    $dsn = 'dblib:host='.$host.$_port.';dbname='.$name;
-                }
-                else {
-                    $dsn = 'sqlsrv:Server='.$host.(empty($port) ? '':$_port).';Database='.$name;
-                }
-            break;
-        }
-        try {
-            $db = new PDO($dsn, $user, $pass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-        }
-        catch (PDOException $ex) {
-            throw new Exception('Connection failed: ' . $ex->getMessage());
-        }
-
-        /*
-         * Check the database is empty
-         */
+        // Check the database is empty
         $exptectedTablesAndViewsCount = 0;
         if ($type == 'sqlite') {
             $fetch = $db->query("select name from sqlite_master where type='table'", PDO::FETCH_NUM);
@@ -133,7 +88,9 @@ trait InstallerHandlers
         }
 
         $tables = 0;
-        while ($result = $fetch->fetch()) $tables++;
+        while ($fetch->fetch()) {
+            $tables++;
+        }
 
         if ($tables > $exptectedTablesAndViewsCount) {
             throw new Exception(sprintf('Database "%s" is not empty. Please empty the database or specify another database.', $this->e($name)));
