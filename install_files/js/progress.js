@@ -7,9 +7,9 @@ Installer.Pages.installProgress.steps = [
     { code: 'downloadCore', label: 'Downloading application files' },
     { code: 'extractCore', label: 'Unpacking application files' },
     { code: 'setupConfig', label: 'Building configuration files' },
-    { code: 'createAdmin', label: 'Create admin account' },
     { code: 'setupProject', label: 'Setting website project' },
-    { code: 'finishInstall', label: 'Finishing installation' },
+    { code: 'composerInstall', label: 'Installing composer dependencies' },
+    { code: 'migrateDatabase', label: 'Migrating database' },
     { code: 'cleanInstall', label: 'Clean installation files' }
 ]
 
@@ -175,7 +175,7 @@ Installer.Pages.installProgress.execStep.setupConfig = function(step) {
     }
 }
 
-Installer.Pages.installProgress.execStep.createAdmin = function(step) {
+Installer.Pages.installProgress.execStep.migrateDatabase = function(step) {
     return function() {
         return Installer.Pages.installProgress.execDefaultStep(step, { extraData: Installer.Data.config })
     }
@@ -188,7 +188,7 @@ Installer.Pages.installProgress.execStep.setupProject = function(step) {
     }
 }
 
-Installer.Pages.installProgress.execStep.finishInstall = function(step) {
+Installer.Pages.installProgress.execStep.composerInstall = function(step) {
     return function() {
         return Installer.Pages.installProgress.execDefaultStep(step, { extraData: Installer.Data.meta.core })
     }

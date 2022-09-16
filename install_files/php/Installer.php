@@ -89,34 +89,62 @@ class Installer
     // Installation Steps
     //
 
+    /**
+     * buildConfigFile
+     */
     protected function buildConfigFile()
     {
-        $this->bootFramework();
+        if (!$this->checkEnvWritable()) {
+            throw new Exception('Cannot write to .env file!');
+        }
 
-        $this->rewriter->toFile($this->configDirectory . '/app.php', array(
-            'url' => $this->getBaseUrl(),
-            'locale' => 'en',
-            'key' => $this->post('encryption_code', 'CHANGE_ME!!!!!!!!!!!!!!!!!!!!!!!'),
-        ));
+        $dbType = $this->post('db_type');
+        $dbName = $this->post('db_name');
+        $dbPort = $this->post('db_port');
 
-        $activeTheme = $this->post('active_theme');
-        if ($activeTheme) {
-            $activeTheme = strtolower(str_replace('.', '-', $activeTheme));
+        if (empty($dbPort)) {
+            if ($dbType === 'mysql') {
+                $dbPort = 3306;
+            }
+            elseif ($dbType === 'mysql') {
+                $dbPort = 5432;
+            }
+            elseif ($dbType === 'sqlsrv') {
+                $dbPort = 1433;
+            }
+        }
+
+        if ($dbType === 'sqlite') {
+            $this->setEnvVars([
+                'APP_KEY' => $this->getRandomKey(),
+                'APP_LOCALE' => $this->post('locale', 'xx'),
+                'BACKEND_URI' => $this->post('backend_uri', '/backend'),
+                'APP_URL' => $this->getBaseUrl(),
+                'DB_CONNECTION' => $dbType,
+                'DB_DATABASE' => $dbName,
+            ]);
         }
         else {
-            $activeTheme = 'demo';
+            $this->setEnvVars([
+                'APP_KEY' => $this->getRandomKey(),
+                'APP_LOCALE' => $this->post('locale', 'xx'),
+                'BACKEND_URI' => $this->post('backend_uri', '/backend'),
+                'APP_URL' => $this->getBaseUrl(),
+                'DB_CONNECTION' => $dbType,
+                'DB_HOST' => $this->post('db_host'),
+                'DB_PORT' => $dbPort,
+                'DB_DATABASE' => $dbName,
+                'DB_USERNAME' => $this->post('db_user'),
+                'DB_PASSWORD' => $this->post('db_pass'),
+            ]);
         }
+    }
 
-        $this->rewriter->toFile($this->configDirectory . '/cms.php', array(
-            'activeTheme' => $activeTheme,
-            'backendUri'  => $this->post('backend_uri', '/backend'),
-            'defaultMask.file' => $this->post('file_mask', '644'),
-            'defaultMask.folder' => $this->post('folder_mask', '755'),
-        ));
-
-        $this->rewriter->toFile($this->configDirectory . '/database.php', $this->getDatabaseConfigValues());
-
-        // Force cache flush
+    /**
+     * flushOpCache
+     */
+    protected function flushOpCache()
+    {
         $opcache_enabled = ini_get('opcache.enable');
         $opcache_path = trim(ini_get('opcache.restrict_api'));
 
@@ -132,122 +160,35 @@ class Installer
         }
     }
 
-    protected function getDatabaseConfigValues()
-    {
-        $config = array_merge(array(
-            'type' => null,
-            'host' => null,
-            'name' => null,
-            'port' => null,
-            'user' => null,
-            'pass' => null,
-            'prefix' => null,
-        ), array(
-            'type' => $this->post('db_type'),
-            'host' => $this->post('db_host', ''),
-            'name' => $this->post('db_name', ''),
-            'port' => $this->post('db_port', ''),
-            'user' => $this->post('db_user', ''),
-            'pass' => $this->post('db_pass', ''),
-            'prefix' => $this->post('db_prefix', ''),
-        ));
-
-        extract($config);
-
-        switch ($type) {
-            default:
-            case 'mysql':
-                $result = array(
-                    'connections.mysql.host'     => $host,
-                    'connections.mysql.port'     => empty($port) ? 3306 : $port,
-                    'connections.mysql.database' => $name,
-                    'connections.mysql.username' => $user,
-                    'connections.mysql.password' => $pass,
-                    'connections.mysql.prefix'   => $prefix,
-                );
-                break;
-
-            case 'sqlite':
-                $result = array(
-                    'connections.sqlite.database' => $name,
-                );
-                break;
-
-            case 'pgsql':
-                $result = array(
-                    'connections.pgsql.host'     => $host,
-                    'connections.pgsql.port'     => empty($port) ? 5432 : $port,
-                    'connections.pgsql.database' => $name,
-                    'connections.pgsql.username' => $user,
-                    'connections.pgsql.password' => $pass,
-                    'connections.pgsql.prefix'   => $prefix,
-                );
-                break;
-
-            case 'sqlsrv':
-                $result = array(
-                    'connections.sqlsrv.host'     => $host,
-                    'connections.sqlsrv.port'     => empty($port) ? 1433 : $port,
-                    'connections.sqlsrv.database' => $name,
-                    'connections.sqlsrv.username' => $user,
-                    'connections.sqlsrv.password' => $pass,
-                    'connections.sqlsrv.prefix'   => $prefix,
-                );
-                break;
-        }
-
-        if (in_array($type, array('mysql', 'sqlite', 'pgsql', 'sqlsrv')))
-            $result['default'] = $type;
-
-        return $result;
-    }
-
-    protected function createAdminAccount()
-    {
-        $this->bootFramework();
-
-        /*
-         * Prepare admin seed defaults
-         */
-        $seeder = 'Backend\Database\Seeds\SeedSetupAdmin';
-        $seederObj = new $seeder;
-        $seederObj->setDefaults(array(
-            'email' => $this->post('admin_email', 'admin@email.xxx'),
-            'login' => $this->post('admin_login', 'admin'),
-            'password' => $this->post('admin_password', 'admin'),
-            'firstName' => $this->post('admin_first_name', 'Admin'),
-            'lastName' => $this->post('admin_last_name', 'Person'),
-        ));
-
-        /*
-         * Install application
-         */
-        $updater = call_user_func('System\Classes\UpdateManager::instance');
-        $updater->update();
-    }
-
+    /**
+     * setProjectDetails
+     */
     public function setProjectDetails()
     {
-        if (!$projectId = $this->post('code'))
+        if (!$projectId = $this->post('code')) {
             return;
+        }
 
-        $this->bootFramework();
-
-        call_user_func('System\Models\Parameter::set', array(
-            'system::project.id'    => $projectId,
-            'system::project.name'  => $this->post('name'),
-            'system::project.owner' => $this->post('owner'),
-        ));
+        $this->setComposerAuth($this->post('email'), $projectId);
     }
 
-    public function setCoreBuild()
+    /**
+     * migrateDatabase
+     */
+    protected function migrateDatabase()
     {
-        $this->bootFramework();
+        $updater = call_user_func('System\Classes\UpdateManager::instance');
+        $updater->update();
+        $updater->setBuildNumberManually();
+    }
 
-        call_user_func('System\Models\Parameter::set', array(
-            'system::core.hash'  => $this->post('uhash'),
-            'system::core.build' => $this->post('build'),
-        ));
+    /**
+     * composerInstall
+     */
+    public function runComposerInstall()
+    {
+        $composer = call_user_func('October\Rain\Composer\Manager::instance');
+        $this->composerRequireCore($composer);
     }
 
     //
@@ -320,15 +261,17 @@ class Installer
 
     public function logPost()
     {
-        if (!isset($_POST) || !count($_POST)) return;
+        if (!isset($_POST) || !count($_POST)) {
+            return;
+        }
+
         $postData = $_POST;
 
-        if (array_key_exists('disableLog', $postData))
-            $postData = array('disableLog' => true);
+        if (array_key_exists('disableLog', $postData)) {
+            $postData = ['disableLog' => true];
+        }
 
-        /*
-         * Sensitive data fields
-         */
+        // Sensitive data fields
         if (isset($postData['admin_email'])) $postData['admin_email'] = '*******@*****.com';
         $fieldsToErase = array(
             'encryption_code',

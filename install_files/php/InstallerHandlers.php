@@ -150,20 +150,26 @@ trait InstallerHandlers
                 break;
 
             case 'setupConfig':
+                $this->bootFramework();
                 $this->buildConfigFile();
-                break;
-
-            case 'createAdmin':
-                $this->createAdminAccount();
+                $this->flushOpCache();
                 break;
 
             case 'setupProject':
+                $this->bootFramework();
                 $this->setProjectDetails();
                 break;
 
-            case 'finishInstall':
-                $this->setCoreBuild();
+            case 'composerInstall':
+                $this->bootFramework();
+                $this->runComposerInstall();
                 break;
+
+            case 'migrateDatabase':
+                $this->bootFramework();
+                $this->migrateDatabase();
+                break;
+
             case 'cleanInstall':
                 $this->moveHtaccess(null, 'installer');
                 $this->moveHtaccess('october', null);
@@ -171,7 +177,8 @@ trait InstallerHandlers
                 break;
         }
 
-        if ($installStep != 'cleanInstall') { // skip cleanInstall step to prevent writing to nonexisting folder
+        // Skip cleanInstall step to prevent writing to nonexisting folder
+        if ($installStep !== 'cleanInstall') {
             $this->log('Step %s +OK', $installStep);
         }
 
