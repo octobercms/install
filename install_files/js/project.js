@@ -76,13 +76,14 @@ Installer.Pages.projectForm.bindIncludeManager = function(el) {
         $counter = $el.find('.product-counter:first'),
         partial = $el.data('view'),
         dataSetId = $el.data('set'),
-        includedProducts = Installer.DataSet[dataSetId]
+        includedProducts = Installer.DataSet[dataSetId];
 
-    if (!$el.length)
-        return
+    if (!$el.length) {
+        return;
+    }
 
     if (includedProducts.length == 0) {
-        $empty.show()
+        $empty.show();
     }
     else {
         $.each(includedProducts, function(index, product){
@@ -91,11 +92,11 @@ Installer.Pages.projectForm.bindIncludeManager = function(el) {
                 $.extend(true, {}, product, { projectId: Installer.Data.project.code }),
                 { append: true }
             )
-        })
-        $empty.hide()
+        });
+        $empty.hide();
     }
 
-    $counter.text(includedProducts.length)
+    $counter.text(includedProducts.length);
 }
 
 Installer.Pages.projectForm.refreshSections = function(vars) {

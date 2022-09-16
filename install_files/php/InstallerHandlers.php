@@ -98,54 +98,6 @@ trait InstallerHandlers
     }
 
     /**
-     * onGetPopularPlugins
-     */
-    protected function onGetPopularPlugins()
-    {
-        return $this->requestServerData('plugin/popular');
-    }
-
-    /**
-     * onGetPopularThemes
-     */
-    protected function onGetPopularThemes()
-    {
-        return $this->requestServerData('theme/popular');
-    }
-
-    /**
-     * onSearchPlugins
-     */
-    protected function onSearchPlugins()
-    {
-        return $this->requestServerData('plugin/search', array('query' => $this->post('query')));
-    }
-
-    /**
-     * onSearchThemes
-     */
-    protected function onSearchThemes()
-    {
-        return $this->requestServerData('theme/search', array('query' => $this->post('query')));
-    }
-
-    /**
-     * onPluginDetails
-     */
-    protected function onPluginDetails()
-    {
-        return $this->requestServerData('plugin/detail', array('name' => $this->post('name')));
-    }
-
-    /**
-     * onThemeDetails
-     */
-    protected function onThemeDetails()
-    {
-        return $this->requestServerData('theme/detail', array('name' => $this->post('name')));
-    }
-
-    /**
      * onProjectDetails
      */
     protected function onProjectDetails()
