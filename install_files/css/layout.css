@@ -240,7 +240,7 @@ section.body p.lead.with-tick:before {
 }
 
 .cloud-content {
-    background: #FFF;
+    background: rgba(255,255,255,.5);
     position: relative;
     border-radius: 3px;
     padding: 20px 30px;
