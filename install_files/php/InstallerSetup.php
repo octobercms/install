@@ -108,7 +108,7 @@ trait InstallerSetup
      */
     protected function setEnvVar($key, $value)
     {
-        $path = $this->getBasePath('.env');
+        $path = base_path('.env');
         $old = $this->getEnvVar($key);
         $value = $this->encodeEnvVar($value);
 

@@ -70,14 +70,6 @@ class Installer
     }
 
     /**
-     * getBasePath
-     */
-    public function getBasePath($path = '')
-    {
-        return __DIR__ . $path;
-    }
-
-    /**
      * getLang
      */
     public function getLang($key, $vars = [])
