@@ -15,21 +15,15 @@ Installer.Pages.configForm.init = function() {
 Installer.Pages.configForm.next = function() {
     var configFormFailed = $('#configFormFailed').hide().removeClass('animate fade_in');
     Installer.Data.config = $('#configFormElement').serializeObject();
-    $('.section-area').removeClass('fail');
 
     $('#configFormElement').sendRequest('onValidateConfig')
         .fail(function(data){
-            configFormFailed.show().addClass('animate fade_in')
-            configFormFailed.renderPartial('config/fail', { reason: data.responseText })
-
-            var sectionElement = $('.section-area[data-section-code="'+section.code+'"]').addClass('fail')
-            configFormFailed.appendTo(sectionElement)
-
-            Installer.showSection(section.code)
+            configFormFailed.show().addClass('animate fade_in');
+            configFormFailed.renderPartial('config/fail', { reason: data.responseText });
 
             // Scroll browser to the bottom of the error
-            var scrollTo = configFormFailed.offset().top - $(window).height() + configFormFailed.height() + 10
-            $('body, html').animate({ scrollTop: scrollTo })
+            var scrollTo = configFormFailed.offset().top - $(window).height() + configFormFailed.height() + 10;
+            $('body, html').animate({ scrollTop: scrollTo });
         })
         .done(function(){
             Installer.showPage('projectForm');

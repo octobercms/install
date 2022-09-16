@@ -206,24 +206,6 @@ section.body .container {
     padding-bottom: 50px;
 }
 
-section.body .section-area h3 {
-    font-size: 38px;
-}
-section.body .section-area.fail h3 {
-    color: #cc3300;
-}
-section.body .section-area.fail h3:before {
-    content: "";
-    background: transparent url('../images/sprite.png') no-repeat;
-    background-position: 0 -64px;
-    background-size: 32px auto;
-    display: block;
-    width: 32px;
-    height: 32px;
-    float: left;
-    margin-right: 5px;
-    margin-top: 3px;
-}
 section.body p.lead {
     margin-top: 20px;
 }

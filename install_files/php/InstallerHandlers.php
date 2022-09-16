@@ -66,7 +66,7 @@ trait InstallerHandlers
             $type = $this->post('db_type'),
             $this->post('db_host'),
             $this->post('db_port'),
-            $this->post('db_name'),
+            $name = $this->post('db_name'),
             $this->post('db_user'),
             $this->post('db_pass'),
         );
@@ -174,7 +174,7 @@ trait InstallerHandlers
             case 'cleanInstall':
                 $this->moveHtaccess(null, 'installer');
                 $this->moveHtaccess('october', null);
-                $this->cleanUp();
+                // $this->cleanUp();
                 break;
         }
 
