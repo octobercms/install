@@ -45,7 +45,8 @@ class Installer
                     throw new Exception(sprintf('Invalid handler: %s', $this->e($handler)));
 
                 if (method_exists($this, $handler) && ($result = $this->$handler()) !== null) {
-                    $this->log('Execute handler (%s): %s', $handler, print_r($result, true));
+                    $this->log('Execute handler [%s]', $handler);
+                    $this->log($result);
                     header('Content-Type: application/json');
                     die(json_encode($result));
                 }
