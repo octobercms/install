@@ -157,11 +157,15 @@ class Installer
      */
     public function setProjectDetails()
     {
-        if (!$projectId = $this->post('code')) {
+        if (!$projectId = $this->post('project_id')) {
             return;
         }
 
+        // Configure Composer
         $this->setComposerAuth($this->post('email'), $projectId);
+
+        // Configure Demo Content
+        $this->setDemoContent(true);
     }
 
     /**
@@ -276,7 +280,37 @@ class Installer
         }
 
         // Sensitive data fields
-        if (isset($postData['admin_email'])) $postData['admin_email'] = '*******@*****.com';
+        $postData = $this->cleanLogArray($postData);
+
+        file_put_contents($this->logFile, '.============================ POST REQUEST ==========================.' . PHP_EOL, FILE_APPEND);
+        $this->log('Postback payload: %s', print_r($postData, true));
+    }
+
+    /**
+     * log
+     */
+    public function log()
+    {
+        $args = func_get_args();
+        $message = array_shift($args);
+
+        if (is_array($message)) {
+            $message = print_r($this->cleanLogArray($message), true);
+        }
+
+        $message = "[" . date("Y/m/d h:i:s", time()) . "] " . vsprintf($message, $args) . PHP_EOL;
+        file_put_contents($this->logFile, $message, FILE_APPEND);
+    }
+
+    /**
+     * cleanLogArray
+     */
+    protected function cleanLogArray($data)
+    {
+        if (isset($data['admin_email'])) {
+            $data['admin_email'] = '*******@*****.com';
+        }
+
         $fieldsToErase = array(
             'encryption_code',
             'admin_password',
@@ -284,25 +318,12 @@ class Installer
             'db_pass',
             'project_id',
         );
+
         foreach ($fieldsToErase as $field) {
-            if (isset($postData[$field])) $postData[$field] = '*******';
+            if (isset($data[$field])) $data[$field] = '*******';
         }
 
-        file_put_contents($this->logFile, '.============================ POST REQUEST ==========================.' . PHP_EOL, FILE_APPEND);
-        $this->log('Postback payload: %s', print_r($postData, true));
-    }
-
-    public function log()
-    {
-        $args = func_get_args();
-        $message = array_shift($args);
-
-        if (is_array($message)) {
-            $message = implode(PHP_EOL, $message);
-        }
-
-        $message = "[" . date("Y/m/d h:i:s", time()) . "] " . vsprintf($message, $args) . PHP_EOL;
-        file_put_contents($this->logFile, $message, FILE_APPEND);
+        return $data;
     }
 
     //
@@ -549,15 +570,17 @@ class Installer
     public function cleanUp()
     {
         $path = $this->tempDirectory;
-        if (!file_exists($path))
+        if (!file_exists($path)) {
             return;
+        }
 
         $d = dir($path);
         while (($entry = $d->read()) !== false) {
             $filePath = $path.'/'.$entry;
 
-            if ($entry == '.' || $entry == '..' || $entry == '.htaccess' || is_dir($filePath))
+            if ($entry == '.' || $entry == '..' || $entry == '.htaccess' || is_dir($filePath)) {
                 continue;
+            }
 
             $this->log('Cleaning up file: %s', $entry);
             @unlink($filePath);

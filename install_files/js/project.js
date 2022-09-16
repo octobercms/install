@@ -47,10 +47,10 @@ Installer.Pages.projectForm.attachProject = function(el) {
 
     $.sendRequest('onProjectDetails', { project_id: code })
         .done(function(result){
-            Installer.Data.project = result
-            Installer.Data.project.code = code
-            Installer.DataSet.includedPlugins = result.plugins ? result.plugins : []
-            Installer.DataSet.includedThemes = result.themes ? result.themes : []
+            Installer.Data.project = result;
+            Installer.Data.project.code = code;
+            Installer.DataSet.includedPlugins = result.plugins ? result.plugins : [];
+            Installer.DataSet.includedThemes = result.themes ? result.themes : [];
             Installer.Pages.projectForm.refreshSections({
                 projectId: code,
                 projectName: result.name,

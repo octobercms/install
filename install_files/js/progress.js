@@ -151,19 +151,20 @@ Installer.Pages.installProgress.execStep = {}
 
 Installer.Pages.installProgress.execStep.getMetaData = function(step) {
     return function() {
-
         var data = {
             plugins: Installer.DataSet.includedPlugins,
             themes: Installer.DataSet.includedThemes
+        };
+
+        if (Installer.Data.project && Installer.Data.project.code) {
+            data.project_id = Installer.Data.project.code;
         }
-        if (Installer.Data.project && Installer.Data.project.code)
-            data.project_id = Installer.Data.project.code
 
         return Installer.Pages.installProgress.execDefaultStep(step, {
             extraData: data,
             onSuccess: function(data) {
                 // Save the result for later usage
-                Installer.Data.meta = data.result
+                Installer.Data.meta = data.result;
             }
         })
     }
