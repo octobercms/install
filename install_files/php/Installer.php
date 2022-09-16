@@ -188,13 +188,16 @@ class Installer
     public function runComposerInstall()
     {
         $composer = call_user_func('October\Rain\Composer\Manager::instance');
-        $this->composerRequireCore($composer);
+        $composer->require(['october/all' => $this->getUpdateWantVersion()]);
     }
 
     //
     // File Management
     //
 
+    /**
+     * moveHtaccess
+     */
     protected function moveHtaccess($old = null, $new = null)
     {
         $oldFile = $this->baseDirectory . '/.htaccess';
@@ -207,6 +210,9 @@ class Installer
             rename($oldFile, $newFile);
     }
 
+    /**
+     * unzipFile
+     */
     protected function unzipFile($fileCode, $directory = null)
     {
         $source = $this->getFilePath($fileCode);
@@ -230,6 +236,9 @@ class Installer
         return false;
     }
 
+    /**
+     * getFilePath
+     */
     protected function getFilePath($fileCode)
     {
         $name = md5($fileCode) . '.arc';
@@ -259,6 +268,9 @@ class Installer
         file_put_contents($this->logFile, implode(PHP_EOL, $message) . PHP_EOL);
     }
 
+    /**
+     * logPost
+     */
     public function logPost()
     {
         if (!isset($_POST) || !count($_POST)) {
@@ -293,8 +305,9 @@ class Installer
         $args = func_get_args();
         $message = array_shift($args);
 
-        if (is_array($message))
+        if (is_array($message)) {
             $message = implode(PHP_EOL, $message);
+        }
 
         $message = "[" . date("Y/m/d h:i:s", time()) . "] " . vsprintf($message, $args) . PHP_EOL;
         file_put_contents($this->logFile, $message, FILE_APPEND);
@@ -304,6 +317,9 @@ class Installer
     // Helpers
     //
 
+    /**
+     * bootFramework
+     */
     protected function bootFramework()
     {
         $autoloadFile = $this->baseDirectory . '/bootstrap/autoload.php';
@@ -323,6 +339,9 @@ class Installer
         $kernel->bootstrap();
     }
 
+    /**
+     * requestServerData
+     */
     protected function requestServerData($uri = null, $params = array())
     {
         $result = null;
@@ -366,9 +385,11 @@ class Installer
         return $_result;
     }
 
+    /**
+     * requestServerFile
+     */
     protected function requestServerFile($fileCode, $expectedHash, $uri = null, $params = array())
     {
-        $result = null;
         $error = null;
         try {
             if (!is_dir($this->tempDirectory)) {
@@ -431,14 +452,18 @@ class Installer
             throw new Exception('Server failed to deliver the package');
         }
 
-        if ($error !== null)
+        if ($error !== null) {
             throw new Exception('Server responded with error: ' . $error);
+        }
 
         $this->log('Saving to file (%s): %s', $fileCode, $filePath);
 
         return true;
     }
 
+    /**
+     * prepareServerRequest
+     */
     protected function prepareServerRequest($uri, $params = array())
     {
         $params['protocol_version'] = '1.2';
@@ -465,6 +490,9 @@ class Installer
         return $curl;
     }
 
+    /**
+     * post
+     */
     protected function post($var, $default = null)
     {
         if (array_key_exists($var, $_REQUEST)) {
@@ -476,6 +504,9 @@ class Installer
         return $default;
     }
 
+    /**
+     * getHashFromMeta
+     */
     protected function getHashFromMeta($targetCode, $packageType = 'plugin')
     {
         $meta = $this->post('meta');
@@ -503,6 +534,9 @@ class Installer
         return null;
     }
 
+    /**
+     * getBaseUrl
+     */
     public function getBaseUrl()
     {
         if (isset($_SERVER['HTTP_HOST'])) {
@@ -517,6 +551,9 @@ class Installer
         return rtrim($baseUrl, '/');
     }
 
+    /**
+     * cleanUp
+     */
     public function cleanUp()
     {
         $path = $this->tempDirectory;
@@ -542,11 +579,17 @@ class Installer
         @unlink('install.php');
     }
 
+    /**
+     * e for escape
+     */
     public function e($value)
     {
         return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
     }
 
+    /**
+     * validateSqliteFile
+     */
     protected function validateSqliteFile($filename)
     {
         if (file_exists($filename))
@@ -559,6 +602,9 @@ class Installer
         new PDO('sqlite:'.$filename);
     }
 
+    /**
+     * recursiveRemove
+     */
     protected function recursiveRemove($dir)
     {
         $structure = glob(rtrim($dir, '/') . '/*');
