@@ -102,7 +102,7 @@ trait InstallerHandlers
      */
     protected function onProjectDetails()
     {
-        return $this->requestServerData('project/detail', array('id' => $this->post('project_id')));
+        return $this->requestServerData('project/detail', ['id' => $this->post('project_id')]);
     }
 
     /**
@@ -153,6 +153,7 @@ trait InstallerHandlers
                 $this->bootFramework();
                 $this->buildConfigFile();
                 $this->flushOpCache();
+                $this->refreshEnvVars();
                 break;
 
             case 'setupProject':
