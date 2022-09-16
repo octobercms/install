@@ -116,57 +116,18 @@ trait InstallerHandlers
 
         switch ($installStep) {
             case 'getMetaData':
-                $params = array();
+                $params = [];
 
-                $plugins = $this->post('plugins', array());
-                $pluginCodes = array();
-                foreach ($plugins as $plugin) {
-                    if (isset($plugin['code'])) $pluginCodes[] = $plugin['code'];
-                }
-                $params['plugins'] = $pluginCodes;
-
-                $themes = $this->post('themes', array());
-                $themeCodes = array();
-                foreach ($themes as $theme) {
-                    if (isset($theme['code'])) $themeCodes[] = $theme['code'];
-                }
-                $params['themes'] = $themeCodes;
-
-                if ($project = $this->post('project_id', false))
+                if ($project = $this->post('project_id', false)) {
                     $params['project'] = $project;
+                }
 
-                $result = $this->requestServerData('core/install', $params);
+                $result = $this->requestServerData('install/detail', $params);
                 break;
 
             case 'downloadCore':
                 $hash = $this->getHashFromMeta('core');
-                $this->requestServerFile('core', $hash, 'core/get', array('type' => 'install'));
-                break;
-
-            case 'downloadPlugin':
-                $name = $this->post('name');
-                if (!$name)
-                    throw new Exception('Plugin download failed, missing name');
-
-                $params = array('name' => $name);
-                if ($project = $this->post('project_id', false))
-                    $params['project'] = $project;
-
-                $hash = $this->getHashFromMeta($name, 'plugin');
-                $this->requestServerFile($name.'-plugin', $hash, 'plugin/get', $params);
-                break;
-
-            case 'downloadTheme':
-                $name = $this->post('name');
-                if (!$name)
-                    throw new Exception('Theme download failed, missing name');
-
-                $params = array('name' => $name);
-                if ($project = $this->post('project_id', false))
-                    $params['project'] = $project;
-
-                $hash = $this->getHashFromMeta($name, 'theme');
-                $this->requestServerFile($name.'-theme', $hash, 'theme/get', $params);
+                $this->requestServerFile('core', $hash, 'install/download');
                 break;
 
             case 'extractCore':
@@ -176,33 +137,16 @@ trait InstallerHandlers
                 if (!$result)
                     throw new Exception('Unable to open application archive file');
 
-                if (!file_exists(PATH_INSTALL . '/index.php')
-                        || !is_dir(PATH_INSTALL . '/modules')
-                        || !is_dir(PATH_INSTALL . '/vendor'))
+                if (
+                    !file_exists(PATH_INSTALL . '/index.php') ||
+                    !is_dir(PATH_INSTALL . '/modules') ||
+                    !is_dir(PATH_INSTALL . '/vendor')
+                ) {
                     throw new Exception('Could not extract application files');
+                }
 
                 $this->moveHtaccess(null, 'october');
                 $this->moveHtaccess('installer', null);
-                break;
-
-            case 'extractPlugin':
-                $name = $this->post('name');
-                if (!$name)
-                    throw new Exception('Plugin download failed, missing name');
-
-                $result = $this->unzipFile($name.'-plugin', 'plugins/'.$this->octoberToFolderCode($name, false).'/');
-                if (!$result)
-                    throw new Exception('Unable to open plugin archive file');
-                break;
-
-            case 'extractTheme':
-                $name = $this->post('name');
-                if (!$name)
-                    throw new Exception('Theme download failed, missing name');
-
-                $result = $this->unzipFile($name.'-theme', 'themes/'.$this->octoberToFolderCode($name, true).'/');
-                if (!$result)
-                    throw new Exception('Unable to open theme archive file');
                 break;
 
             case 'setupConfig':
@@ -232,14 +176,5 @@ trait InstallerHandlers
         }
 
         return array('result' => $result);
-    }
-
-    protected function octoberToFolderCode($name, $isTheme)
-    {
-        if ($isTheme) {
-            return str_replace('.', '-', strtolower($name));
-        }
-
-        return str_replace('.', '/', strtolower($name));
     }
 }

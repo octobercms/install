@@ -66,7 +66,7 @@ class Installer
      */
     public function getUpdateWantVersion()
     {
-        return '^3.0';
+        return '^'.WANT_OCTOBER_VERSION;
     }
 
     /**
@@ -538,19 +538,23 @@ class Installer
         $meta = $this->post('meta');
         $packageType .= 's';
 
-        if ($targetCode == 'core')
+        if ($targetCode == 'core') {
             return (isset($meta['core']['hash'])) ? $meta['core']['hash'] : null;
+        }
 
-        if (!isset($meta[$packageType]))
+        if (!isset($meta[$packageType])) {
             return null;
+        }
 
         $collection = $meta[$packageType];
-        if (!is_array($collection))
+        if (!is_array($collection)) {
             return null;
+        }
 
         foreach ($collection as $code => $hash) {
-            if ($code == $targetCode)
+            if ($code == $targetCode) {
                 return $hash;
+            }
         }
 
         return null;
