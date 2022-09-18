@@ -134,8 +134,9 @@ trait InstallerHandlers
                 $this->moveHtaccess(null, 'installer');
 
                 $result = $this->unzipFile('core');
-                if (!$result)
+                if (!$result) {
                     throw new Exception('Unable to open application archive file');
+                }
 
                 if (
                     !file_exists(PATH_INSTALL . '/index.php') ||
