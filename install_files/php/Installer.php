@@ -174,7 +174,8 @@ class Installer
      */
     protected function migrateDatabase()
     {
-        if ($this->post('is_clean_install')) {
+        if ($this->isCleanInstall()) {
+            $this->log('Skipping migration for a clean install...');
             return;
         }
 
@@ -188,21 +189,44 @@ class Installer
      */
     public function runComposerInstall()
     {
+        if ($this->isCleanInstall()) {
+            $this->log('Running a clean install...');
+            return $this->runComposerCleanInstall();
+        }
+
         try {
             $composer = call_user_func('October\Rain\Composer\Manager::instance');
             $composer->setOutputBuffer();
-
-            if ($this->post('is_clean_install')) {
-                $composer->update();
-            }
-            else {
-                $composer->require(['october/all' => $this->getUpdateWantVersion()]);
-            }
+            $composer->require(['october/all' => $this->getUpdateWantVersion()]);
         }
         catch (Exception $ex) {
             $this->log($composer->getOutputBuffer());
             throw $ex;
         }
+    }
+
+    /**
+     * runComposerCleanInstall
+     */
+    public function runComposerCleanInstall()
+    {
+        try {
+            $composer = call_user_func('October\Rain\Composer\Manager::instance');
+            $composer->setOutputBuffer();
+            $composer->update();
+        }
+        catch (Exception $ex) {
+            $this->log($composer->getOutputBuffer());
+            throw $ex;
+        }
+    }
+
+    /**
+     * isCleanInstall
+     */
+    protected function isCleanInstall()
+    {
+        return $this->post('is_clean_install') === 'true';
     }
 
     //
@@ -533,7 +557,11 @@ class Installer
     {
         if (array_key_exists($var, $_REQUEST)) {
             $result = $_REQUEST[$var];
-            if (is_string($result)) $result = trim($result);
+
+            if (is_string($result)) {
+                $result = trim($result);
+            }
+
             return $result;
         }
 
