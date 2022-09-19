@@ -175,7 +175,7 @@ trait InstallerHandlers
             case 'cleanInstall':
                 $this->moveHtaccess(null, 'installer');
                 $this->moveHtaccess('october', null);
-                // $this->cleanUp();
+                $this->cleanUp();
                 break;
         }
 
