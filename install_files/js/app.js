@@ -111,27 +111,31 @@ Installer.setLoadingBar = function(state, message) {
 Installer.renderLangMessages = function(container) {
     // Render language string
     $('[data-lang]', container).each(function() {
-        // Make JS lang key
-        var activeLocale = installerLang[Installer.Locale] ? Installer.Locale : 'en',
-            langKey = $(this).attr('data-lang') ? $(this).attr('data-lang') : $(this).text();
-
-        // Access dot notation
-        var langValue = langKey.split('.').reduce(function(a, b) {
-            return a[b] ? a[b] : '';
-        }, installerLang[activeLocale]);
-
-        if (!langValue) {
-            langValue = langKey.split('.').reduce(function(a, b) {
-                return a[b] ? a[b] : '';
-            }, installerLang['en']);
-        }
-
-        if (langValue) {
-            $(this).text(langValue);
-        }
-
+        var langKey = $(this).attr('data-lang') ? $(this).attr('data-lang') : $(this).text();
+        $(this).text(Installer.getLang(langKey));
         $(this).attr('data-lang', langKey);
     });
+}
+
+Installer.getLang = function(langKey) {
+    var activeLocale = installerLang[Installer.Locale] ? Installer.Locale : 'en';
+
+    // Access dot notation
+    var langValue = langKey.split('.').reduce(function(a, b) {
+        return a[b] ? a[b] : '';
+    }, installerLang[activeLocale]);
+
+    if (!langValue) {
+        langValue = langKey.split('.').reduce(function(a, b) {
+            return a[b] ? a[b] : '';
+        }, installerLang['en']);
+    }
+
+    if (!langValue) {
+        return langKey;
+    }
+
+    return langValue;
 }
 
 $.fn.extend({

@@ -5,10 +5,10 @@ Installer.Pages.systemCheck.title = 'webinstaller.system_check';
 Installer.Pages.systemCheck.nextButton = 'webinstaller.agree_continue';
 
 Installer.Pages.systemCheck.requirements = [
-    { code: 'phpVersion', label: 'PHP version 8.0.0 or greater required' },
-    { code: 'phpExtensions', label: 'Required PHP Extensions', subreason: 'The [%s] PHP extensions are required.' },
-    { code: 'liveConnection', label: 'Test connection to the installation server', reason: 'Check that your server can make outgoing connections to gateway.octobercms.com.' },
-    { code: 'writePermission', label: 'Permission to write to directories and files', reason: 'The installer was unable to write to the installation directories and files.' },
+    { code: 'phpVersion', label: 'webinstaller.require_php_version' },
+    { code: 'phpExtensions', label: 'webinstaller.require_php_extensions', subreason: 'webinstaller.require_php_extensions_subreason' },
+    { code: 'liveConnection', label: 'webinstaller.require_test_connection', reason: 'webinstaller.require_test_connection_reason' },
+    { code: 'writePermission', label: 'webinstaller.require_write_permissions', reason: 'webinstaller.require_write_permissions_reason' },
 ];
 
 Installer.Pages.systemCheck.init = function() {
@@ -29,9 +29,14 @@ Installer.Pages.systemCheck.init = function() {
         eventChain.push(function(){
             var deferred = $.Deferred();
 
-            var item = $('<li />').addClass('animated-content move_right').text(requirement.label)
-            item.addClass('load animate fade_in')
-            checkList.append(item)
+            var requireLabel = Installer.getLang(requirement.label);
+            if (requirement.code === 'phpVersion') {
+                requireLabel = requireLabel.replace('%s', installerPhpVersion);
+            }
+
+            var item = $('<li />').addClass('animated-content move_right').text(requireLabel);
+            item.addClass('load animate fade_in');
+            checkList.append(item);
 
             $.sendRequest('onCheckRequirement', { code: requirement.code }, { loadingIndicator: false })
                 .done(function(data) {
@@ -45,10 +50,10 @@ Installer.Pages.systemCheck.init = function() {
                             success = false;
                             failCodes.push(requirement.code);
                             if (data.subChecks && requirement.subreason) {
-                                failReasons.push(requirement.subreason.replace('%s', data.subChecks.join(', ')));
+                                failReasons.push(Installer.getLang(requirement.subreason).replace('%s', data.subChecks.join(', ')));
                             }
                             if (requirement.reason) {
-                                failReasons.push(requirement.reason);
+                                failReasons.push(Installer.getLang(requirement.reason));
                             }
                             item.removeClass('load').addClass('fail');
                             deferred.resolve();

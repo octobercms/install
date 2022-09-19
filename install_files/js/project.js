@@ -2,8 +2,8 @@
  * Packages & Install (Step 3)
  */
 
-Installer.Pages.projectForm.title = 'License Details';
-Installer.Pages.projectForm.nextButton = 'Install!';
+Installer.Pages.projectForm.title = 'webinstaller.license_details';
+Installer.Pages.projectForm.nextButton = 'webinstaller.install_button';
 
 Installer.Pages.projectForm.init = function() {
     var projectForm = $('#projectForm').addClass('animate fade_in');

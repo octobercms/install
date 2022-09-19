@@ -14,7 +14,7 @@
 
         <!-- Base URL -->
         <?php if (!isset($fatalError)): ?>
-            <script> var installerBaseUrl = '<?= $installer->getBaseUrl() ?>'; </script>
+            <script> var installerBaseUrl = '<?= $installer->getBaseUrl() ?>'; var installerPhpVersion = '<?= WANT_OCTOBER_VERSION ?>'; </script>
         <?php endif ?>
     </head>
     <body class="js">
@@ -101,7 +101,7 @@
             <script>
                 var installerLang = {
                     <?php foreach ($langList as $key => $file): ?>
-                        <?php $messages = include 'install_files/php/lang/'.$file.'.php'; ?>
+                        <?php $messages = include 'install_files/lang/'.$file.'.php'; ?>
                         "<?= $file ?>": <?= json_encode($messages) ?><?= $key === $lastLangKey ? '' : ',' ?>
                     <?php endforeach ?>
                 };
