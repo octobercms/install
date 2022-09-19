@@ -67,7 +67,7 @@ class Installer
      */
     public function getUpdateWantVersion()
     {
-        return '^'.WANT_OCTOBER_VERSION;
+        return WANT_OCTOBER_VERSION;
     }
 
     /**
