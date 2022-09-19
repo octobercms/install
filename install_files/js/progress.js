@@ -179,7 +179,8 @@ Installer.Pages.installProgress.execStep.setupConfig = function(step) {
 
 Installer.Pages.installProgress.execStep.migrateDatabase = function(step) {
     return function() {
-        return Installer.Pages.installProgress.execDefaultStep(step, { extraData: Installer.Data.config });
+        var data = $.extend(true, {}, Installer.Data.config, { is_clean_install: !Installer.Data.project });
+        return Installer.Pages.installProgress.execDefaultStep(step, { extraData: data });
     }
 }
 
@@ -192,7 +193,8 @@ Installer.Pages.installProgress.execStep.setupProject = function(step) {
 
 Installer.Pages.installProgress.execStep.composerInstall = function(step) {
     return function() {
-        return Installer.Pages.installProgress.execDefaultStep(step, { extraData: Installer.Data.meta.core });
+        var data = $.extend(true, {}, Installer.Data.meta.core, { is_clean_install: !Installer.Data.project });
+        return Installer.Pages.installProgress.execDefaultStep(step, { extraData: data });
     }
 }
 

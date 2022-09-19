@@ -184,6 +184,6 @@ trait InstallerHandlers
             $this->log('Step %s +OK', $installStep);
         }
 
-        return array('result' => $result);
+        return ['result' => $result];
     }
 }

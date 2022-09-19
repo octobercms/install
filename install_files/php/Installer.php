@@ -174,6 +174,10 @@ class Installer
      */
     protected function migrateDatabase()
     {
+        if ($this->post('is_clean_install')) {
+            return;
+        }
+
         $updater = call_user_func('System\Classes\UpdateManager::instance');
         $updater->update();
         $updater->setBuildNumberManually();
@@ -184,8 +188,21 @@ class Installer
      */
     public function runComposerInstall()
     {
-        $composer = call_user_func('October\Rain\Composer\Manager::instance');
-        $composer->require(['october/all' => $this->getUpdateWantVersion()]);
+        try {
+            $composer = call_user_func('October\Rain\Composer\Manager::instance');
+            $composer->setOutputBuffer();
+
+            if ($this->post('is_clean_install')) {
+                $composer->update();
+            }
+            else {
+                $composer->require(['october/all' => $this->getUpdateWantVersion()]);
+            }
+        }
+        catch (Exception $ex) {
+            $this->log($composer->getOutputBuffer());
+            throw $ex;
+        }
     }
 
     //
@@ -198,13 +215,18 @@ class Installer
     protected function moveHtaccess($old = null, $new = null)
     {
         $oldFile = $this->baseDirectory . '/.htaccess';
-        if ($old) $oldFile .= '.' . $old;
+        if ($old) {
+            $oldFile .= '.' . $old;
+        }
 
         $newFile = $this->baseDirectory . '/.htaccess';
-        if ($new) $newFile .= '.' . $new;
+        if ($new) {
+            $newFile .= '.' . $new;
+        }
 
-        if (file_exists($oldFile))
+        if (file_exists($oldFile)) {
             rename($oldFile, $newFile);
+        }
     }
 
     /**
