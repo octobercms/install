@@ -14,7 +14,7 @@
 
         <!-- Base URL -->
         <?php if (!isset($fatalError)): ?>
-            <script> var installerBaseUrl = '<?= $installer->getBaseUrl() ?>'; var installerPhpVersion = '<?= WANT_OCTOBER_VERSION ?>'; </script>
+            <script> var installerBaseUrl = '<?= $installer->getBaseUrl() ?>'; var installerPhpVersion = '<?= REQUIRED_PHP_VERSION ?>'; </script>
         <?php endif ?>
     </head>
     <body class="js">
@@ -87,6 +87,7 @@
             <?php
                 $langList = [
                     'en',
+                    'de',
                     'fi',
                     'fr',
                     'hu',
