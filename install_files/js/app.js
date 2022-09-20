@@ -9,6 +9,7 @@ $(document).ready(function(){
 
 var Installer = {
     ActivePage: 'langPicker',
+    PageLocked: false,
     Pages: {
         langPicker:      { isStep0: true, body: 'lang' },
         systemCheck:     { isStep1: true, body: 'check' },
@@ -61,15 +62,16 @@ Installer.showPage = function(pageId, noPush) {
     $('#containerTitle').renderPartial('title', page).find('.steps > .last.pass:first').addClass('animate fade_in');
     $('#containerFooter').renderPartial('footer', page);
 
-    /*
-     * Check if the content container exists already, if not, create it
-     */
+    // Check if the content container exists already, if not, create it
     var pageContainer = $('#containerBody').find('.pageContainer-' + pageId);
     if (!pageContainer.length) {
         pageContainer = $('<div />').addClass('pageContainer-' + pageId);
         pageContainer.renderPartial(page.body, page);
         $('#containerBody').append(pageContainer);
         page.init && page.init();
+    }
+    else {
+        page.reinit && page.reinit();
     }
 
     pageContainer.show().siblings().hide();
@@ -91,20 +93,20 @@ Installer.setLoadingBar = function(state, message) {
         progressBarMessage.text(message);
     }
 
-    progressBar.removeClass('progress-bar-danger')
-    progressBarContainer.removeClass('failed')
+    progressBar.removeClass('progress-bar-danger');
+    progressBarContainer.removeClass('failed');
 
     if (state == 'failed') {
-        progressBar.addClass('progress-bar-danger').removeClass('animate infinite_loader')
-        progressBarContainer.addClass('failed')
+        progressBar.addClass('progress-bar-danger').removeClass('animate infinite_loader');
+        progressBarContainer.addClass('failed');
     }
     else if (state) {
-        progressBarContainer.addClass('loading').removeClass('loaded')
-        progressBar.addClass('animate infinite_loader')
+        progressBarContainer.addClass('loading').removeClass('loaded');
+        progressBar.addClass('animate infinite_loader');
     }
     else {
-        progressBarContainer.addClass('loaded').removeClass('loading')
-        progressBar.removeClass('animate infinite_loader')
+        progressBarContainer.addClass('loaded').removeClass('loading');
+        progressBar.removeClass('animate infinite_loader');
     }
 }
 
@@ -221,7 +223,7 @@ $.extend({
 
 window.onpopstate = function(event) {
     // If progress page has rendered, disable navigation
-    if (Installer.Pages.installProgress.isRendered) {
+    if (Installer.PageLocked) {
         // Do nothing
     }
     // Navigate back/foward through a known push state

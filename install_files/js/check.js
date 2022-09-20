@@ -11,6 +11,10 @@ Installer.Pages.systemCheck.requirements = [
     { code: 'writePermission', label: 'webinstaller.require_write_permissions', reason: 'webinstaller.require_write_permissions_reason' },
 ];
 
+Installer.Pages.systemCheck.reinit = function() {
+    Installer.Pages.systemCheck.retry();
+}
+
 Installer.Pages.systemCheck.init = function() {
     var checkList = $('#systemCheckList'),
         appEula = $('#appEula').hide(),
@@ -21,10 +25,11 @@ Installer.Pages.systemCheck.init = function() {
         failReasons = [],
         success = true;
 
-    /*
-     * Loops each requirement, posts it back and processes the result
-     * as part of a waterfall
-     */
+    // Lock navigation
+    Installer.PageLocked = true;
+
+    // Loops each requirement, posts it back and processes the result
+    // as part of a waterfall
     $.each(this.requirements, function(index, requirement){
         eventChain.push(function(){
             var deferred = $.Deferred();
@@ -81,17 +86,20 @@ Installer.Pages.systemCheck.init = function() {
     /*
      * Handle the waterfall result
      */
-    $.waterfall.apply(this, eventChain).done(function(){
+    $.waterfall.apply(this, eventChain).done(function() {
         if (!success) {
             // Specific reasons are not currently being used.
             systemCheckFailed.show().addClass('animate fade_in');
             systemCheckFailed.renderPartial('check/fail', { code: failCodes.join(', '), reason: failReasons.join(', ') });
-        } else {
+        }
+        else {
             // Success
             appEula.show().addClass('animate fade_in');
             nextButton.removeClass('disabled');
         }
-    })
+    }).always(function() {
+        Installer.PageLocked = false;
+    });
 }
 
 Installer.Pages.systemCheck.next = function() {
@@ -100,6 +108,6 @@ Installer.Pages.systemCheck.next = function() {
 
 Installer.Pages.systemCheck.retry = function() {
     var self = Installer.Pages.systemCheck;
-    $('#containerBody').html('').renderPartial('check', self);
+    $('#systemCheckList').html('');
     self.init();
 }

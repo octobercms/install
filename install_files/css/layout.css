@@ -70,6 +70,13 @@ label {
     margin-left: -5px;
 
 }
+.form-control-prefix.is-url-prefix .prefix {
+    text-align: right;
+    word-break: break-all;
+}
+.form-control-prefix.is-url-prefix .form-control {
+    width: auto;
+}
 .radio-group {
     padding-top: 7px;
 }

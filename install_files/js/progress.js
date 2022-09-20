@@ -24,6 +24,9 @@ Installer.Pages.installProgress.init = function() {
         eventChain = self.spoolStep(step, eventChain);
     });
 
+    // Lock navigation, forever
+    Installer.PageLocked = true;
+
     self.run(eventChain);
 }
 
@@ -51,13 +54,15 @@ Installer.Pages.installProgress.retry = function() {
 Installer.Pages.installProgress.run = function(eventChain) {
     var installProgressFailed = $('#installProgressFailed').hide();
 
-    $.waterfall.apply(this, eventChain).done(function() {
-        Installer.showPage('installComplete');
-    }).fail(function(reason){
-        Installer.setLoadingBar('failed');
-        installProgressFailed.show().addClass('animate fade_in');
-        installProgressFailed.renderPartial('progress/fail', { reason: reason });
-    });
+    $.waterfall.apply(this, eventChain)
+        .done(function() {
+            Installer.showPage('installComplete');
+        })
+        .fail(function(reason){
+            Installer.setLoadingBar('failed');
+            installProgressFailed.show().addClass('animate fade_in');
+            installProgressFailed.renderPartial('progress/fail', { reason: reason });
+        });
 }
 
 Installer.Pages.installProgress.spoolStep = function(step, eventChain) {
@@ -137,7 +142,7 @@ Installer.Pages.installProgress.execIterationStep = function(step, handlerCode, 
         });
     });
 
-    return eventChain
+    return eventChain;
 }
 
 /*
@@ -147,7 +152,7 @@ Installer.Pages.installProgress.execIterationStep = function(step, handlerCode, 
  * that each return a deferred object
  */
 
-Installer.Pages.installProgress.execStep = {}
+Installer.Pages.installProgress.execStep = {};
 
 Installer.Pages.installProgress.execStep.getMetaData = function(step) {
     return function() {
