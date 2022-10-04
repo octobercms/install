@@ -394,9 +394,14 @@ class Installer
             throw new Exception('Unable to find app loader: ~/bootstrap/app.php');
         }
 
-        $app = require_once $appFile;
-        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
-        $kernel->bootstrap();
+        try {
+            $app = require_once $appFile;
+            $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
+            $kernel->bootstrap();
+        }
+        catch (Error) {
+            throw new Exception('PHP Error: ' . $ex->getMessage());
+        }
     }
 
     /**

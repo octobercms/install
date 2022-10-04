@@ -133,9 +133,9 @@ Installer.Pages.installProgress.timeoutRejection = function(deferred) {
     });
 
     deferred.reject(
-        Installer.getLang('installer.operation_timeout_comment')
-        + '<br/><br/>'
-        + Installer.getLang('installer.operation_timeout_hint').replace(':name', webserverHints)
+        Installer.getLang('installer.operation_timeout_comment') +
+        '<br/><br/>' +
+        Installer.getLang('installer.operation_timeout_hint').replace(':name', webserverHints)
     );
 }
 
