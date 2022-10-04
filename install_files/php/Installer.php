@@ -197,7 +197,10 @@ class Installer
         try {
             $composer = call_user_func('October\Rain\Composer\Manager::instance');
             $composer->setOutputBuffer();
-            $composer->require(['october/all' => $this->getUpdateWantVersion()]);
+            $composer->require([
+                'october/rain' => $this->getUpdateWantVersion(),
+                'october/all' => $this->getUpdateWantVersion()
+            ]);
         }
         catch (Exception $ex) {
             $this->log($composer->getOutputBuffer());
