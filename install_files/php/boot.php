@@ -3,10 +3,11 @@
 /*
  * Required PHP version for October CMS
  */
-define('REQUIRED_PHP_VERSION', '7.2.9');
+define('REQUIRED_PHP_VERSION', '8.0.0');
+define('WANT_OCTOBER_VERSION', '^3.0');
 
 if (version_compare(trim(strtolower(PHP_VERSION)), REQUIRED_PHP_VERSION, '<')) {
-    exit('PHP version 7.2.9 or above is required to install October CMS.');
+    exit('PHP version 8.0.0 or above is required to install October CMS.');
 }
 
 /*
@@ -43,7 +44,7 @@ else {
  * Constants
  */
 define('PATH_INSTALL', str_replace("\\", "/", realpath(dirname(__FILE__)."/../../")));
-define('OCTOBER_GATEWAY', 'http://gateway.octobercms.com/api');
+define('OCTOBER_GATEWAY', 'https://gateway.octobercms.com/api');
 
 /*
  * Address timeout limits
@@ -78,7 +79,8 @@ function installerShutdown()
  * Bootstrap the installer
  */
 require_once 'InstallerException.php';
-require_once 'InstallerRewrite.php';
+require_once 'InstallerHandlers.php';
+require_once 'InstallerSetup.php';
 require_once 'Installer.php';
 
 try {

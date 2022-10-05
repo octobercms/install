@@ -3,19 +3,22 @@
  */
 
 $(document).ready(function(){
-    Installer.Pages.systemCheck.isRendered = true
-    Installer.showPage(Installer.ActivePage, true)
-})
+    Installer.Pages.langPicker.isRendered = true;
+    Installer.showPage(Installer.ActivePage, true);
+});
 
 var Installer = {
-    ActivePage: 'systemCheck',
+    ActivePage: 'langPicker',
+    PageLocked: false,
     Pages: {
+        langPicker:      { isStep0: true, body: 'lang' },
         systemCheck:     { isStep1: true, body: 'check' },
         configForm:      { isStep2: true, body: 'config' },
         projectForm:     { isStep3: true, body: 'project' },
         installProgress: { isStep4: true, body: 'progress' },
         installComplete: { isStep5: true, body: 'complete' }
     },
+    Locale: 'en',
     ActiveSection: null,
     Sections: {},
     Events: {},
@@ -37,239 +40,153 @@ Installer.Events.retry = function() {
 
 Installer.Events.next = function() {
     var nextButton = $('#nextButton')
-    if (nextButton.hasClass('disabled'))
-        return
+    if (nextButton.hasClass('disabled')) {
+        return;
+    }
 
-    var pageEvent = Installer.Pages[Installer.ActivePage].next
-    pageEvent && pageEvent()
+    var pageEvent = Installer.Pages[Installer.ActivePage].next;
+    pageEvent && pageEvent();
 }
 
 Installer.showPage = function(pageId, noPush) {
-    $('html, body').scrollTop(0)
+    $('html, body').scrollTop(0);
     var page = Installer.Pages[pageId],
-        oldPage = (pageId != Installer.ActivePage) ? Installer.Pages[Installer.ActivePage] : null
+        oldPage = (pageId != Installer.ActivePage) ? Installer.Pages[Installer.ActivePage] : null;
 
-    /*
-     * Page events
-     */
-    oldPage && oldPage.beforeUnload && oldPage.beforeUnload()
+    // Page events
+    oldPage && oldPage.beforeUnload && oldPage.beforeUnload();
+    Installer.ActivePage = pageId;
+    page.beforeShow && page.beforeShow();
 
-    Installer.ActivePage = pageId
+    $('#containerHeader').renderPartial('header', page);
+    $('#containerTitle').renderPartial('title', page).find('.steps > .last.pass:first').addClass('animate fade_in');
+    $('#containerFooter').renderPartial('footer', page);
 
-    page.beforeShow && page.beforeShow()
-
-    $('#containerHeader').renderPartial('header', page)
-    $('#containerTitle').renderPartial('title', page).find('.steps > .last.pass:first').addClass('animate fade_in')
-    $('#containerFooter').renderPartial('footer', page)
-
-    /*
-     * Check if the content container exists already, if not, create it
-     */
+    // Check if the content container exists already, if not, create it
     var pageContainer = $('#containerBody').find('.pageContainer-' + pageId);
     if (!pageContainer.length) {
         pageContainer = $('<div />').addClass('pageContainer-' + pageId);
-        pageContainer.renderPartial(page.body, page)
+        pageContainer.renderPartial(page.body, page);
         $('#containerBody').append(pageContainer);
-        page.init && page.init()
+        page.init && page.init();
+    }
+    else {
+        page.reinit && page.reinit();
     }
 
     pageContainer.show().siblings().hide();
+    Installer.renderLangMessages(pageContainer);
 
     // New page, add it to the history
     if (history.pushState && !noPush) {
-        window.history.pushState({page:pageId}, '', window.location.pathname)
-        page.isRendered = true
+        window.history.pushState({ page: pageId }, '', window.location.pathname);
+        page.isRendered = true;
     }
 }
 
 Installer.setLoadingBar = function(state, message) {
-
     var progressBarContainer = $('#progressBar'),
         progressBar = $('#progressBar .progress-bar:first'),
-        progressBarMessage = $('#progressBarMessage')
+        progressBarMessage = $('#progressBarMessage');
 
-    if (message)
-        progressBarMessage.text(message)
+    if (message) {
+        progressBarMessage.text(message);
+    }
 
-    progressBar.removeClass('progress-bar-danger')
-    progressBarContainer.removeClass('failed')
+    progressBar.removeClass('progress-bar-danger');
+    progressBarContainer.removeClass('failed');
 
     if (state == 'failed') {
-        progressBar.addClass('progress-bar-danger').removeClass('animate infinite_loader')
-        progressBarContainer.addClass('failed')
+        progressBar.addClass('progress-bar-danger').removeClass('animate infinite_loader');
+        progressBarContainer.addClass('failed');
     }
     else if (state) {
-        progressBarContainer.addClass('loading').removeClass('loaded')
-        progressBar.addClass('animate infinite_loader')
+        progressBarContainer.addClass('loading').removeClass('loaded');
+        progressBar.addClass('animate infinite_loader');
     }
     else {
-        progressBarContainer.addClass('loaded').removeClass('loading')
-        progressBar.removeClass('animate infinite_loader')
+        progressBarContainer.addClass('loaded').removeClass('loading');
+        progressBar.removeClass('animate infinite_loader');
     }
 }
 
-Installer.renderSections = function(sections, vars) {
-    Installer.Sections = sections
-
-    $.each(sections, function(index, section){
-        Installer.renderSection(section, vars)
-    })
-
-    Installer.showSection(sections[0].code)
+Installer.renderLangMessages = function(container) {
+    // Render language string
+    $('[data-lang]', container).each(function() {
+        var langKey = $(this).attr('data-lang') ? $(this).attr('data-lang') : $(this).text();
+        $(this).text(Installer.getLang(langKey));
+        $(this).attr('data-lang', langKey);
+    });
 }
 
-Installer.refreshSections = function(vars) {
-    var stepContainer = $('#' + Installer.ActivePage)
+Installer.getLang = function(langKey) {
+    var activeLocale = installerLang[Installer.Locale] ? Installer.Locale : 'en';
 
-    stepContainer.find('.section-area').remove()
-    stepContainer.find('.section-side-nav:first').empty()
+    // Access dot notation
+    var langValue = langKey.split('.').reduce(function(a, b) {
+        return a[b] ? a[b] : '';
+    }, installerLang[activeLocale]);
 
-    $.each(Installer.Sections, function(index, section){
-        Installer.renderSection(section, vars)
-    })
-
-    Installer.showSection(Installer.Sections[0].code)
-}
-
-Installer.renderSection = function(section, vars) {
-    var sectionElement = $('<div />').addClass('section-area').attr('data-section-code', section.code),
-        stepContainer = $('#' + Installer.ActivePage),
-        container = stepContainer.find('.section-content:first')
-
-    if (!section.category) section.category = "NULL"
-
-    sectionElement
-        .renderPartial(section.partial, vars)
-        .prepend($('<h3 />').text(section.label))
-        .hide()
-        .appendTo(container)
-
-    /*
-     * Side navigation
-     */
-    var sideNav = stepContainer.find('.section-side-nav:first'),
-        menuItem = $('<li />').attr('data-section-code', section.code),
-        menuItemLink = $('<a />').attr({ href: "javascript:Installer.showSection('"+section.code+"')"}).text(section.label),
-        sideNavCategory = sideNav.find('[data-section-category="'+section.category+'"]:first')
-
-    if (sideNavCategory.length == 0) {
-        sideNavCategory = $('<ul />').addClass('nav').attr('data-section-category', section.category)
-        sideNavCategoryTitle = $('<h3 />').text(section.category)
-        if (section.category == "NULL") sideNavCategoryTitle.text('')
-        sideNav.append(sideNavCategoryTitle).append(sideNavCategory)
+    if (!langValue) {
+        langValue = langKey.split('.').reduce(function(a, b) {
+            return a[b] ? a[b] : '';
+        }, installerLang['en']);
     }
 
-    sideNavCategory.append(menuItem.append(menuItemLink))
-}
-
-Installer.renderSectionNav = function() {
-    var
-        stepContainer = $('#' + Installer.ActivePage),
-        pageNav = stepContainer.find('.section-page-nav:first').empty(),
-        sections = Installer.Sections
-
-    $.each(sections, function(index, section){
-        if (section.code == Installer.ActiveSection) {
-
-            var nextStep = sections[index+1] ? sections[index+1] : null,
-                lastStep = sections[index-1] ? sections[index-1] : null
-
-            if (lastStep && Installer.isSectionVisible(lastStep.code)) {
-                $('<a />')
-                    .text(lastStep.label)
-                    .addClass('btn btn-default prev')
-                    .attr('href', "javascript:Installer.showSection('"+lastStep.code+"')")
-                    .appendTo(pageNav)
-            }
-
-            if (nextStep && Installer.isSectionVisible(nextStep.code)) {
-                $('<a />')
-                    .text(nextStep.label)
-                    .addClass('btn btn-default next')
-                    .attr('href', "javascript:Installer.showSection('"+nextStep.code+"')")
-                    .appendTo(pageNav)
-            }
-
-            return false
-        }
-    })
-}
-
-Installer.showSection = function(code) {
-    var
-        stepContainer = $('#' + Installer.ActivePage),
-        sideNav = stepContainer.find('.section-side-nav:first'),
-        menuItem = sideNav.find('[data-section-code="'+code+'"]:first'),
-        container = stepContainer.find('.section-content:first'),
-        sectionElement = container.find('[data-section-code="'+code+'"]:first')
-
-    sideNav.find('li.active').removeClass('active')
-    menuItem.addClass('active')
-    sectionElement.show().siblings().hide()
-
-    Installer.ActiveSection = code
-    Installer.renderSectionNav()
-}
-
-Installer.toggleSection = function(code, state) {
-    var
-        stepContainer = $('#' + Installer.ActivePage),
-        sideNav = stepContainer.find('.section-side-nav:first'),
-        menuItem = sideNav.find('[data-section-code="'+code+'"]:first'),
-        container = stepContainer.find('.section-content:first'),
-        sectionElement = container.find('[data-section-code="'+code+'"]:first')
-
-    if (state) {
-        menuItem.show()
-        sectionElement.show()
+    if (!langValue) {
+        return langKey;
     }
-    else {
-        menuItem.hide()
-        sectionElement.hide()
-    }
-}
 
-Installer.isSectionVisible = function(code) {
-    return $('#' + Installer.ActivePage + ' [data-section-code="'+code+'"]:first').is(':visible')
+    return langValue;
 }
 
 $.fn.extend({
     renderPartial: function(name, data, options) {
         var container = $(this),
             template = $('[data-partial="' + name + '"]'),
-            contents = Mustache.to_html(template.html(), data)
+            contents = Mustache.to_html(template.html(), data);
 
         options = $.extend(true, {
             append: false
-        }, options)
+        }, options);
 
-        if (options.append) container.append(contents)
-        else container.html(contents)
-        return this
+        if (options.append) {
+            container.append(contents);
+        }
+        else {
+            container.html(contents);
+        }
+
+        Installer.renderLangMessages(container);
+
+        return this;
     },
 
     sendRequest: function(handler, data, options) {
         var form = $(this),
             postData = form.serializeObject(),
             controlPanel = $('#formControlPanel'),
-            nextButton = $('#nextButton')
+            nextButton = $('#nextButton');
 
         options = $.extend(true, {
             loadingIndicator: true
-        }, options)
+        }, options);
 
         if (options.loadingIndicator) {
-            nextButton.attr('disabled', true)
-            controlPanel.addClass('loading')
+            nextButton.attr('disabled', true);
+            controlPanel.addClass('loading');
         }
 
-        if (!data)
-            data = {handler: handler}
-        else
-            data.handler = handler
+        if (!data) {
+            data = { handler: handler };
+        }
+        else {
+            data.handler = handler;
+        }
 
-        if (data)
-            $.extend(postData, data)
+        if (data) {
+            $.extend(postData, data);
+        }
 
         var postObj = $.post(window.location.pathname, postData)
         postObj.always(function(){
@@ -300,24 +217,25 @@ $.fn.extend({
 
 $.extend({
     sendRequest: function(handler, data, options) {
-        return $('<form />').sendRequest(handler, data, options)
+        return $('<form />').sendRequest(handler, data, options);
     }
 })
 
 window.onpopstate = function(event) {
     // If progress page has rendered, disable navigation
-    if (Installer.Pages.installProgress.isRendered) {
+    if (Installer.PageLocked) {
         // Do nothing
     }
     // Navigate back/foward through a known push state
     else if (event.state) {
         // Only allow navigation to previously rendered pages
         var noPop = (!Installer.Pages[event.state.page].isRendered || Installer.ActivePage == event.state.page)
-        if (!noPop)
-            Installer.showPage(event.state.page, true)
+        if (!noPop) {
+            Installer.showPage(event.state.page, true);
+        }
     }
     // Otherwise show the first page, if not already on it
-    else if (Installer.ActivePage != 'systemCheck') {
-        Installer.showPage('systemCheck', true)
+    else if (Installer.ActivePage != 'langPicker') {
+        Installer.showPage('langPicker', true);
     }
 }

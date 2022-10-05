@@ -1,29 +1,31 @@
-<!-- Success alert -->
-<p class="lead text-success with-tick">Installation has been successfully completed</p>
+<div class="cloud-content">
+    <!-- Success alert -->
+    <p class="lead text-success with-tick">Installation has been successfully completed</p>
 
-<!-- Application information -->
-<div class="row">
-    <div class="col-md-6">
-        <h4>Website address</h4>
-        <p>Your website is located at this URL:</p>
-        <p>&bull; <a target="_blank" href="{{baseUrl}}">{{baseUrl}}</a></p>
+    <!-- Application information -->
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Website Address</h4>
+            <p>Your website is located at this URL:</p>
+            <p><a class="btn btn-default" target="_blank" href="{{baseUrl}}">{{baseUrl}}</a></p>
+        </div>
+
+        <div class="col-md-6">
+            <h4>Administration Panel</h4>
+            <p>Use the following link to access the admin panel:</p>
+            <p><a class="btn btn-default" target="_blank" href="{{backendUrl}}">{{backendUrl}}</a></p>
+        </div>
     </div>
 
-    <div class="col-md-6">
-        <h4>Administration Area</h4>
-        <p>Use the following link to log into the administration area:</p>
-        <p>&bull; <a target="_blank" href="{{backendUrl}}">{{backendUrl}}</a></p>
+    <br />
+
+    <!-- Post-install configuration-->
+    <div>
+        <h4>Post-install Configuration</h4>
+        <p>
+            Now that we're done, there a few things you may want to address for the smooth operation of your site. Please review the
+            <a href="https://docs.octobercms.com/3.x/setup/configuration.html" target="_blank">installation help guide</a>
+            for further instructions.
+        </p>
     </div>
-</div>
-
-<br />
-
-<!-- Post-install configuration-->
-<div>
-    <h4>Post-install configuration</h4>
-    <p>
-        Now that we're done, there a few things you may want to address for the smooth operation of your site. Please review the
-        <a href="http://octobercms.com/docs/setup/installation#post-install-steps" target="_blank">installation help guide</a>
-        for further instructions.
-    </p>
 </div>
