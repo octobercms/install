@@ -111,7 +111,7 @@ class Installer
             $this->setEnvVars([
                 'APP_KEY' => $this->getRandomKey(),
                 'APP_LOCALE' => $this->post('locale', 'xx'),
-                'BACKEND_URI' => $this->post('backend_uri', '/backend'),
+                'BACKEND_URI' => $this->post('backend_uri', '/admin'),
                 'APP_URL' => $this->getBaseUrl(),
                 'DB_CONNECTION' => $dbType,
                 'DB_DATABASE' => $dbName,
@@ -121,7 +121,7 @@ class Installer
             $this->setEnvVars([
                 'APP_KEY' => $this->getRandomKey(),
                 'APP_LOCALE' => $this->post('locale', 'xx'),
-                'BACKEND_URI' => $this->post('backend_uri', '/backend'),
+                'BACKEND_URI' => $this->post('backend_uri', '/admin'),
                 'APP_URL' => $this->getBaseUrl(),
                 'DB_CONNECTION' => $dbType,
                 'DB_HOST' => $this->post('db_host'),
