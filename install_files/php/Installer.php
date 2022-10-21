@@ -197,7 +197,6 @@ class Installer
         }
         catch (Exception $ex) {
             $this->log($composer->getOutputBuffer());
-            throw $ex;
         }
     }
 
