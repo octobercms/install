@@ -8,7 +8,8 @@ Installer.Pages.installProgress.steps = [
     { code: 'extractCore', label: 'Unpacking application files' },
     { code: 'setupConfig', label: 'Building configuration files' },
     { code: 'setupProject', label: 'Setting website project' },
-    { code: 'composerInstall', label: 'Installing composer dependencies' },
+    { code: 'composerUpdate', label: 'Updating package manager' },
+    { code: 'composerInstall', label: 'Installing application files' },
     { code: 'migrateDatabase', label: 'Migrating database' },
     { code: 'cleanInstall', label: 'Clean installation files' }
 ]

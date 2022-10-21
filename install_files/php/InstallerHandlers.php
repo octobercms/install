@@ -162,6 +162,11 @@ trait InstallerHandlers
                 $this->setProjectDetails();
                 break;
 
+            case 'composerUpdate':
+                $this->bootFramework();
+                $this->runComposerUpdate();
+                break;
+
             case 'composerInstall':
                 $this->bootFramework();
                 $this->runComposerInstall();

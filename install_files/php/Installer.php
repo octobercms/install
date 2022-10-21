@@ -185,7 +185,24 @@ class Installer
     }
 
     /**
-     * composerInstall
+     * runComposerUpdate composer only
+     */
+    public function runComposerUpdate()
+    {
+        try {
+            $this->log('Updating package manager...');
+            $composer = call_user_func('October\Rain\Composer\Manager::instance');
+            $composer->setOutputBuffer();
+            $composer->update(['composer/composer']);
+        }
+        catch (Exception $ex) {
+            $this->log($composer->getOutputBuffer());
+            throw $ex;
+        }
+    }
+
+    /**
+     * composerInstall licensed packages
      */
     public function runComposerInstall()
     {
@@ -209,7 +226,7 @@ class Installer
     }
 
     /**
-     * runComposerCleanInstall
+     * runComposerCleanInstall without a license
      */
     public function runComposerCleanInstall()
     {
