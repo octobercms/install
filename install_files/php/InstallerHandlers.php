@@ -102,7 +102,19 @@ trait InstallerHandlers
      */
     protected function onProjectDetails()
     {
-        return $this->requestServerData('project/detail', ['id' => $this->post('project_id')]);
+        // Validate input with gateway
+        try {
+            $result = $this->requestServerData('project/detail', ['id' => $this->post('project_id')]);
+        }
+        catch (Exception $ex) {
+            throw new Exception("The supplied license key could not be found. Please visit octobercms.com to obtain a license.");
+        }
+
+        // Check project status
+        $isActive = $result['is_active'] ?? false;
+        if (!$isActive) {
+            throw new Exception("License is unpaid or has expired. Please visit octobercms.com to obtain a license.");
+        }
     }
 
     /**
