@@ -116,6 +116,8 @@ trait InstallerHandlers
         if (!$isActive) {
             throw new Exception("License is unpaid or has expired. Please visit octobercms.com to obtain a license.");
         }
+
+        return $result;
     }
 
     /**
