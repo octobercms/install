@@ -21,6 +21,7 @@ October CMS has a few system requirements:
 * ZipArchive PHP Extension
 * GD PHP Extension
 * SimpleXML PHP Extension
+* 128MB or more allocated memory
 
 ### OS Dependencies
 

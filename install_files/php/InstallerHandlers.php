@@ -15,16 +15,17 @@ trait InstallerHandlers
 
         if ($checkCode === 'phpExtensions') {
             $subChecks = array_keys(array_filter([
-                'mbstring' => extension_loaded('mbstring'),
-                'fileinfo' => extension_loaded('fileinfo'),
-                'openssl' => extension_loaded('openssl'),
-                'gd' => extension_loaded('gd'),
-                'filter' => extension_loaded('filter'),
-                'hash' => extension_loaded('hash'),
-                'pdo' => defined('PDO::ATTR_DRIVER_NAME'),
-                'zip' => class_exists('ZipArchive'),
-                'json' => function_exists('json_decode'),
-                'curl' => function_exists('curl_init') && defined('CURLOPT_FOLLOWLOCATION'),
+                'extension:mbstring' => extension_loaded('mbstring'),
+                'extension:fileinfo' => extension_loaded('fileinfo'),
+                'extension:openssl' => extension_loaded('openssl'),
+                'extension:gd' => extension_loaded('gd'),
+                'extension:filter' => extension_loaded('filter'),
+                'extension:hash' => extension_loaded('hash'),
+                'extension:pdo' => defined('PDO::ATTR_DRIVER_NAME'),
+                'extension:zip' => class_exists('ZipArchive'),
+                'extension:json' => function_exists('json_decode'),
+                'extension:curl' => function_exists('curl_init') && defined('CURLOPT_FOLLOWLOCATION'),
+                'memory_limit:128M' => !$this->checkMemoryLimit(128),
             ], function($v) { return !$v; }));
             $result = count($subChecks) === 0;
             $this->log('Requirement %s %s %s', $checkCode, print_r($subChecks, true), ($result ? '+OK' : '=FAIL'));

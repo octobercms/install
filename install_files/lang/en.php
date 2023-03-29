@@ -45,7 +45,7 @@
     'continue' => 'Continue',
     'require_php_version' => 'PHP version %s or greater required',
     'require_php_extensions' => 'Required PHP Extensions',
-    'require_php_extensions_subreason' => 'The [%s] PHP extensions are required.',
+    'require_php_extensions_subreason' => 'The PHP settings or extensions are required: [%s].',
     'require_test_connection' => 'Test connection to the installation server',
     'require_test_connection_reason' => 'Check that your server can make outgoing connections to gateway.octobercms.com.',
     'require_write_permissions' => 'Permission to write to directories and files',

@@ -324,6 +324,45 @@ trait InstallerSetup
         ];
     }
 
+    /**
+     * checkMemoryLimit checks if there is enough memory
+     */
+    protected function checkMemoryLimit(int $requiredMb)
+    {
+        $getRamInBytes = function() {
+            $size = ini_get('memory_limit');
+
+            if (!$size) {
+                return 0;
+            }
+
+            $size = strtolower($size);
+
+            $max = ltrim($size, '+');
+            if (str_starts_with($max, '0x')) {
+                $max = intval($max, 16);
+            }
+            elseif (str_starts_with($max, '0')) {
+                $max = intval($max, 8);
+            }
+            else {
+                $max = (int) $max;
+            }
+
+            // No breaks
+            switch (substr($size, -1)) {
+                case 't': $max *= 1024;
+                case 'g': $max *= 1024;
+                case 'm': $max *= 1024;
+                case 'k': $max *= 1024;
+            }
+
+            return $max;
+        };
+
+        return $getRamInBytes() < ($requiredMb * 1024 * 1024);
+    }
+
     //
     // Framework Booted
     //
