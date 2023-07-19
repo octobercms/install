@@ -418,7 +418,7 @@ class Installer
             $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
             $kernel->bootstrap();
         }
-        catch (Error) {
+        catch (Throwable $ex) {
             throw new Exception('PHP Error: ' . $ex->getMessage());
         }
     }
