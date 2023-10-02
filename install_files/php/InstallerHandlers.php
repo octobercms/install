@@ -73,7 +73,7 @@ trait InstallerHandlers
         );
 
         // Check the database is empty
-        $exptectedTablesAndViewsCount = 0;
+        $expectedTablesAndViewsCount = 0;
         if ($type == 'sqlite') {
             $fetch = $db->query("select name from sqlite_master where type='table'", PDO::FETCH_NUM);
         }
@@ -82,7 +82,7 @@ trait InstallerHandlers
         }
         elseif ($type === 'sqlsrv') {
             $fetch = $db->query("select [table_name] from information_schema.tables", PDO::FETCH_NUM);
-            $exptectedTablesAndViewsCount = 1;
+            $expectedTablesAndViewsCount = 1;
         }
         else {
             $fetch = $db->query('show tables', PDO::FETCH_NUM);
@@ -93,7 +93,7 @@ trait InstallerHandlers
             $tables++;
         }
 
-        if ($tables > $exptectedTablesAndViewsCount) {
+        if ($tables > $expectedTablesAndViewsCount) {
             throw new Exception(sprintf('Database "%s" is not empty. Please empty the database or specify another database.', $this->e($name)));
         }
     }

@@ -55,7 +55,7 @@ class Installer
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
                 $this->log('Handler error (%s): %s', $handler, $ex->getMessage());
                 $this->log(array('Trace log:', '%s'), $ex->getTraceAsString());
-                die($ex->getMessage());
+                die($this->e($ex->getMessage()));
             }
 
             exit;
