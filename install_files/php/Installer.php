@@ -633,6 +633,7 @@ class Installer
 
         // Remove installer files
         $this->recursiveRemove('install_files');
+        @unlink('Dockerfile');
         @unlink('install-master.zip');
         @unlink('install.php');
     }
