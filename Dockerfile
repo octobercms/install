@@ -5,7 +5,7 @@
 # Run:   docker run --rm -p 8080:80 myoctober:latest
 # Visit: http://localhost:8080/install.php
 #
-FROM php:8.2-apache
+FROM php:8.3-apache-bullseye
 LABEL maintainer="October CMS <hello@octobercms.com> (@octobercms)"
 
 # OS deps
@@ -56,7 +56,7 @@ RUN { \
 
 # PECL
 RUN pecl install apcu \
- && pecl install yaml-2.2.2 || pecl install yaml \
+ && pecl install yaml-2.2.4 || pecl install yaml \
  && docker-php-ext-enable apcu yaml
 
 # Apache
