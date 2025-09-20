@@ -9,6 +9,11 @@ class Installer
     use InstallerHandlers;
 
     /**
+     * @var string logFile path
+     */
+    protected $logFile;
+
+    /**
      * @var string baseDirectory contains the application base path.
      */
     protected $baseDirectory;
