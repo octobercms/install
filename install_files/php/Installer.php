@@ -191,7 +191,7 @@ class Installer
     {
         try {
             $this->log('Updating package manager...');
-            $composer = call_user_func('October\Rain\Composer\Manager::instance');
+            $composer = call_user_func('October\Rain\Composer\ComposerManager::instance');
             $composer->setOutputBuffer();
             $composer->update(['composer/composer']);
         }
@@ -211,7 +211,7 @@ class Installer
         }
 
         try {
-            $composer = call_user_func('October\Rain\Composer\Manager::instance');
+            $composer = call_user_func('October\Rain\Composer\ComposerManager::instance');
             $composer->setOutputBuffer();
             $composer->require([
                 'october/rain' => $this->getUpdateWantVersion(),
@@ -230,7 +230,7 @@ class Installer
     public function runComposerCleanInstall()
     {
         try {
-            $composer = call_user_func('October\Rain\Composer\Manager::instance');
+            $composer = call_user_func('October\Rain\Composer\ComposerManager::instance');
             $composer->setOutputBuffer();
             $composer->update();
         }
