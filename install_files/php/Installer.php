@@ -179,11 +179,6 @@ class Installer
      */
     protected function migrateDatabase()
     {
-        if ($this->isCleanInstall()) {
-            $this->log('Skipping migration for a clean install...');
-            return;
-        }
-
         $updater = call_user_func('System\Classes\UpdateManager::instance');
         $updater->update();
         $updater->setBuildNumberManually();
@@ -530,8 +525,10 @@ class Installer
             'url' => $this->getBaseUrl()
         ]));
 
+        $url = substr($uri, 0, 4) === 'http' ? $uri : OCTOBER_GATEWAY.'/'.$uri;
+
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, OCTOBER_GATEWAY.'/'.$uri);
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_TIMEOUT, 3600);
         // curl_setopt($curl, CURLOPT_FOLLOWLOCATION , true);

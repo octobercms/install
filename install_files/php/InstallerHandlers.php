@@ -142,7 +142,7 @@ trait InstallerHandlers
 
             case 'downloadCore':
                 $hash = $this->getHashFromMeta('core');
-                $this->requestServerFile('core', $hash, 'install/download');
+                $this->requestServerFile('core', $hash, OCTOBER_DOWNLOAD_URL);
                 break;
 
             case 'extractCore':

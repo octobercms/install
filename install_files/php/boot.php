@@ -45,6 +45,7 @@ else {
  */
 define('PATH_INSTALL', str_replace("\\", "/", realpath(dirname(__FILE__)."/../../")));
 define('OCTOBER_GATEWAY', 'https://gateway.octobercms.com/api');
+define('OCTOBER_DOWNLOAD_URL', 'https://download.octobercms.com/october-latest.zip');
 
 /*
  * Address timeout limits
