@@ -13,7 +13,7 @@ The wizard installation is the recommended way to install October for non-techni
 
 October CMS has a few system requirements:
 
-* PHP version 8.0 or higher
+* PHP version 8.2 or higher
 * PDO PHP Extension
 * cURL PHP Extension
 * OpenSSL PHP Extension
@@ -21,7 +21,7 @@ October CMS has a few system requirements:
 * ZipArchive PHP Extension
 * GD PHP Extension
 * SimpleXML PHP Extension
-* 128MB or more allocated memory
+* 256MB or more allocated memory
 
 ### OS Dependencies
 
@@ -43,4 +43,4 @@ To install the platform using the command line, initialize a project using the `
 composer create-project october/october myoctober
 ```
 
-For further information, visit the [documentation for installation instructions](https://docs.octobercms.com/3.x/setup/installation.html).
+For further information, visit the [documentation for installation instructions](https://docs.octobercms.com/4.x/setup/installation.html).
