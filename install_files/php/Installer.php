@@ -525,6 +525,8 @@ class Installer
             'url' => $this->getBaseUrl()
         ]));
 
+        $isGet = isset($params['method']) && $params['method'] === 'get';
+
         $url = substr($uri, 0, 4) === 'http' ? $uri : OCTOBER_GATEWAY.'/'.$uri;
 
         $curl = curl_init();
@@ -534,7 +536,13 @@ class Installer
         // curl_setopt($curl, CURLOPT_FOLLOWLOCATION , true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params, '', '&'));
+
+        if ($isGet) {
+            curl_setopt($curl, CURLOPT_HTTPGET, true);
+        }
+        else {
+            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params, '', '&'));
+        }
 
         if (defined('OCTOBER_GATEWAY_AUTH')) {
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
