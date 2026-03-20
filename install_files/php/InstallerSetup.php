@@ -51,7 +51,6 @@ trait InstallerSetup
     {
         if ($confirm) {
             $this->injectJsonToFile(storage_path('cms/autoexec.json'), [
-                'tailor:migrate',
                 'theme:seed demo --root'
             ]);
         }
