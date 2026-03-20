@@ -1,7 +1,7 @@
 #
 # October CMS installer
 #
-# Build: docker build -t myoctober:latest .
+# Build: docker build -t octoberinstaller:latest .
 # Run:   docker run --rm -p 8080:80 myoctober:latest
 # Visit: http://localhost:8080/install.php
 #
