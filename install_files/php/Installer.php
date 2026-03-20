@@ -182,6 +182,11 @@ class Installer
         $updater = call_user_func('System\Classes\UpdateManager::instance');
         $updater->update();
         $updater->setBuildNumberManually();
+
+        if (class_exists('Tailor\Classes\BlueprintIndexer')) {
+            $indexer = call_user_func('Tailor\Classes\BlueprintIndexer::instance');
+            $indexer->migrate();
+        }
     }
 
     /**
