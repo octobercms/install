@@ -2,7 +2,7 @@
 # October CMS installer
 #
 # Build: docker build -t octoberinstaller:latest .
-# Run:   docker run --rm -p 8080:80 myoctober:latest
+# Run:   docker run --rm -p 8080:80 octoberinstaller:latest
 # Visit: http://localhost:8080/install.php
 #
 FROM php:8.3-apache-bullseye
