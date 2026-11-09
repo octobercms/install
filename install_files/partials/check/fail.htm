@@ -1,10 +1,10 @@
 <div class="callout callout-danger">
-    <h4>System Check Failed</h4>
+    <h4 data-lang>webinstaller.system_check_failed</h4>
     <p>
         {{#reason}}{{reason}}{{/reason}}
-        {{^reason}}Your system does not meet the minimum requirements for the installation.{{/reason}}
-        Please see <a href="https://docs.octobercms.com" target="_blank">the documentation</a> for more information.
+        {{^reason}}<span data-lang>webinstaller.system_check_failed_comment</span>{{/reason}}
+        <a href="https://docs.octobercms.com" target="_blank" data-lang>webinstaller.see_documentation</a>
     </p>
-    <p><a href="javascript:Installer.Events.retry()" class="btn btn-default btn-sm">Retry System Check</a></p>
-    <small>Reason code: {{code}}</small>
+    <p><a href="javascript:Installer.Events.retry()" class="btn btn-default btn-sm" data-lang>webinstaller.system_check_retry</a></p>
+    <small><span data-lang>webinstaller.reason_code</span> {{code}}</small>
 </div>

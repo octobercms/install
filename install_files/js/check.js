@@ -69,7 +69,7 @@ Installer.Pages.systemCheck.init = function() {
                         success = false;
                         failCodes.push(requirement.code);
                         if (requirement.reason) {
-                            failReasons.push(requirement.reason);
+                            failReasons.push(Installer.getLang(requirement.reason));
                         }
                         if (data.responseText) {
                             console.log('Failure reason: ' + data.responseText);

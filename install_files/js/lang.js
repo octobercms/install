@@ -1,7 +1,7 @@
 /*!
  * Lang Picker Page (Step 0)
  */
-Installer.Pages.langPicker.title = 'Select Language';
+Installer.Pages.langPicker.title = 'installer.locale_select_label';
 Installer.Pages.langPicker.nextButton = null;
 
 Installer.Pages.langPicker.selectLanguage = function(lang) {

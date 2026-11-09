@@ -1,18 +1,18 @@
 <div class="cloud-content">
     <!-- Success alert -->
-    <p class="lead text-success with-tick">Installation has been successfully completed</p>
+    <p class="lead text-success with-tick" data-lang>webinstaller.install_success</p>
 
     <!-- Application information -->
     <div class="row">
         <div class="col-md-6">
-            <h4>Website Address</h4>
-            <p>Your website is located at this URL:</p>
+            <h4 data-lang>webinstaller.website_address</h4>
+            <p data-lang>webinstaller.website_address_comment</p>
             <p><a class="btn btn-default" target="_blank" href="{{baseUrl}}">{{baseUrl}}</a></p>
         </div>
 
         <div class="col-md-6">
-            <h4>Administration Panel</h4>
-            <p>Use the following link to access the admin panel:</p>
+            <h4 data-lang>webinstaller.admin_panel</h4>
+            <p data-lang>webinstaller.admin_panel_comment</p>
             <p><a class="btn btn-default" target="_blank" href="{{backendUrl}}">{{backendUrl}}</a></p>
         </div>
     </div>
@@ -21,11 +21,10 @@
 
     <!-- Post-install configuration-->
     <div>
-        <h4>Post-install Configuration</h4>
+        <h4 data-lang>webinstaller.post_install_config</h4>
         <p>
-            Now that we're done, there a few things you may want to address for the smooth operation of your site. Please review the
-            <a href="https://docs.octobercms.com/3.x/setup/configuration.html" target="_blank">installation help guide</a>
-            for further instructions.
+            <span data-lang>webinstaller.post_install_config_comment</span>
+            <a href="https://docs.octobercms.com/3.x/setup/configuration.html" target="_blank" data-lang>webinstaller.post_install_config_link</a>
         </p>
     </div>
 </div>

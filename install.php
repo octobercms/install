@@ -87,23 +87,52 @@
             <?php
                 $langList = [
                     'en',
+                    'ar',
+                    'be',
+                    'bg',
+                    'ca',
+                    'cs',
+                    'da',
                     'de',
+                    'el',
+                    'es',
+                    'es-ar',
+                    'et',
+                    'fa',
                     'fi',
                     'fr',
                     'hu',
+                    'id',
+                    'it',
+                    'ja',
+                    'ko',
+                    'lt',
+                    'lv',
+                    'nb-no',
                     'nl',
+                    'pl',
                     'pt-br',
+                    'pt-pt',
+                    'ro',
                     'ru',
+                    'sk',
+                    'sl',
+                    'sv',
+                    'th',
+                    'tr',
+                    'uk',
+                    'vn',
                     'zh-cn',
+                    'zh-tw',
                 ];
-                $lastLangKey = end(array_keys($langList));
+                $lastLangKey = array_key_last($langList);
             ?>
 
             <script>
                 var installerLang = {
                     <?php foreach ($langList as $key => $file): ?>
                         <?php $messages = include 'install_files/lang/'.$file.'.php'; ?>
-                        "<?= $file ?>": <?= json_encode($messages) ?><?= $key === $lastLangKey ? '' : ',' ?>
+                        "<?= $file ?>": <?= json_encode($messages, JSON_UNESCAPED_UNICODE) ?><?= $key === $lastLangKey ? '' : ',' ?>
                     <?php endforeach ?>
                 };
             </script>

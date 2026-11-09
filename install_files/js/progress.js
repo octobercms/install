@@ -1,17 +1,17 @@
 /*!
  * Install Progress (Step 4)
  */
-Installer.Pages.installProgress.title = 'Installation progress...'
+Installer.Pages.installProgress.title = 'webinstaller.install_progress'
 Installer.Pages.installProgress.steps = [
-    { code: 'getMetaData', label: 'Requesting package information' },
-    { code: 'downloadCore', label: 'Downloading application files' },
-    { code: 'extractCore', label: 'Unpacking application files' },
-    { code: 'setupConfig', label: 'Building configuration files' },
-    { code: 'setupProject', label: 'Setting website project' },
-    { code: 'composerUpdate', label: 'Updating package manager' },
-    { code: 'composerInstall', label: 'Installing application files' },
-    { code: 'migrateDatabase', label: 'Migrating database' },
-    { code: 'cleanInstall', label: 'Clean installation files' }
+    { code: 'getMetaData', label: 'webinstaller.step_get_metadata' },
+    { code: 'downloadCore', label: 'webinstaller.step_download_core' },
+    { code: 'extractCore', label: 'webinstaller.step_extract_core' },
+    { code: 'setupConfig', label: 'webinstaller.step_setup_config' },
+    { code: 'setupProject', label: 'webinstaller.step_setup_project' },
+    { code: 'composerUpdate', label: 'webinstaller.step_composer_update' },
+    { code: 'composerInstall', label: 'webinstaller.step_composer_install' },
+    { code: 'migrateDatabase', label: 'webinstaller.step_migrate_database' },
+    { code: 'cleanInstall', label: 'webinstaller.step_clean_install' }
 ]
 
 Installer.Pages.installProgress.activeStep = null;
@@ -103,7 +103,7 @@ Installer.Pages.installProgress.execDefaultStep = function(step, options) {
         $.extend(true, postData, options.extraData);
     }
 
-    Installer.setLoadingBar(true, step.label);
+    Installer.setLoadingBar(true, Installer.getLang(step.label));
 
     $.sendRequest('onInstallStep', postData, { loadingIndicator: false })
         .fail(function(data){
@@ -153,7 +153,7 @@ Installer.Pages.installProgress.execIterationStep = function(step, handlerCode, 
         eventChain.push(function(){
             return Installer.Pages.installProgress.execDefaultStep({
                 code: handlerCode,
-                label: step.label + item.code
+                label: Installer.getLang(step.label) + item.code
             }, { extraData: data });
         });
     });

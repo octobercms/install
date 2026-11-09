@@ -120,7 +120,11 @@ Installer.renderLangMessages = function(container) {
 }
 
 Installer.getLang = function(langKey) {
-    var activeLocale = installerLang[Installer.Locale] ? Installer.Locale : 'en';
+    // Regional locales (fr-ca, en-gb) fall back to their base language
+    var activeLocale = installerLang[Installer.Locale] ? Installer.Locale : Installer.Locale.split('-')[0];
+    if (!installerLang[activeLocale]) {
+        activeLocale = 'en';
+    }
 
     // Access dot notation
     var langValue = langKey.split('.').reduce(function(a, b) {
